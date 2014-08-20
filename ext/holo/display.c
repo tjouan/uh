@@ -77,3 +77,26 @@ VALUE display_listen_events(VALUE self) {
 
   return Qnil;
 }
+
+VALUE display_sync(VALUE self) {
+  HoloDisplay *display;
+
+  Data_Get_Struct(self, HoloDisplay, display);
+
+  XSync(display->dpy, False);
+
+  return Qnil;
+}
+
+VALUE display_change_window_attributes(VALUE self) {
+  HoloDisplay           *display;
+  XSetWindowAttributes  attr;
+
+  Data_Get_Struct(self, HoloDisplay, display);
+
+  attr.event_mask = PropertyChangeMask | SubstructureRedirectMask |
+    SubstructureNotifyMask | StructureNotifyMask;
+  XChangeWindowAttributes(display->dpy, DefaultRootWindow(display->dpy), CWEventMask, &attr);
+
+  return Qnil;
+}

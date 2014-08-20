@@ -9,10 +9,15 @@ module Holo
 
     def connect
       display.open
+      # FIXME: we must specify type
       display.listen_events
     end
 
     def manage
+      # FIXME: specify discard: false
+      display.sync
+      # FIXME: specify attributes
+      display.change_window_attributes
       while e = display.next_event do
         p e
       end
