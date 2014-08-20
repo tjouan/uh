@@ -4,6 +4,7 @@ require 'holo'
 require 'holo/wm'
 
 
+=begin
 wm = Holo::WM.new do
   key(:q)     { quit }
   key(:enter) { spawn 'xterm' }
@@ -14,3 +15,8 @@ wm = Holo::WM.new do
 end
 
 wm.manage
+=end
+
+wm = Holo::WM.new
+wm.connect
+wm.debug
