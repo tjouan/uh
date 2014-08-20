@@ -13,10 +13,8 @@ task :demo do
     exec "Xephyr #{display} -ac -br -screen 1024x400"
   end
   ENV['DISPLAY'] = display
-  # FIXME: should select()/wait on server socket?
-  # /tmp/.X11-unix/X42
   sleep 0.5
-  sh 'ruby -Ilib -I. -rholo bin/holowm'
+  sh 'ruby -Ilib bin/holowm'
   Process.kill 'TERM', pid
   begin
     Process.wait pid
