@@ -1,11 +1,18 @@
 module Holo
   class WM
     def initialize
+    end
 
+    def display
+      @display ||= Holo::Display.new(ENV['DISPLAY'])
     end
 
     def connect
+      display.open
+    end
 
+    def quit
+      display.close
     end
 
     def debug

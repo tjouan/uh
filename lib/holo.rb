@@ -1,3 +1,2 @@
-module Holo
-  require 'pry'
-end
+require 'holo.so'
+require 'pry'
