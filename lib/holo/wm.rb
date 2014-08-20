@@ -1,6 +1,6 @@
 module Holo
   class WM
-    attr :keys, :client_rules
+    attr :keys
 
     def initialize(&block)
       @keys = {}
