@@ -1,4 +1,4 @@
-task :default => [:demo]
+task default: :demo
 
 desc 'Execute holowm in a Xephyr X server'
 task :demo do
