@@ -56,3 +56,15 @@ VALUE display_close(VALUE self) {
 
   return self;
 }
+
+VALUE display_next_event(VALUE self) {
+  HoloDisplay *display;
+  XEvent      xev;
+
+  Data_Get_Struct(self, HoloDisplay, display);
+
+  //object = rb_funcall(klass, rb_intern("new"), 1, INT2FIX(id));
+  XNextEvent(display->dpy, &xev);
+
+  return INT2FIX(xev.type);
+}
