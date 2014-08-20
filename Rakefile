@@ -1,4 +1,9 @@
+require 'rake/extensiontask'
+
+
 task default: :demo
+
+Rake::ExtensionTask.new('holo')
 
 desc 'Execute holowm in a Xephyr X server'
 task :demo do
