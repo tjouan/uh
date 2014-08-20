@@ -20,6 +20,7 @@ VALUE display_init(int ac, VALUE *av, VALUE self);
 VALUE display_open(VALUE self);
 VALUE display_close(VALUE self);
 VALUE display_next_event(VALUE self);
+VALUE display_listen_events(VALUE self);
 
 
 #endif

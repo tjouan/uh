@@ -63,8 +63,17 @@ VALUE display_next_event(VALUE self) {
 
   Data_Get_Struct(self, HoloDisplay, display);
 
-  //object = rb_funcall(klass, rb_intern("new"), 1, INT2FIX(id));
   XNextEvent(display->dpy, &xev);
 
   return INT2FIX(xev.type);
+}
+
+VALUE display_listen_events(VALUE self) {
+  HoloDisplay *display;
+
+  Data_Get_Struct(self, HoloDisplay, display);
+
+  XSelectInput(display->dpy, DefaultRootWindow(display->dpy), SubstructureRedirectMask);
+
+  return Qnil;
 }

@@ -9,6 +9,13 @@ module Holo
 
     def connect
       display.open
+      display.listen_events
+    end
+
+    def manage
+      while e = display.next_event do
+        p e
+      end
     end
 
     def quit

@@ -19,4 +19,5 @@ wm.manage
 
 wm = Holo::WM.new
 wm.connect
-wm.debug
+#wm.debug
+wm.manage

@@ -19,4 +19,5 @@ void Init_holo(void) {
   rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
+  rb_define_method(cDisplay, "listen_events", display_listen_events, 0);
 }
