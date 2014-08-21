@@ -100,3 +100,20 @@ VALUE display_change_window_attributes(VALUE self) {
 
   return Qnil;
 }
+
+
+
+/*
+VALUE display_grab_key(int ac, VALUE *av, VALUE self) {
+  HoloDisplay *display;
+  VALUE       key;
+  KeyCode     kc;
+
+  Data_Get_Struct(self, HoloDisplay, display);
+  rb_scan_args(ac, av, "01", &key);
+
+  //XGrabKey(DPY, key, Mod1Mask, ROOT, True, GrabModeAsync, GrabModeAsync);
+
+  return Qnil;
+}
+*/

@@ -29,6 +29,7 @@ module Holo
     end
 
     def manage
+      #grab_keys
       # FIXME: specify discard: false
       display.sync
       # FIXME: specify attributes
@@ -36,6 +37,10 @@ module Holo
       while e = display.next_event do
         p e
       end
+    end
+
+    def grab_keys
+      keys.each { |e| display.grab_key e }
     end
 
     def quit
