@@ -29,18 +29,18 @@ module Holo
     end
 
     def manage
-      #grab_keys
       # FIXME: specify discard: false
       display.sync
       # FIXME: specify attributes
       display.change_window_attributes
+      grab_keys
       while e = display.next_event do
         p e
       end
     end
 
     def grab_keys
-      keys.each { |e| display.grab_key e }
+      keys.each { |k, v| display.grab_key k }
     end
 
     def quit

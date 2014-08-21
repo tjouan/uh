@@ -95,18 +95,22 @@ VALUE display_change_window_attributes(VALUE self) {
   return Qnil;
 }
 
-
-
-/*
-VALUE display_grab_key(int ac, VALUE *av, VALUE self) {
+VALUE display_grab_key(VALUE self, VALUE key) {
   set_display(self);
-  VALUE       key;
+  KeySym      ks;
   KeyCode     kc;
 
-  rb_scan_args(ac, av, "01", &key);
+  key = rb_id2str(SYM2ID(key));
 
-  //XGrabKey(DPY, key, Mod1Mask, ROOT, True, GrabModeAsync, GrabModeAsync);
+  ks = XStringToKeysym(RSTRING_PTR(key));
+  if (ks == NoSymbol)
+    rb_raise(rb_eArgError, "Invalid KeySym %s", RSTRING_PTR(key));
+
+  kc = XKeysymToKeycode(display->dpy, ks);
+  if (kc == 0)
+    rb_raise(rb_eArgError, "KeySym XK_%s has no KeyCode", RSTRING_PTR(key));
+
+  XGrabKey(display->dpy, kc, Mod1Mask, DefaultRootWindow(display->dpy), True, GrabModeAsync, GrabModeAsync);
 
   return Qnil;
 }
-*/
