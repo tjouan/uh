@@ -1,5 +1,10 @@
 #include "holo.h"
 
+#define set_display(x) \
+  HoloDisplay *display;\
+  Data_Get_Struct(self, HoloDisplay, display);
+
+
 static void display_free(HoloDisplay *display) {
   free(display);
 }
@@ -29,10 +34,9 @@ VALUE display_init(int ac, VALUE *av, VALUE self) {
 }
 
 VALUE display_open(VALUE self) {
-  HoloDisplay *display;
+  set_display(self);
   VALUE name;
 
-  Data_Get_Struct(self, HoloDisplay, display);
   name = rb_iv_get(self, "@name");
 
   if (!(display->dpy = XOpenDisplay(NIL_P(name) ? NULL : RSTRING_PTR(name)))) {
@@ -43,9 +47,7 @@ VALUE display_open(VALUE self) {
 }
 
 VALUE display_close(VALUE self) {
-  HoloDisplay *display;
-
-  Data_Get_Struct(self, HoloDisplay, display);
+  set_display(self);
 
   if (display->dpy) {
     XCloseDisplay(display->dpy);
@@ -58,10 +60,8 @@ VALUE display_close(VALUE self) {
 }
 
 VALUE display_next_event(VALUE self) {
-  HoloDisplay *display;
+  set_display(self);
   XEvent      xev;
-
-  Data_Get_Struct(self, HoloDisplay, display);
 
   XNextEvent(display->dpy, &xev);
 
@@ -69,9 +69,7 @@ VALUE display_next_event(VALUE self) {
 }
 
 VALUE display_listen_events(VALUE self) {
-  HoloDisplay *display;
-
-  Data_Get_Struct(self, HoloDisplay, display);
+  set_display(self);
 
   XSelectInput(display->dpy, DefaultRootWindow(display->dpy), SubstructureRedirectMask);
 
@@ -79,9 +77,7 @@ VALUE display_listen_events(VALUE self) {
 }
 
 VALUE display_sync(VALUE self) {
-  HoloDisplay *display;
-
-  Data_Get_Struct(self, HoloDisplay, display);
+  set_display(self);
 
   XSync(display->dpy, False);
 
@@ -89,10 +85,8 @@ VALUE display_sync(VALUE self) {
 }
 
 VALUE display_change_window_attributes(VALUE self) {
-  HoloDisplay           *display;
+  set_display(self);
   XSetWindowAttributes  attr;
-
-  Data_Get_Struct(self, HoloDisplay, display);
 
   attr.event_mask = PropertyChangeMask | SubstructureRedirectMask |
     SubstructureNotifyMask | StructureNotifyMask;
@@ -105,11 +99,10 @@ VALUE display_change_window_attributes(VALUE self) {
 
 /*
 VALUE display_grab_key(int ac, VALUE *av, VALUE self) {
-  HoloDisplay *display;
+  set_display(self);
   VALUE       key;
   KeyCode     kc;
 
-  Data_Get_Struct(self, HoloDisplay, display);
   rb_scan_args(ac, av, "01", &key);
 
   //XGrabKey(DPY, key, Mod1Mask, ROOT, True, GrabModeAsync, GrabModeAsync);
