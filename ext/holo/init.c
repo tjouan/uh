@@ -38,6 +38,7 @@ void holo_events() {
   rb_define_alloc_func(cEvent, event_alloc);
 
   cConfigureRequest = rb_define_class_under(mEvents, "ConfigureRequest", cEvent);
+  rb_define_attr(cConfigureRequest, "window_id", 1, 0);
 
   cDestroyNotify = rb_define_class_under(mEvents, "DestroyNotify", cEvent);
 

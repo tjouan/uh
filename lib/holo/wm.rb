@@ -39,13 +39,19 @@ module Holo
       grab_keys
 
       while !quit_requested? do
-        e = display.next_event
-        p e
-        case e
+        event = display.next_event
+        p event
+        case event
+        when Events::ConfigureRequest
+          handle_configure_request event
         when Events::KeyPress
-          @keys[e.key].call
+          @keys[event.key].call
         end
       end
+    end
+
+    def handle_configure_request(event)
+      display.window_configure event.window_id
     end
 
     def quit_requested?

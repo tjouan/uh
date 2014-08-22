@@ -56,6 +56,8 @@ VALUE event_make(XEvent *xev) {
 
 void event_make_configure_request(VALUE self) {
   set_xev(self);
+
+  rb_ivar_set(self, rb_intern("@window_id"), INT2NUM(xev->xconfigurerequest.window));
 }
 
 void event_make_destroy_notify(VALUE self) {
