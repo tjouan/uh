@@ -1,5 +1,6 @@
 #include "holo.h"
 
+
 #define set_display(x) \
   HoloDisplay *display;\
   Data_Get_Struct(self, HoloDisplay, display);
@@ -42,7 +43,7 @@ VALUE display_open(VALUE self) {
   name = rb_iv_get(self, "@name");
 
   if (!(DPY = XOpenDisplay(NIL_P(name) ? NULL : RSTRING_PTR(name)))) {
-    rb_raise(eHoloDisplayError, "Can't open display");
+    rb_raise(eDisplayError, "Can't open display");
   }
 
   return self;
@@ -55,7 +56,7 @@ VALUE display_close(VALUE self) {
     XCloseDisplay(DPY);
   }
   else {
-    rb_raise(eHoloDisplayError, "Can't close display");
+    rb_raise(eDisplayError, "Can't close display");
   }
 
   return self;
@@ -63,11 +64,16 @@ VALUE display_close(VALUE self) {
 
 VALUE display_next_event(VALUE self) {
   set_display(self);
-  XEvent      xev;
+  //XEvent      xev;
+  XEvent      *xev;
+  VALUE       ev;
 
-  XNextEvent(display->dpy, &xev);
+  xev = calloc(1, sizeof(*xev));
+  XNextEvent(display->dpy, xev);
+  ev = event_make(xev);
 
-  return INT2FIX(xev.type);
+  //return INT2FIX(xev.type);
+  return ev;
 }
 
 VALUE display_listen_events(VALUE self) {

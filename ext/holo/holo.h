@@ -12,7 +12,9 @@ struct s_display {
 };
 
 
-VALUE eHoloDisplayError;
+VALUE mHolo,
+  cDisplay, cEvent,
+  eDisplayError;
 
 
 VALUE display_alloc(VALUE klass);
@@ -24,6 +26,9 @@ VALUE display_listen_events(VALUE self);
 VALUE display_sync(VALUE self);
 VALUE display_change_window_attributes(VALUE self);
 VALUE display_grab_key(VALUE self, VALUE key);
+
+VALUE event_alloc(VALUE klass);
+VALUE event_make(XEvent *xev);
 
 
 #endif
