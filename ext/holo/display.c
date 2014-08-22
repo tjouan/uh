@@ -64,7 +64,6 @@ VALUE display_close(VALUE self) {
 
 VALUE display_next_event(VALUE self) {
   set_display(self);
-  //XEvent      xev;
   XEvent      *xev;
   VALUE       ev;
 
@@ -72,7 +71,6 @@ VALUE display_next_event(VALUE self) {
   XNextEvent(display->dpy, xev);
   ev = event_make(xev);
 
-  //return INT2FIX(xev.type);
   return ev;
 }
 

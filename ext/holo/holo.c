@@ -25,11 +25,19 @@ void Init_holo(void) {
 
   cEvent = rb_define_class_under(mEvents, "Event", rb_cObject);
   rb_define_alloc_func(cEvent, event_alloc);
+
   cConfigureRequest = rb_define_class_under(mEvents, "ConfigureRequest", cEvent);
-  cDestroyNotify    = rb_define_class_under(mEvents, "DestroyNotify", cEvent);
-  cExpose           = rb_define_class_under(mEvents, "Expose", cEvent);
-  cKeyPress         = rb_define_class_under(mEvents, "KeyPress", cEvent);
-  cMapRequest       = rb_define_class_under(mEvents, "MapRequest", cEvent);
-  cPropertyNotify   = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
-  cUnmapNotify      = rb_define_class_under(mEvents, "UnmapNotify", cEvent);
+
+  cDestroyNotify = rb_define_class_under(mEvents, "DestroyNotify", cEvent);
+
+  cExpose = rb_define_class_under(mEvents, "Expose", cEvent);
+
+  cKeyPress = rb_define_class_under(mEvents, "KeyPress", cEvent);
+  rb_define_attr(cKeyPress, "key", 1, 0);
+
+  cMapRequest = rb_define_class_under(mEvents, "MapRequest", cEvent);
+
+  cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
+
+  cUnmapNotify = rb_define_class_under(mEvents, "UnmapNotify", cEvent);
 }

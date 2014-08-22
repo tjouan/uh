@@ -4,23 +4,10 @@ require 'holo'
 require 'holo/wm'
 
 
-=begin
-wm = Holo::WM.new do
-  key(:q)     { quit }
-  key(:enter) { spawn 'xterm' }
-
-  client %w(Firefox Iceweasel Chromium) do |c|
-    c.tag :www
-  end
-end
-
-wm.manage
-=end
-
 wm = Holo::WM.new do
   key(:q)       { quit }
   key(:Return)  { spawn 'xterm' }
 end
 wm.connect
-#wm.debug
 wm.manage
+wm.disconnect

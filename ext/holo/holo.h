@@ -4,6 +4,8 @@
 #include <ruby.h>
 
 #include <X11/Xlib.h>
+#include <X11/XKBlib.h>
+
 
 typedef struct s_display   HoloDisplay;
 
