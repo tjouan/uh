@@ -8,6 +8,4 @@ wm = Holo::WM.new do
   key(:q)       { quit }
   key(:Return)  { spawn 'xterm' }
 end
-wm.connect
-wm.manage
-wm.disconnect
+wm.run

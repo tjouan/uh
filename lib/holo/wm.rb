@@ -15,16 +15,10 @@ module Holo
       end
     end
 
-    def quit_requested?
-      @quit_requested
-    end
-
-    def key(key, &block)
-      @keys[key] = block
-    end
-
-    def display
-      @display ||= Holo::Display.new(ENV['DISPLAY'])
+    def run
+      connect
+      manage
+      disconnect
     end
 
     def connect
@@ -52,6 +46,18 @@ module Holo
           @keys[e.key].call
         end
       end
+    end
+
+    def quit_requested?
+      @quit_requested
+    end
+
+    def key(key, &block)
+      @keys[key] = block
+    end
+
+    def display
+      @display ||= Holo::Display.new(ENV['DISPLAY'])
     end
 
     def grab_keys
