@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+xrdb $HOME/.Xdefaults
+
+setxkbmap dvorak
+[ -f $HOME/.xmodmap.dvorak ] && xmodmap $HOME/.xmodmap.dvorak
+
+echo "######## HOLOWM START ########"
+bundle exec bin/holowm
+echo "######## HOLOWM END ##########"
