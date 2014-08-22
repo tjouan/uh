@@ -1,6 +1,10 @@
 #include "holo.h"
 
 
+void holo_display();
+void holo_events();
+
+
 void Init_holo(void) {
   mHolo = rb_define_module("Holo");
 
@@ -8,6 +12,11 @@ void Init_holo(void) {
     mHolo, "DisplayError", rb_eStandardError
   );
 
+  holo_display();
+  holo_events();
+}
+
+void holo_display() {
   cDisplay = rb_define_class_under(mHolo, "Display", rb_cObject);
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
@@ -20,7 +29,9 @@ void Init_holo(void) {
   rb_define_method(cDisplay, "change_window_attributes",
       display_change_window_attributes, 0);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 1);
+}
 
+void holo_events() {
   mEvents = rb_define_module_under(mHolo, "Events");
 
   cEvent = rb_define_class_under(mEvents, "Event", rb_cObject);
