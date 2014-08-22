@@ -73,8 +73,12 @@ module Holo
       @quit_requested = true
     end
 
-    def spawn(command)
+    def execute(command)
       puts "SPAWN: #{command.inspect}"
+      pid = spawn command, pgroup: true
+      Process.detach pid
+    rescue Errno::ENOENT
+      ;
     end
   end
 end
