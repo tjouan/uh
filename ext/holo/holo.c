@@ -21,6 +21,10 @@ void Init_holo(void) {
       display_change_window_attributes, 0);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 1);
 
-  cEvent = rb_define_class_under(mHolo, "Event", rb_cObject);
+  mEvents = rb_define_module_under(mHolo, "Events");
+
+  cEvent = rb_define_class_under(mEvents, "Event", rb_cObject);
   rb_define_alloc_func(cEvent, event_alloc);
+  cKeyPress       = rb_define_class_under(mEvents, "KeyPress", cEvent);
+  cMappingNotify  = rb_define_class_under(mEvents, "MappingNotify", cEvent);
 }

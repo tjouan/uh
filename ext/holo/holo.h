@@ -12,8 +12,9 @@ struct s_display {
 };
 
 
-VALUE mHolo,
-  cDisplay, cEvent,
+VALUE mHolo, mEvents,
+  cDisplay,
+  cEvent, cKeyPress, cMappingNotify,
   eDisplayError;
 
 
