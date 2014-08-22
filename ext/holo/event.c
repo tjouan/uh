@@ -32,21 +32,6 @@ VALUE event_make(XEvent *xev) {
       return Data_Wrap_Struct(ev_classes[i].klass, 0, free, xev);
 
   return Data_Wrap_Struct(cEvent, 0, free, xev);
-  /*
-  switch (xev->type) {
-    case KeyPress:
-      klass = cKeyPress;
-      break;
-    case MappingNotify:
-      klass = cMappingNotify;
-      break;
-    default:
-      klass = cEvent;
-      break;
-  }
-
-  return Data_Wrap_Struct(klass, 0, free, xev);
-  */
 }
 
 //rb_define_attr(VALUE klass, const char *name, int read, int writen
