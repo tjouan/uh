@@ -4,6 +4,8 @@
   HoloDisplay *display;\
   Data_Get_Struct(self, HoloDisplay, display);
 
+#define DPY           display->dpy
+#define ROOT_DEFAULT  DefaultRootWindow(DPY)
 
 static void display_free(HoloDisplay *display) {
   free(display);
@@ -39,7 +41,7 @@ VALUE display_open(VALUE self) {
 
   name = rb_iv_get(self, "@name");
 
-  if (!(display->dpy = XOpenDisplay(NIL_P(name) ? NULL : RSTRING_PTR(name)))) {
+  if (!(DPY = XOpenDisplay(NIL_P(name) ? NULL : RSTRING_PTR(name)))) {
     rb_raise(eHoloDisplayError, "Can't open display");
   }
 
@@ -49,8 +51,8 @@ VALUE display_open(VALUE self) {
 VALUE display_close(VALUE self) {
   set_display(self);
 
-  if (display->dpy) {
-    XCloseDisplay(display->dpy);
+  if (DPY) {
+    XCloseDisplay(DPY);
   }
   else {
     rb_raise(eHoloDisplayError, "Can't close display");
@@ -71,7 +73,7 @@ VALUE display_next_event(VALUE self) {
 VALUE display_listen_events(VALUE self) {
   set_display(self);
 
-  XSelectInput(display->dpy, DefaultRootWindow(display->dpy), SubstructureRedirectMask);
+  XSelectInput(DPY, ROOT_DEFAULT, SubstructureRedirectMask);
 
   return Qnil;
 }
@@ -90,7 +92,7 @@ VALUE display_change_window_attributes(VALUE self) {
 
   attr.event_mask = PropertyChangeMask | SubstructureRedirectMask |
     SubstructureNotifyMask | StructureNotifyMask;
-  XChangeWindowAttributes(display->dpy, DefaultRootWindow(display->dpy), CWEventMask, &attr);
+  XChangeWindowAttributes(DPY, ROOT_DEFAULT, CWEventMask, &attr);
 
   return Qnil;
 }
@@ -106,11 +108,11 @@ VALUE display_grab_key(VALUE self, VALUE key) {
   if (ks == NoSymbol)
     rb_raise(rb_eArgError, "Invalid KeySym %s", RSTRING_PTR(key));
 
-  kc = XKeysymToKeycode(display->dpy, ks);
+  kc = XKeysymToKeycode(DPY, ks);
   if (kc == 0)
     rb_raise(rb_eArgError, "KeySym XK_%s has no KeyCode", RSTRING_PTR(key));
 
-  XGrabKey(display->dpy, kc, Mod1Mask, DefaultRootWindow(display->dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(DPY, kc, Mod1Mask, ROOT_DEFAULT, True, GrabModeAsync, GrabModeAsync);
 
   return Qnil;
 }
