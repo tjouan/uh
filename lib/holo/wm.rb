@@ -71,7 +71,7 @@ module Holo
 
       def manage(window)
         @clients << window
-        window.moveresize 0, 0, 484, 100
+        window.moveresize 0, 0, 484, 300
         window.map
       end
     end
