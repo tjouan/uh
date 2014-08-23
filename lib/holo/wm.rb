@@ -32,8 +32,7 @@ module Holo
     end
 
     def read_events
-      # FIXME: specify discard: false
-      display.sync
+      display.sync false
       # FIXME: specify attributes
       display.change_window_attributes
       grab_keys

@@ -75,10 +75,10 @@ VALUE display_listen_events(VALUE self) {
   return Qnil;
 }
 
-VALUE display_sync(VALUE self) {
+VALUE display_sync(VALUE self, VALUE discard) {
   set_display(self);
 
-  XSync(display->dpy, False);
+  XSync(display->dpy, RTEST(discard));
 
   return Qnil;
 }

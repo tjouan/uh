@@ -42,7 +42,7 @@ VALUE display_open(VALUE self);
 VALUE display_close(VALUE self);
 VALUE display_next_event(VALUE self);
 VALUE display_listen_events(VALUE self);
-VALUE display_sync(VALUE self);
+VALUE display_sync(VALUE self, VALUE discard);
 VALUE display_change_window_attributes(VALUE self);
 VALUE display_grab_key(VALUE self, VALUE key);
 
