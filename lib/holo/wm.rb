@@ -1,5 +1,7 @@
 module Holo
   class WM
+    require 'holo/wm/manager'
+
     attr_accessor :keys
 
     def initialize(&block)
@@ -64,21 +66,6 @@ module Holo
       keys[event.key].call
     end
 
-    class Manager
-      def initialize
-        @clients = []
-      end
-
-      def client?(window)
-        @clients.include? window
-      end
-
-      def manage(window)
-        @clients << window
-        window.moveresize 0, 0, 484, 300
-        window.map
-      end
-    end
     def manager
       @manager ||= Manager.new
     end
