@@ -5,6 +5,10 @@ module Holo
         @clients = []
       end
 
+      def to_s
+        @clients.join $/
+      end
+
       def handle(window)
         manage(window) unless client? window
       end

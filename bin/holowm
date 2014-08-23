@@ -8,6 +8,8 @@ wm = Holo::WM.new do
   key(:q)       { quit }
   key(:Return)  { execute 'xterm' }
   key(:f)       { execute 'urxvt' }
+
+  key(:l)       { log_clients }
 end
 
 wm.run
