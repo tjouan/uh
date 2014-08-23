@@ -24,7 +24,7 @@ struct s_display {
 
 struct s_window {
   Display *dpy;
-  Window  window;
+  Window  id;
 };
 
 
@@ -51,6 +51,8 @@ VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
 
 VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
+VALUE window_moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
+VALUE window_map(VALUE self);
 
 
 #endif

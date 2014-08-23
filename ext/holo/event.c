@@ -3,7 +3,7 @@
 
 #define set_xev(x) \
   XEvent *xev;\
-  Data_Get_Struct(self, XEvent, xev);
+  Data_Get_Struct(x, XEvent, xev);
 
 
 void event_make_configure_request(VALUE self);
@@ -28,9 +28,20 @@ VALUE event_window(VALUE self) {
   HoloWindow  *window;
   VALUE       obj;
 
-  obj = Data_Make_Struct(cWindow, HoloWindow, 0, free, window);
-  window->dpy     = xev->xany.display;
-  window->window  = xev->xany.window;
+  obj = Qnil;
+  if (xev->type == ConfigureRequest ||
+      xev->type == MapRequest) {
+    obj = Data_Make_Struct(cWindow, HoloWindow, 0, free, window);
+    window->dpy = xev->xany.display;
+    switch (xev->type) {
+      case ConfigureRequest:
+        window->id = xev->xconfigurerequest.window;
+        break;
+      case MapRequest:
+        window->id = xev->xmaprequest.window;
+        break;
+    }
+  }
 
   return obj;
 }
@@ -69,7 +80,7 @@ VALUE event_make(XEvent *xev) {
 void event_make_configure_request(VALUE self) {
   set_xev(self);
 
-  rb_ivar_set(self, rb_intern("@window_id"), INT2NUM(xev->xconfigurerequest.window));
+  rb_ivar_set(self, rb_intern("@window_id"), LONG2NUM(xev->xconfigurerequest.window));
 }
 
 void event_make_destroy_notify(VALUE self) {
@@ -94,7 +105,7 @@ void event_make_key_press(VALUE self) {
 void event_make_map_request(VALUE self) {
   set_xev(self);
 
-  rb_ivar_set(self, rb_intern("@window_id"), INT2NUM(xev->xconfigurerequest.window));
+  rb_ivar_set(self, rb_intern("@window_id"), LONG2NUM(xev->xmaprequest.window));
 }
 
 void event_make_property_notify(VALUE self) {
