@@ -45,6 +45,7 @@ VALUE display_next_event(VALUE self) {
   VALUE       ev;
 
   xev = calloc(1, sizeof(*xev));
+  xev = calloc(1, sizeof(*xev));
   XNextEvent(display->dpy, xev);
   ev = event_make(xev);
 
