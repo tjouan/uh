@@ -17,3 +17,6 @@ task :console do
   require 'holo/wm'
   pry
 end
+
+desc 'Build holowm'
+task build: %i[clean compile]
