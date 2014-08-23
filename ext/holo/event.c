@@ -18,9 +18,7 @@ void event_make_unmap_notify(VALUE self);
 VALUE event_alloc(VALUE klass) {
   XEvent *xev;
 
-  xev = calloc(1, sizeof(*xev));
-
-  return Data_Wrap_Struct(klass, 0, free, xev);
+  return Data_Make_Struct(klass, XEvent, 0, free, xev);
 }
 
 VALUE event_window(VALUE self) {
