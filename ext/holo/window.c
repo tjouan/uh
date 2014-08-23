@@ -11,8 +11,7 @@ VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id) {
   XWindowChanges  wc;
   unsigned int    mask;
 
-  mask = CWX | CWY | CWWidth | CWHeight |
-    CWBorderWidth | CWStackMode;
+  mask = CWX | CWY | CWWidth | CWHeight | CWBorderWidth | CWStackMode;
   wc.x            = 0;
   wc.y            = 0;
   wc.width        = 484;
