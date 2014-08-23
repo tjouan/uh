@@ -7,16 +7,8 @@ VALUE display_alloc(VALUE klass) {
   return Data_Make_Struct(klass, HoloDisplay, 0, free, display);
 }
 
-VALUE display_init(int ac, VALUE *av, VALUE self) {
-  VALUE name;
-
-  rb_scan_args(ac, av, "01", &name);
-
-  if (NIL_P(name)) {
-    name = Qnil;
-  }
-
-  rb_iv_set(self, "@name", name);
+VALUE display_init(VALUE self, VALUE rdisplay) {
+  rb_iv_set(self, "@name", rdisplay);
 
   return self;
 }
