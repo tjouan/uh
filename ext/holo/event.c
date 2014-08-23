@@ -6,6 +6,7 @@
   Data_Get_Struct(x, XEvent, xev);
 
 
+VALUE event_make_event(VALUE klass, XEvent *xev);
 void event_make_configure_request(VALUE self);
 void event_make_destroy_notify(VALUE self);
 void event_make_expose(VALUE self);
@@ -65,14 +66,60 @@ VALUE event_make(XEvent *xev) {
 
   for (i = 0; i < (sizeof ev_classes / sizeof ev_classes[0]); i++) {
     if (ev_classes[i].type == xev->type) {
-      event = Data_Wrap_Struct(ev_classes[i].klass, 0, free, xev);
+      event = event_make_event(ev_classes[i].klass, xev);
       ev_classes[i].function(event);
 
       return event;
     }
   }
 
-  return Data_Wrap_Struct(cEvent, 0, free, xev);
+  return event_make_event(cEvent, xev);
+}
+
+VALUE event_make_event(VALUE klass, XEvent *xev) {
+  char *type_descs[37];
+  VALUE event;
+
+  type_descs[KeyPress]          = "key_press";
+  type_descs[KeyRelease]        = "key_release";
+  type_descs[ButtonPress]       = "button_press";
+  type_descs[ButtonRelease]     = "button_release";
+  type_descs[MotionNotify]      = "motion_notify";
+  type_descs[EnterNotify]       = "enter_notify";
+  type_descs[LeaveNotify]       = "leave_notify";
+  type_descs[FocusIn]           = "focus_in";
+  type_descs[FocusOut]          = "focus_out";
+  type_descs[KeymapNotify]      = "keymap_notify";
+  type_descs[Expose]            = "expose";
+  type_descs[GraphicsExpose]    = "graphics_expose";
+  type_descs[NoExpose]          = "no_expose";
+  type_descs[VisibilityNotify]  = "visibility_notify";
+  type_descs[CreateNotify]      = "create_notify";
+  type_descs[DestroyNotify]     = "destroy_notify";
+  type_descs[UnmapNotify]       = "unmap_notify";
+  type_descs[MapNotify]         = "map_notify";
+  type_descs[MapRequest]        = "map_request";
+  type_descs[ReparentNotify]    = "reparent_notify";
+  type_descs[ConfigureNotify]   = "configure_notify";
+  type_descs[ConfigureRequest]  = "configure_request";
+  type_descs[GravityNotify]     = "gravity_notify";
+  type_descs[ResizeRequest]     = "resize_request";
+  type_descs[CirculateNotify]   = "circulate_notify";
+  type_descs[CirculateRequest]  = "circulate_request";
+  type_descs[PropertyNotify]    = "property_notify";
+  type_descs[SelectionClear]    = "selection_clear";
+  type_descs[SelectionRequest]  = "selection_request";
+  type_descs[SelectionNotify]   = "selection_notify";
+  type_descs[ColormapNotify]    = "colormap_notify";
+  type_descs[ClientMessage]     = "client_message";
+  type_descs[MappingNotify]     = "mapping_notify";
+  type_descs[GenericEvent]      = "generic";
+  type_descs[LASTEvent]         = "last";
+
+  event = Data_Wrap_Struct(klass, 0, free, xev);
+  rb_ivar_set(event, rb_intern("@type"), ID2SYM(rb_intern(type_descs[xev->type])));
+
+  return event;
 }
 
 void event_make_configure_request(VALUE self) {

@@ -44,14 +44,12 @@ module Holo
 
       while !quit_requested? do
         event = display.next_event
-        p event
-        case event
-        when Events::ConfigureRequest
-          handle_configure_request event
-        when Events::KeyPress
-          handle_key_press event
-        when Events::MapRequest
-          handle_map_request event
+        puts '> EVENT: %s' % event.inspect
+        m = ('handle_%s' % event.type).to_sym
+        if respond_to? m
+          send m.to_sym, event
+        else
+          ;
         end
       end
     end

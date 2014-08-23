@@ -38,6 +38,7 @@ void holo_events() {
 
   cEvent = rb_define_class_under(mEvents, "Event", rb_cObject);
   rb_define_alloc_func(cEvent, event_alloc);
+  rb_define_attr(cEvent, "type", 1, 0);
   rb_define_method(cEvent, "window", event_window, 0);
 
   cConfigureRequest = rb_define_class_under(mEvents, "ConfigureRequest", cEvent);

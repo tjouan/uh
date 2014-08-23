@@ -12,12 +12,12 @@ module Holo
       end
 
       def quit
-        puts 'ACTION: QUIT'
+        puts '> ACTION: QUIT'
         wm.request_quit!
       end
 
       def execute(command)
-        puts 'ACTION: SPAWN `%s`' % command
+        puts '> ACTION: SPAWN `%s`' % command
         pid = spawn command, pgroup: true
         Process.detach pid
       rescue Errno::ENOENT
