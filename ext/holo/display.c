@@ -2,12 +2,9 @@
 
 
 VALUE display_alloc(VALUE klass) {
-  VALUE obj;
   HoloDisplay *display;
 
-  obj = Data_Make_Struct(klass, HoloDisplay, 0, free, display);
-
-  return obj;
+  return Data_Make_Struct(klass, HoloDisplay, 0, free, display);
 }
 
 VALUE display_init(int ac, VALUE *av, VALUE self) {
