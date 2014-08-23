@@ -1,13 +1,6 @@
 #include "holo.h"
 
 
-#define set_display(x) \
-  HoloDisplay *display;\
-  Data_Get_Struct(self, HoloDisplay, display);
-
-#define DPY           display->dpy
-#define ROOT_DEFAULT  DefaultRootWindow(DPY)
-
 static void display_free(HoloDisplay *display) {
   free(display);
 }

@@ -3,6 +3,7 @@
 
 void holo_display();
 void holo_events();
+void holo_window();
 
 
 void Init_holo(void) {
@@ -14,6 +15,7 @@ void Init_holo(void) {
 
   holo_display();
   holo_events();
+  holo_window();
 }
 
 void holo_display() {
@@ -52,4 +54,9 @@ void holo_events() {
   cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
 
   cUnmapNotify = rb_define_class_under(mEvents, "UnmapNotify", cEvent);
+}
+
+void holo_window() {
+  cWindow = rb_define_class_under(mHolo, "Window", rb_cObject);
+  rb_define_singleton_method(cWindow, "configure", window_s_configure, 2);
 }

@@ -7,6 +7,14 @@
 #include <X11/XKBlib.h>
 
 
+#define set_display(x) \
+  HoloDisplay *display;\
+  Data_Get_Struct(x, HoloDisplay, display);
+
+#define DPY           display->dpy
+#define ROOT_DEFAULT  DefaultRootWindow(DPY)
+
+
 typedef struct s_display   HoloDisplay;
 
 struct s_display {
@@ -18,6 +26,7 @@ VALUE mHolo, mEvents,
   cDisplay,
   cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cMapRequest,
     cPropertyNotify, cUnmapNotify,
+  cWindow,
   eDisplayError;
 
 
@@ -33,6 +42,8 @@ VALUE display_grab_key(VALUE self, VALUE key);
 
 VALUE event_alloc(VALUE klass);
 VALUE event_make(XEvent *xev);
+
+VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
 
 
 #endif
