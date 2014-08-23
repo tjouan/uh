@@ -28,6 +28,10 @@ module Holo
         puts '> CLIENTS:'
         wm.manager.to_s.lines.each { |e| puts "  #{e}" }
       end
+
+      def log_line
+        puts '-' * 80
+      end
     end
   end
 end
