@@ -50,13 +50,9 @@ module Holo
 
       while !quit_requested? do
         event = display.next_event
-        puts '> EVENT: %s' % event.inspect
         m = ('handle_%s' % event.type).to_sym
-        if respond_to? m
-          send m.to_sym, event
-        else
-          ;
-        end
+        m = :handle_event unless respond_to? m
+        send m.to_sym, event
       end
     end
 
@@ -71,6 +67,10 @@ module Holo
 
     def handle_key_press(event)
       action_handler.call keys[event.key]
+    end
+
+    def handle_event(event)
+      puts '> EVENT: %s' % event.inspect
     end
 
     def handle_error(req, resource_id, msg)
