@@ -1,12 +1,15 @@
 module Holo
   class WM
+    require 'holo/wm/action_handler'
     require 'holo/wm/manager'
 
-    attr_accessor :keys
+    attr_accessor :keys, :action_handler, :manager
 
     def initialize(&block)
       @quit_requested = false
       @keys           = {}
+      @action_handler = ActionHandler.new(self)
+      @manager        = Manager.new
 
       return unless block_given?
 
@@ -63,11 +66,7 @@ module Holo
     end
 
     def handle_key_press(event)
-      keys[event.key].call
-    end
-
-    def manager
-      @manager ||= Manager.new
+      action_handler.call keys[event.key]
     end
 
     def quit_requested?
@@ -86,21 +85,8 @@ module Holo
       keys.each { |k, v| display.grab_key k }
     end
 
-    def debug
-      binding.pry
-    end
-
-    def quit
-      puts "QUIT"
+    def request_quit!
       @quit_requested = true
-    end
-
-    def execute(command)
-      puts "SPAWN: #{command.inspect}"
-      pid = spawn command, pgroup: true
-      Process.detach pid
-    rescue Errno::ENOENT
-      ;
     end
   end
 end

@@ -9,4 +9,5 @@ wm = Holo::WM.new do
   key(:Return)  { execute 'xterm' }
   key(:f)       { execute 'urxvt' }
 end
+
 wm.run
