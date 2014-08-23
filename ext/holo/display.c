@@ -1,16 +1,11 @@
 #include "holo.h"
 
 
-static void display_free(HoloDisplay *display) {
-  free(display);
-}
-
-
 VALUE display_alloc(VALUE klass) {
   VALUE obj;
   HoloDisplay *display;
 
-  obj = Data_Make_Struct(klass, HoloDisplay, 0, display_free, display);
+  obj = Data_Make_Struct(klass, HoloDisplay, 0, free, display);
 
   return obj;
 }
