@@ -44,7 +44,7 @@ module Holo
         when Events::ConfigureRequest
           handle_configure_request event
         when Events::KeyPress
-          @keys[event.key].call
+          handle_key_press event
         when Events::MapRequest
           handle_map_request event
         end
@@ -58,6 +58,10 @@ module Holo
     def handle_map_request(event)
       # FIXME: get window attributes, check if override_redirect is true and return
       manager.manage(event.window) unless manager.client? event.window
+    end
+
+    def handle_key_press(event)
+      keys[event.key].call
     end
 
     class Manager
