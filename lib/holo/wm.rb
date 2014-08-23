@@ -3,6 +3,10 @@ module Holo
     require 'holo/wm/action_handler'
     require 'holo/wm/manager'
 
+    INPUT_MASK  = SubstructureRedirectMask
+    ROOT_MASK   = (PropertyChangeMask | SubstructureRedirectMask |
+                  SubstructureNotifyMask | StructureNotifyMask)
+
     attr_accessor :keys, :action_handler, :manager
 
     def initialize(&block)
@@ -28,7 +32,7 @@ module Holo
 
     def connect
       display.open
-      display.listen_events SubstructureRedirectMask
+      display.listen_events INPUT_MASK
     end
 
     def disconnect
@@ -37,8 +41,7 @@ module Holo
 
     def read_events
       display.sync false
-      # FIXME: specify attributes
-      display.change_window_attributes
+      display.root_change_attributes ROOT_MASK
       grab_keys
 
       while !quit_requested? do

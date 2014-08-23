@@ -67,12 +67,11 @@ VALUE display_sync(VALUE self, VALUE discard) {
   return Qnil;
 }
 
-VALUE display_change_window_attributes(VALUE self) {
+VALUE display_root_change_attributes(VALUE self, VALUE mask) {
   set_display(self);
-  XSetWindowAttributes  attr;
+  XSetWindowAttributes attr;
 
-  attr.event_mask = PropertyChangeMask | SubstructureRedirectMask |
-    SubstructureNotifyMask | StructureNotifyMask;
+  attr.event_mask = FIX2LONG(mask);
   XChangeWindowAttributes(DPY, ROOT_DEFAULT, CWEventMask, &attr);
 
   return Qnil;

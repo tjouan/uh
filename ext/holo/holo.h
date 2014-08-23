@@ -43,7 +43,7 @@ VALUE display_close(VALUE self);
 VALUE display_next_event(VALUE self);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_sync(VALUE self, VALUE discard);
-VALUE display_change_window_attributes(VALUE self);
+VALUE display_root_change_attributes(VALUE self, VALUE mask);
 VALUE display_grab_key(VALUE self, VALUE key);
 
 VALUE event_alloc(VALUE klass);
