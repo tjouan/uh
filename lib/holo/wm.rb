@@ -56,7 +56,6 @@ module Holo
     end
 
     def handle_map_request(event)
-      # FIXME: implement real window instance, would simplify things
       # FIXME: get window attributes, check if override_redirect is true and return
       manager.manage(event.window) unless manager.client? event.window
     end
