@@ -17,7 +17,7 @@ module Holo
 
     def run
       connect
-      manage
+      read_events
       disconnect
     end
 
@@ -31,7 +31,7 @@ module Holo
       display.close
     end
 
-    def manage
+    def read_events
       # FIXME: specify discard: false
       display.sync
       # FIXME: specify attributes
@@ -46,12 +46,39 @@ module Holo
           handle_configure_request event
         when Events::KeyPress
           @keys[event.key].call
+        when Events::MapRequest
+          handle_map_request event
         end
       end
     end
 
     def handle_configure_request(event)
       display.window_configure event.window_id
+    end
+
+    def handle_map_request(event)
+      # FIXME: implement real window instance, would simplify things
+      # FIXME: get window attributes, check if override_redirect is true and return
+      manager.manage(event.window) unless manager.client? event.window
+    end
+
+    class Manager
+      def initialize
+        @clients = []
+      end
+
+      def client?(window)
+        @clients.include? window
+      end
+
+      def manage(window)
+        @clients << window
+        window.moveresize 0, 0, 484, 100
+        window.map
+      end
+    end
+    def manager
+      @manager ||= Manager.new
     end
 
     def quit_requested?

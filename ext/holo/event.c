@@ -23,6 +23,18 @@ VALUE event_alloc(VALUE klass) {
   return Data_Wrap_Struct(klass, 0, free, xev);
 }
 
+VALUE event_window(VALUE self) {
+  set_xev(self);
+  HoloWindow  *window;
+  VALUE       obj;
+
+  obj = Data_Make_Struct(cWindow, HoloWindow, 0, free, window);
+  window->dpy     = xev->xany.display;
+  window->window  = xev->xany.window;
+
+  return obj;
+}
+
 
 VALUE event_make(XEvent *xev) {
   typedef struct {
@@ -81,6 +93,8 @@ void event_make_key_press(VALUE self) {
 
 void event_make_map_request(VALUE self) {
   set_xev(self);
+
+  rb_ivar_set(self, rb_intern("@window_id"), INT2NUM(xev->xconfigurerequest.window));
 }
 
 void event_make_property_notify(VALUE self) {

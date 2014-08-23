@@ -38,6 +38,7 @@ void holo_events() {
 
   cEvent = rb_define_class_under(mEvents, "Event", rb_cObject);
   rb_define_alloc_func(cEvent, event_alloc);
+  rb_define_method(cEvent, "window", event_window, 0);
 
   cConfigureRequest = rb_define_class_under(mEvents, "ConfigureRequest", cEvent);
   rb_define_attr(cConfigureRequest, "window_id", 1, 0);
@@ -50,6 +51,7 @@ void holo_events() {
   rb_define_attr(cKeyPress, "key", 1, 0);
 
   cMapRequest = rb_define_class_under(mEvents, "MapRequest", cEvent);
+  rb_define_attr(cMapRequest, "window_id", 1, 0);
 
   cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
 

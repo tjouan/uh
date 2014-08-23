@@ -15,10 +15,16 @@
 #define ROOT_DEFAULT  DefaultRootWindow(DPY)
 
 
-typedef struct s_display   HoloDisplay;
+typedef struct s_display  HoloDisplay;
+typedef struct s_window   HoloWindow;
 
 struct s_display {
   Display *dpy;
+};
+
+struct s_window {
+  Display *dpy;
+  Window  window;
 };
 
 
@@ -41,6 +47,7 @@ VALUE display_change_window_attributes(VALUE self);
 VALUE display_grab_key(VALUE self, VALUE key);
 
 VALUE event_alloc(VALUE klass);
+VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
 
 VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
