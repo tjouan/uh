@@ -26,7 +26,7 @@ void holo_display() {
   rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
-  rb_define_method(cDisplay, "listen_events", display_listen_events, 0);
+  rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
   rb_define_method(cDisplay, "sync", display_sync, 1);
   rb_define_method(cDisplay, "change_window_attributes",
     display_change_window_attributes, 0);

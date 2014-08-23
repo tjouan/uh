@@ -52,10 +52,10 @@ VALUE display_next_event(VALUE self) {
   return ev;
 }
 
-VALUE display_listen_events(VALUE self) {
+VALUE display_listen_events(VALUE self, VALUE mask) {
   set_display(self);
 
-  XSelectInput(DPY, ROOT_DEFAULT, SubstructureRedirectMask);
+  XSelectInput(DPY, ROOT_DEFAULT, FIX2LONG(mask));
 
   return Qnil;
 }

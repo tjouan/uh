@@ -28,8 +28,7 @@ module Holo
 
     def connect
       display.open
-      # FIXME: we must specify type
-      display.listen_events
+      display.listen_events SubstructureRedirectMask
     end
 
     def disconnect
