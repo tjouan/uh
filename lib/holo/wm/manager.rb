@@ -5,6 +5,10 @@ module Holo
         @clients = []
       end
 
+      def handle(window)
+        manage(window) unless client? window
+      end
+
       def client?(window)
         @clients.include? window
       end
