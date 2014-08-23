@@ -1,27 +1,32 @@
 #include "holo.h"
 
 
+VALUE rdisplay_error_handler;
+
+void display_x_error_handler(Display *dpy, XErrorEvent *e);
+
+
+VALUE display_s_on_error(VALUE klass, VALUE handler) {
+  rdisplay_error_handler = handler;
+
+  return Qnil;
+}
+
 VALUE display_alloc(VALUE klass) {
   HoloDisplay *display;
 
   return Data_Make_Struct(klass, HoloDisplay, 0, free, display);
 }
 
-VALUE display_init(VALUE self, VALUE rdisplay) {
-  rb_iv_set(self, "@name", rdisplay);
-
-  return self;
-}
-
 VALUE display_open(VALUE self) {
   set_display(self);
-  VALUE name;
 
-  name = rb_iv_get(self, "@name");
-
-  if (!(DPY = XOpenDisplay(NIL_P(name) ? NULL : RSTRING_PTR(name)))) {
+  if (!(DPY = XOpenDisplay(NULL))) {
     rb_raise(eDisplayError, "Can't open display");
   }
+
+  rdisplay_error_handler = Qnil;
+  XSetErrorHandler(display_x_error_handler);
 
   return self;
 }
@@ -95,4 +100,22 @@ VALUE display_grab_key(VALUE self, VALUE key) {
   XGrabKey(DPY, kc, Mod1Mask, ROOT_DEFAULT, True, GrabModeAsync, GrabModeAsync);
 
   return Qnil;
+}
+
+
+void display_x_error_handler(Display *dpy, XErrorEvent *e) {
+  printf("X ERROR HANDLER\n");
+  char msg[80];
+  char req[80];
+  char nb[80];
+
+  XGetErrorText(dpy, e->error_code, msg, sizeof msg);
+  sprintf(nb, "%d", e->request_code);
+  XGetErrorDatabaseText(dpy, "XRequest", nb, "<unknown>", req, sizeof req);
+
+  rb_funcall(rdisplay_error_handler, rb_intern("call"), 3,
+    rb_str_new2(req),
+    LONG2NUM(e->resourceid),
+    rb_str_new2(msg)
+  );
 }

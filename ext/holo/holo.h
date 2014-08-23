@@ -36,8 +36,9 @@ VALUE mHolo, mEvents,
   eDisplayError;
 
 
+VALUE display_s_on_error(VALUE klass, VALUE handler);
 VALUE display_alloc(VALUE klass);
-VALUE display_init(VALUE self, VALUE rdisplay);
+VALUE display_init(VALUE self);
 VALUE display_open(VALUE self);
 VALUE display_close(VALUE self);
 VALUE display_next_event(VALUE self);
