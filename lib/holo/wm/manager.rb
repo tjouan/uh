@@ -17,7 +17,7 @@ module Holo
       end
 
       def client?(window)
-        clients.any? {  |e| e.window == window }
+        clients.any? { |e| e.window == window }
       end
 
       def manage(window)
