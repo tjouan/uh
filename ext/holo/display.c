@@ -3,7 +3,7 @@
 
 VALUE rdisplay_error_handler;
 
-void display_x_error_handler(Display *dpy, XErrorEvent *e);
+int display_x_error_handler(Display *dpy, XErrorEvent *e);
 
 
 VALUE display_s_on_error(VALUE klass, VALUE handler) {
@@ -103,7 +103,7 @@ VALUE display_grab_key(VALUE self, VALUE key) {
 }
 
 
-void display_x_error_handler(Display *dpy, XErrorEvent *e) {
+int display_x_error_handler(Display *dpy, XErrorEvent *e) {
   printf("X ERROR HANDLER\n");
   char msg[80];
   char req[80];
@@ -118,4 +118,6 @@ void display_x_error_handler(Display *dpy, XErrorEvent *e) {
     LONG2NUM(e->resourceid),
     rb_str_new2(msg)
   );
+
+  return 0;
 }

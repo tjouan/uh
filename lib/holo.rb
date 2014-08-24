@@ -8,7 +8,7 @@ module Holo
   # FIXME: ruby errors defined in C ext should be considered
   Error               = Class.new(StandardError)
   RuntimeError        = Class.new(RuntimeError)
-  OtherWMRunnigError  = Class.new(RuntimeError)
+  OtherWMRunningError = Class.new(RuntimeError)
 
 
   # Input Event Masks. Used as event-mask window attribute and as arguments

@@ -36,7 +36,7 @@ module Holo
 
     def connect
       display.open
-      Display.on_error proc { fail OtherWMRunnigError }
+      Display.on_error proc { fail OtherWMRunningError }
       display.listen_events INPUT_MASK
       display.sync false
       Display.on_error proc { |*args| handle_error(*args) }
