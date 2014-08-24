@@ -26,6 +26,18 @@ module Holo
       end
     end
 
+    def key(key, &block)
+      @keys[key] = block
+    end
+
+    def quit_requested?
+      @quit_requested
+    end
+
+    def request_quit!
+      @quit_requested = true
+    end
+
     def run
       connect
       grab_keys
@@ -45,6 +57,10 @@ module Holo
 
     def disconnect
       display.close
+    end
+
+    def grab_keys
+      keys.each { |k, v| display.grab_key k }
     end
 
     def setup_manager
@@ -84,22 +100,6 @@ module Holo
         resource_id,
         msg
       ]
-    end
-
-    def quit_requested?
-      @quit_requested
-    end
-
-    def key(key, &block)
-      @keys[key] = block
-    end
-
-    def grab_keys
-      keys.each { |k, v| display.grab_key k }
-    end
-
-    def request_quit!
-      @quit_requested = true
     end
   end
 end
