@@ -39,6 +39,20 @@ VALUE window_map(VALUE self) {
   return Qnil;
 }
 
+VALUE window_name(VALUE self) {
+  set_window(self);
+  char        *wxname;
+  VALUE       wname;
+
+  if (!XFetchName(window->dpy, window->id, &wxname))
+    return Qnil;
+
+  wname = rb_str_new2(wxname);
+  XFree(wxname);
+
+  return wname;
+}
+
 VALUE window_raise(VALUE self) {
   set_window(self);
 
@@ -46,6 +60,21 @@ VALUE window_raise(VALUE self) {
 
   return Qnil;
 }
+
+VALUE window_wclass(VALUE self) {
+  set_window(self);
+  XClassHint  ch;
+  VALUE       wclass;
+
+  if (!XGetClassHint(window->dpy, window->id, &ch))
+    return Qnil;
+
+  wclass = rb_str_new2(ch.res_class);
+  XFree(&ch);
+
+  return wclass;
+}
+
 
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
   set_window(self);

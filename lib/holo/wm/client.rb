@@ -8,6 +8,22 @@ module Holo
         @window = window
       end
 
+      def to_s
+        '<%s> (%s) #TAG.COL %s' % [
+          name,
+          wclass,
+          geo
+        ]
+      end
+
+      def name
+        @name ||= window.name
+      end
+
+      def wclass
+        @wclass ||= window.wclass
+      end
+
       def moveresize
         window.moveresize geo
       end

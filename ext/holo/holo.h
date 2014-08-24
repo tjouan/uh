@@ -5,6 +5,7 @@
 
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
+#include <X11/Xutil.h>
 
 
 #define set_display(x) \
@@ -58,7 +59,9 @@ VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
 VALUE window_focus(VALUE self);
 VALUE window_map(VALUE self);
+VALUE window_name(VALUE self);
 VALUE window_raise(VALUE self);
+VALUE window_wclass(VALUE self);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 
 

@@ -76,6 +76,8 @@ void holo_window() {
   rb_define_singleton_method(cWindow, "configure", window_s_configure, 2);
   rb_define_method(cWindow, "focus", window_focus, 0);
   rb_define_method(cWindow, "map", window_map, 0);
+  rb_define_method(cWindow, "name", window_name, 0);
   rb_define_method(cWindow, "raise", window_raise, 0);
+  rb_define_method(cWindow, "wclass", window_wclass, 0);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }
