@@ -67,7 +67,6 @@ module Holo
     end
 
     def handle_map_request(event)
-      # FIXME: get window attributes, check if override_redirect is true and return
       manager.handle event.window
     end
 

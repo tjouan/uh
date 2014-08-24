@@ -15,6 +15,7 @@ module Holo
       end
 
       def handle(window)
+        # FIXME: get window attributes, check if override_redirect is true and return
         manage Client.new(window) unless client? window
       end
 
