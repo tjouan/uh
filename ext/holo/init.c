@@ -19,7 +19,7 @@ void Init_holo(void) {
 }
 
 void holo_display() {
-  cDisplay = rb_define_class_under(mHolo, "Display", rb_cObject);
+  cDisplay = rb_define_class(mHolo, "Display");
   rb_define_singleton_method(cDisplay, "on_error", display_s_on_error, 1);
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
@@ -36,7 +36,7 @@ void holo_display() {
 void holo_events() {
   mEvents = rb_define_module_under(mHolo, "Events");
 
-  cEvent = rb_define_class_under(mEvents, "Event", rb_cObject);
+  cEvent = rb_define_class(mEvents, "Event");
   rb_define_alloc_func(cEvent, event_alloc);
   rb_define_attr(cEvent, "type", 1, 0);
   rb_define_method(cEvent, "window", event_window, 0);
@@ -60,7 +60,7 @@ void holo_events() {
 }
 
 void holo_window() {
-  cWindow = rb_define_class_under(mHolo, "Window", rb_cObject);
+  cWindow = rb_define_class(mHolo, "Window");
   rb_define_singleton_method(cWindow, "configure", window_s_configure, 2);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
   rb_define_method(cWindow, "map", window_map, 0);
