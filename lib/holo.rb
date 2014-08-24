@@ -1,6 +1,8 @@
 module Holo
   require 'holo.so'
   require 'holo/display'
+  require 'holo/geo'
+  require 'holo/window'
   require 'pry'
 
   # FIXME: ruby errors defined in C ext should be considered

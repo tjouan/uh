@@ -23,7 +23,7 @@ VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id) {
   return Qnil;
 }
 
-VALUE window_moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
+VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
   set_window(self);
   XWindowChanges wc;
 

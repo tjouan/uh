@@ -1,6 +1,8 @@
 module Holo
   class WM
     require 'holo/wm/action_handler'
+    require 'holo/wm/client'
+    require 'holo/wm/layout'
     require 'holo/wm/manager'
 
     INPUT_MASK  = SubstructureRedirectMask
