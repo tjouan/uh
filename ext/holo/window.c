@@ -23,6 +23,14 @@ VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id) {
   return Qnil;
 }
 
+VALUE window_map(VALUE self) {
+  set_window(self);
+
+  XMapWindow(window->dpy, window->id);
+
+  return Qnil;
+}
+
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
   set_window(self);
   XWindowChanges wc;
@@ -32,14 +40,6 @@ VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height
   wc.width  = NUM2INT(width);
   wc.height = NUM2INT(height);
   XConfigureWindow(window->dpy, window->id, CWX | CWY |CWWidth | CWHeight, &wc);
-
-  return Qnil;
-}
-
-VALUE window_map(VALUE self) {
-  set_window(self);
-
-  XMapWindow(window->dpy, window->id);
 
   return Qnil;
 }

@@ -56,8 +56,8 @@ VALUE event_make(XEvent *xev);
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
 VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
-VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 VALUE window_map(VALUE self);
+VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 
 
 #endif
