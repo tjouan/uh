@@ -44,6 +44,19 @@ VALUE display_close(VALUE self) {
   return self;
 }
 
+VALUE display_screens(VALUE self) {
+  set_display(self);
+  VALUE args[5];
+
+  args[0] = INT2FIX(DefaultScreen(DPY));
+  args[1] = INT2FIX(0);
+  args[2] = INT2FIX(0);
+  args[3] = INT2FIX(XDisplayWidth(DPY, DefaultScreen(DPY)));
+  args[4] = INT2FIX(XDisplayHeight(DPY, DefaultScreen(DPY)));
+
+  return rb_ary_new_from_args(1, rb_class_new_instance(5, args, cScreen));
+}
+
 VALUE display_next_event(VALUE self) {
   set_display(self);
   XEvent      *xev;

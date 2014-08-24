@@ -2,6 +2,7 @@ module Holo
   require 'holo.so'
   require 'holo/display'
   require 'holo/geo'
+  require 'holo/screen'
   require 'holo/window'
   require 'pry'
 

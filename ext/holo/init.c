@@ -3,6 +3,7 @@
 
 void holo_display();
 void holo_events();
+void holo_screen();
 void holo_window();
 
 
@@ -15,6 +16,7 @@ void Init_holo(void) {
 
   holo_display();
   holo_events();
+  holo_screen();
   holo_window();
 }
 
@@ -25,6 +27,7 @@ void holo_display() {
   rb_define_attr(cDisplay, "name", 1, 0);
   rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
+  rb_define_method(cDisplay, "screens", display_screens, 0);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
   rb_define_method(cDisplay, "sync", display_sync, 1);
@@ -57,6 +60,15 @@ void holo_events() {
   cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
 
   cUnmapNotify = rb_define_class_under(mEvents, "UnmapNotify", cEvent);
+}
+
+void holo_screen() {
+  cScreen = rb_define_class_under(mHolo, "Screen", rb_cObject);
+  rb_define_method(cScreen, "initialize", screen_init, 5);
+  rb_define_attr(cScreen, "x", 1, 0);
+  rb_define_attr(cScreen, "y", 1, 0);
+  rb_define_attr(cScreen, "width", 1, 0);
+  rb_define_attr(cScreen, "height", 1, 0);
 }
 
 void holo_window() {

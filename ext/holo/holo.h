@@ -32,6 +32,7 @@ VALUE mHolo, mEvents,
   cDisplay,
   cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cMapRequest,
     cPropertyNotify, cUnmapNotify,
+  cScreen,
   cWindow,
   eDisplayError;
 
@@ -41,6 +42,7 @@ VALUE display_alloc(VALUE klass);
 VALUE display_init(VALUE self);
 VALUE display_open(VALUE self);
 VALUE display_close(VALUE self);
+VALUE display_screens(VALUE self);
 VALUE display_next_event(VALUE self);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_sync(VALUE self, VALUE discard);
@@ -50,6 +52,8 @@ VALUE display_grab_key(VALUE self, VALUE key);
 VALUE event_alloc(VALUE klass);
 VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
+
+VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
 VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);

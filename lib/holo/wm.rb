@@ -15,7 +15,6 @@ module Holo
       @quit_requested = false
       @keys           = {}
       @action_handler = ActionHandler.new(self)
-      @manager        = Manager.new
       @display        = Display.new
 
       return unless block_given?
@@ -30,6 +29,7 @@ module Holo
     def run
       connect
       grab_keys
+      setup_manager
       read_events
       disconnect
     end
@@ -45,6 +45,10 @@ module Holo
 
     def disconnect
       display.close
+    end
+
+    def setup_manager
+      @manager = Manager.new([], display.screens)
     end
 
     def read_events

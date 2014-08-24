@@ -1,11 +1,13 @@
 module Holo
   class WM
     class Manager
-      attr_reader :clients, :layout
+      attr_reader :clients, :screens
 
-      def initialize
-        @clients  = []
-        @layout   = Layout.new(clients)
+      def initialize(clients, screens)
+        @clients  = clients
+        @screens  = screens
+
+        p screens
       end
 
       def to_s
@@ -13,19 +15,26 @@ module Holo
       end
 
       def handle(window)
-        manage(window) unless client? window
+        manage Client.new(window) unless client? window
       end
 
       def client?(window)
         clients.any? { |e| e.window == window }
       end
 
-      def manage(window)
-        client = Client.new(window)
+      def manage(client)
         clients << client
-        layout.arrange
-        window.moveresize client.geo
-        window.map
+        Layout.new(visible_clients, current_screen).arrange
+        visible_clients.each { |e| e.moveresize }
+        client.map
+      end
+
+      def visible_clients
+        clients
+      end
+
+      def current_screen
+        screens.first
       end
     end
   end
