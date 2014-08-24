@@ -23,10 +23,26 @@ VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id) {
   return Qnil;
 }
 
+VALUE window_focus(VALUE self) {
+  set_window(self);
+
+  XSetInputFocus(window->dpy, window->id, RevertToPointerRoot, CurrentTime);
+
+  return Qnil;
+}
+
 VALUE window_map(VALUE self) {
   set_window(self);
 
   XMapWindow(window->dpy, window->id);
+
+  return Qnil;
+}
+
+VALUE window_raise(VALUE self) {
+  set_window(self);
+
+  XRaiseWindow(window->dpy, window->id);
 
   return Qnil;
 }

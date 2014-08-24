@@ -28,6 +28,7 @@ module Holo
         Layout.new(visible_clients, current_screen).arrange
         visible_clients.each { |e| e.moveresize }
         client.map
+        client.focus
       end
 
       def visible_clients

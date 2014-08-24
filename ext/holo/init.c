@@ -74,6 +74,8 @@ void holo_screen() {
 void holo_window() {
   cWindow = rb_define_class_under(mHolo, "Window", rb_cObject);
   rb_define_singleton_method(cWindow, "configure", window_s_configure, 2);
+  rb_define_method(cWindow, "focus", window_focus, 0);
   rb_define_method(cWindow, "map", window_map, 0);
+  rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }

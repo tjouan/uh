@@ -15,6 +15,11 @@ module Holo
       def map
         window.map
       end
+
+      def focus
+        window.raise
+        window.focus
+      end
     end
   end
 end
