@@ -100,7 +100,7 @@ module Holo
     end
 
     def handle_unmap_notify(event)
-      manager.remove event.window
+      #manager.remove event.window
     end
 
     def handle_event(event)

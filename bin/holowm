@@ -9,6 +9,9 @@ wm = Holo::WM.new do
   key(:Return)    { execute 'xterm' }
   key(:f)         { execute 'urxvt' }
 
+  key(:t)         { focus_next_client }
+  key(:n)         { focus_prev_client }
+
   key(:l)         { log_clients }
   key(:BackSpace) { log_line }
 end
