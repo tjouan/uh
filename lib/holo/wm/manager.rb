@@ -14,15 +14,12 @@ module Holo
 
       def handle(window)
         # FIXME: get window attributes, check if override_redirect is true and return
-        manage Client.new(window) unless client? window
+        return if client_for window
+        manage Client.new(window)
       end
 
       def remove(window)
         unmanage client_for window
-      end
-
-      def client?(window)
-        clients.any? { |e| e.window == window }
       end
 
       def client_for(window)
