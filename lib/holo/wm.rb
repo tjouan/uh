@@ -73,13 +73,22 @@ module Holo
       while !quit_requested? do
         event = display.next_event
         m = ('handle_%s' % event.type).to_sym
-        m = :handle_event unless respond_to? m
-        send m.to_sym, event
+        handled = respond_to? m
+        log_event event, handled ? '' : '?'
+        send m.to_sym, event if handled
       end
     end
 
+    def log_event(event, suffix = '')
+      puts '> EVENT%s: %s' % [suffix, event.inspect]
+    end
+
     def handle_configure_request(event)
-      display.window_configure event.window_id
+      display.window_configure event.window
+    end
+
+    def handle_destroy_notify(event)
+      manager.remove event.window
     end
 
     def handle_map_request(event)
@@ -90,8 +99,11 @@ module Holo
       action_handler.call keys[event.key]
     end
 
+    def handle_unmap_notify(event)
+      manager.remove event.window
+    end
+
     def handle_event(event)
-      puts '> EVENT: %s' % event.inspect
     end
 
     def handle_error(req, resource_id, msg)

@@ -1,7 +1,7 @@
 module Holo
   class Display
-    def window_configure(window_id)
-      Window.configure(self, window_id)
+    def window_configure(window)
+      Window.configure(self, window.id)
     end
   end
 end

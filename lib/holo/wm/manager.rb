@@ -19,8 +19,16 @@ module Holo
         manage Client.new(window) unless client? window
       end
 
+      def remove(window)
+        unmanage client_for window
+      end
+
       def client?(window)
         clients.any? { |e| e.window == window }
+      end
+
+      def client_for(window)
+        clients.find { |e| e.window == window }
       end
 
       def manage(client)
@@ -29,6 +37,10 @@ module Holo
         visible_clients.each { |e| e.moveresize }
         client.map
         client.focus
+      end
+
+      def unmanage(client)
+        clients.reject! { |e| e == client}
       end
 
       def visible_clients

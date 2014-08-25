@@ -88,3 +88,17 @@ VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height
 
   return Qnil;
 }
+
+
+VALUE window_make(Display *display, Window window_id) {
+  HoloWindow  *window;
+  VALUE       obj;
+
+  obj = Data_Make_Struct(cWindow, HoloWindow, 0, free, window);
+  window->dpy = display;
+  window->id  = window_id;
+
+  rb_ivar_set(obj, rb_intern("@id"), LONG2NUM(window_id));
+
+  return obj;
+}

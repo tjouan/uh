@@ -24,25 +24,17 @@ VALUE event_alloc(VALUE klass) {
 
 VALUE event_window(VALUE self) {
   set_xev(self);
-  HoloWindow  *window;
-  VALUE       obj;
 
-  obj = Qnil;
-  if (xev->type == ConfigureRequest ||
-      xev->type == MapRequest) {
-    obj = Data_Make_Struct(cWindow, HoloWindow, 0, free, window);
-    window->dpy = xev->xany.display;
-    switch (xev->type) {
-      case ConfigureRequest:
-        window->id = xev->xconfigurerequest.window;
-        break;
-      case MapRequest:
-        window->id = xev->xmaprequest.window;
-        break;
-    }
+  switch (xev->type) {
+    case ConfigureRequest:
+      return window_make(xev->xany.display, xev->xconfigurerequest.window);
+    case DestroyNotify:
+    case MapRequest:
+    case UnmapNotify:
+      return window_make(xev->xany.display, xev->xmaprequest.window);
   }
 
-  return obj;
+  return Qnil;
 }
 
 
@@ -124,8 +116,6 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
 
 void event_make_configure_request(VALUE self) {
   set_xev(self);
-
-  rb_ivar_set(self, rb_intern("@window_id"), LONG2NUM(xev->xconfigurerequest.window));
 }
 
 void event_make_destroy_notify(VALUE self) {
@@ -149,8 +139,6 @@ void event_make_key_press(VALUE self) {
 
 void event_make_map_request(VALUE self) {
   set_xev(self);
-
-  rb_ivar_set(self, rb_intern("@window_id"), LONG2NUM(xev->xmaprequest.window));
 }
 
 void event_make_property_notify(VALUE self) {
