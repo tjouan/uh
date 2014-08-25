@@ -6,8 +6,6 @@ module Holo
       def initialize(clients, screens)
         @clients  = clients
         @screens  = screens
-
-        p screens
       end
 
       def to_s
