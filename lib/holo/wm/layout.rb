@@ -2,7 +2,7 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :clients, :current_client
+        attr_reader :id, :clients, :current_client
 
         def initialize(id, clients = [])
           @id             = id
