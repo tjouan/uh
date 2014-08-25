@@ -61,6 +61,14 @@ VALUE window_raise(VALUE self) {
   return Qnil;
 }
 
+VALUE window_unmap(VALUE self) {
+  set_window(self);
+
+  XUnmapWindow(window->dpy, window->id);
+
+  return Qnil;
+}
+
 VALUE window_wclass(VALUE self) {
   set_window(self);
   XClassHint  ch;

@@ -61,6 +61,7 @@ VALUE window_focus(VALUE self);
 VALUE window_map(VALUE self);
 VALUE window_name(VALUE self);
 VALUE window_raise(VALUE self);
+VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 VALUE window_make(Display *display, Window window_id);

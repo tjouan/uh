@@ -28,8 +28,12 @@ module Holo
         window.moveresize geo
       end
 
-      def map
+      def show
         window.map
+      end
+
+      def hide
+        window.unmap
       end
 
       def focus
