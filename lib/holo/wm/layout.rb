@@ -42,34 +42,35 @@ module Holo
         current_tag.current_client
       end
 
-      def arrange_for(client)
-        manager.hide current_tag.visible_clients
+      def visible_clients
+        current_tag.visible_clients
+      end
+
+      def <<(client)
+        visible_clients.each(&:hide)
         current_tag << client
-        update_geo_for current_tag.visible_clients
-        manager.show current_tag.visible_clients
+        arrange visible_clients
+        visible_clients.each(&:show)
       end
 
       def remove(client)
         tags.each do |t|
           next unless t.include? client
           t.remove client
-          update_geo_for t.visible_clients
           if t == current_tag
-            manager.moveresize current_tag.visible_clients
-            manager.show current_tag.visible_clients
+            visible_clients.each(&:show)
           end
         end
       end
 
-      def update_geo_for(cs)
-        cs.each do |c|
+      def arrange(clients)
+        clients.each do |c|
           c.geo = manager.screens.first.geo.dup
           c.moveresize
         end
       end
 
       def sel_next
-        #manager.hide visible_clients
       end
 
       def sel_prev

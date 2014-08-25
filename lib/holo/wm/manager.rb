@@ -32,7 +32,7 @@ module Holo
 
       def manage(client)
         clients << client
-        layout.arrange_for client
+        layout  << client
         focus_current_client
       end
 
@@ -40,18 +40,6 @@ module Holo
         clients.reject! { |e| e == client}
         layout.remove client
         focus_current_client
-      end
-
-      def show(cs)
-        cs.each(&:show)
-      end
-
-      def hide(cs)
-        cs.each(&:hide)
-      end
-
-      def moveresize(cs)
-        cs.each(&:moveresize)
       end
 
       def focus_current_client
