@@ -92,7 +92,7 @@ module Holo
     end
 
     def handle_map_request(event)
-      manager.handle event.window
+      manager.map event.window
     end
 
     def handle_key_press(event)
@@ -100,10 +100,7 @@ module Holo
     end
 
     def handle_unmap_notify(event)
-      #manager.remove event.window
-    end
-
-    def handle_event(event)
+      manager.unmap event.window
     end
 
     def handle_error(req, resource_id, msg)

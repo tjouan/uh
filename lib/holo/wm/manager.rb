@@ -13,10 +13,13 @@ module Holo
         clients.join $/
       end
 
-      def handle(window)
+      def map(window)
         # FIXME: get window attributes, check if override_redirect is true and return
         return if client_for window
         manage Client.new(window)
+      end
+
+      def unmap(window)
       end
 
       def remove(window)
