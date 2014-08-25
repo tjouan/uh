@@ -9,7 +9,7 @@ module Holo
       end
 
       def to_s
-        '<%s> (%s) #TAG.COL %s' % [
+        '<%s> (%s) %s' % [
           name,
           wclass,
           geo
