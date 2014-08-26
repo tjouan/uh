@@ -5,15 +5,16 @@ require 'holo/wm'
 
 
 wm = Holo::WM.new do
-  key(:XK_q)         { quit }
-  key(:XK_Return)    { execute 'xterm' }
-  key(:XK_f)         { execute 'urxvt' }
+  key(:XK_q)          { quit }
+  key(:XK_Return)     { execute 'urxvt' }
+  key(:XK_f)          { execute 'urxvt' }
+  key(:XK_f, :shift)  { execute 'xterm' }
 
-  key(:XK_t)         { focus_next_client }
-  key(:XK_n)         { focus_prev_client }
+  key(:XK_t)          { focus_next_client }
+  key(:XK_n)          { focus_prev_client }
 
-  key(:XK_l)         { log_clients }
-  key(:XK_BackSpace) { log_line }
+  key(:XK_l)          { log_clients }
+  key(:XK_BackSpace)  { log_line }
 end
 
 wm.run

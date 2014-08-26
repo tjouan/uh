@@ -8,11 +8,22 @@ module Holo
     INPUT_MASK  = SubstructureRedirectMask
     ROOT_MASK   = (PropertyChangeMask | SubstructureRedirectMask |
                   SubstructureNotifyMask | StructureNotifyMask)
+    MODIFIERS   = {
+      shift:  1 << 0,
+      lock:   1 << 1,
+      ctrl:   1 << 2,
+      mod1:   1 << 3,
+      mod2:   1 << 4,
+      mod3:   1 << 5,
+      mod4:   1 << 6,
+      mod5:   1 << 7
+    }.freeze
 
-    attr_accessor :keys, :action_handler, :manager, :display
+    attr_reader :modifier, :keys, :action_handler, :manager, :display
 
     def initialize(&block)
       @quit_requested = false
+      @modifier       = MODIFIERS[:mod1]
       @keys           = {}
       @action_handler = ActionHandler.new(self)
       @display        = Display.new
@@ -26,8 +37,9 @@ module Holo
       end
     end
 
-    def key(key, &block)
-      @keys[key.to_s.gsub /\AXK_/, ''] = block
+    def key(key, mod = nil, &block)
+      mod = mod ? modifier | MODIFIERS[mod] : modifier
+      @keys[[key.to_s.gsub(/\AXK_/, ''), mod]] = block
     end
 
     def quit_requested?
@@ -60,7 +72,7 @@ module Holo
     end
 
     def grab_keys
-      keys.each { |k, v| display.grab_key k }
+      keys.each { |k, v| display.grab_key *k }
     end
 
     def setup_manager
@@ -96,7 +108,7 @@ module Holo
     end
 
     def handle_key_press(event)
-      action_handler.call keys[event.key]
+      action_handler.call keys[[event.key, event.mod]]
     end
 
     def handle_unmap_notify(event)

@@ -95,7 +95,7 @@ VALUE display_root_change_attributes(VALUE self, VALUE mask) {
   return Qnil;
 }
 
-VALUE display_grab_key(VALUE self, VALUE key) {
+VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
   set_display(self);
   KeySym      ks;
   KeyCode     kc;
@@ -108,7 +108,8 @@ VALUE display_grab_key(VALUE self, VALUE key) {
   if (kc == 0)
     rb_raise(rb_eArgError, "KeySym XK_%s has no KeyCode", RSTRING_PTR(key));
 
-  XGrabKey(DPY, kc, Mod1Mask, ROOT_DEFAULT, True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(DPY, kc, FIX2INT(modifier), ROOT_DEFAULT, True,
+    GrabModeAsync, GrabModeAsync);
 
   return Qnil;
 }

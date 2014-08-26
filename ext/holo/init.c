@@ -33,7 +33,7 @@ void holo_display() {
   rb_define_method(cDisplay, "sync", display_sync, 1);
   rb_define_method(cDisplay, "root_change_attributes",
     display_root_change_attributes, 1);
-  rb_define_method(cDisplay, "grab_key", display_grab_key, 1);
+  rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
 }
 
 void holo_events() {
@@ -53,9 +53,11 @@ void holo_events() {
 
   cKeyPress = rb_define_class_under(mEvents, "KeyPress", cEvent);
   rb_define_attr(cKeyPress, "key", 1, 0);
+  rb_define_attr(cKeyPress, "mod", 1, 0);
 
   cKeyRelease = rb_define_class_under(mEvents, "KeyRelease", cEvent);
   rb_define_attr(cKeyRelease, "key", 1, 0);
+  rb_define_attr(cKeyRelease, "mod", 1, 0);
 
   cMapRequest = rb_define_class_under(mEvents, "MapRequest", cEvent);
   rb_define_attr(cMapRequest, "window_id", 1, 0);
