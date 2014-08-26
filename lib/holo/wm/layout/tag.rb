@@ -56,6 +56,14 @@ module Holo
           find_or_create_col(current_col.id + 1) << client
           visible_clients.each(&:show)
         end
+
+
+        private
+
+        def find_or_create_col(id)
+          cols << col = Col.new(id) unless col = cols.find { |e| e.id == id }
+          col
+        end
       end
     end
   end
