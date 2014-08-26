@@ -51,7 +51,7 @@ module Holo
         focus_current_client
       end
 
-      def focus_next_client
+      def focus_prev_client
         layout.sel_prev
         focus_current_client
       end

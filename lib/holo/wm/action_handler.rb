@@ -28,6 +28,10 @@ module Holo
         wm.manager.focus_next_client
       end
 
+      def focus_prev_client
+        wm.manager.focus_prev_client
+      end
+
       def log_clients
         puts '> CLIENTS:'
         wm.manager.to_s.lines.each { |e| puts "  #{e}" }

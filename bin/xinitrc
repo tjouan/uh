@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-pkill -USR1 Xephyr
+[ -n "$PAINT" ] && pkill -USR1 Xephyr
 
 xrdb $HOME/.Xdefaults
 

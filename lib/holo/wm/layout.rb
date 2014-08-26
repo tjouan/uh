@@ -27,6 +27,16 @@ module Holo
           clients.reject! { |e| e == client}
           @current_client = clients.last
         end
+
+        def sel_next
+          i = clients.index(current_client) + 1
+          @current_client = clients[i % clients.size]
+        end
+
+        def sel_prev
+          i = clients.index(current_client) - 1
+          @current_client = clients[i]
+        end
       end
 
 
@@ -71,9 +81,15 @@ module Holo
       end
 
       def sel_next
+        visible_clients.each(&:hide)
+        current_tag.sel_next
+        visible_clients.each(&:show)
       end
 
       def sel_prev
+        visible_clients.each(&:hide)
+        current_tag.sel_prev
+        visible_clients.each(&:show)
       end
     end
   end
