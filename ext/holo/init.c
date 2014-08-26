@@ -54,6 +54,9 @@ void holo_events() {
   cKeyPress = rb_define_class_under(mEvents, "KeyPress", cEvent);
   rb_define_attr(cKeyPress, "key", 1, 0);
 
+  cKeyRelease = rb_define_class_under(mEvents, "KeyRelease", cEvent);
+  rb_define_attr(cKeyRelease, "key", 1, 0);
+
   cMapRequest = rb_define_class_under(mEvents, "MapRequest", cEvent);
   rb_define_attr(cMapRequest, "window_id", 1, 0);
 

@@ -31,8 +31,8 @@ struct s_window {
 
 VALUE mHolo, mEvents,
   cDisplay,
-  cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cMapRequest,
-    cPropertyNotify, cUnmapNotify,
+  cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cKeyRelease,
+    cMapRequest, cPropertyNotify, cUnmapNotify,
   cScreen,
   cWindow,
   eDisplayError;

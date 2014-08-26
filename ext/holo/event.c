@@ -7,13 +7,7 @@
 
 
 VALUE event_make_event(VALUE klass, XEvent *xev);
-void event_make_configure_request(VALUE self);
-void event_make_destroy_notify(VALUE self);
-void event_make_expose(VALUE self);
 void event_make_key_any(VALUE self);
-void event_make_map_request(VALUE self);
-void event_make_property_notify(VALUE self);
-void event_make_unmap_notify(VALUE self);
 
 
 VALUE event_alloc(VALUE klass) {
@@ -45,13 +39,14 @@ VALUE event_make(XEvent *xev) {
     void  (*function)(VALUE self);
   } EvClass;
   EvClass ev_classes[] = {
-    {ConfigureRequest,  cConfigureRequest,  event_make_configure_request},
-    {DestroyNotify,     cDestroyNotify,     event_make_destroy_notify},
-    {Expose,            cExpose,            event_make_expose},
+    {ConfigureRequest,  cConfigureRequest,  NULL},
+    {DestroyNotify,     cDestroyNotify,     NULL},
+    {Expose,            cExpose,            NULL},
     {KeyPress,          cKeyPress,          event_make_key_any},
-    {MapRequest,        cMapRequest,        event_make_map_request},
-    {PropertyNotify,    cPropertyNotify,    event_make_property_notify},
-    {UnmapNotify,       cUnmapNotify,       event_make_unmap_notify}
+    {KeyRelease,        cKeyRelease,        event_make_key_any},
+    {MapRequest,        cMapRequest,        NULL},
+    {PropertyNotify,    cPropertyNotify,    NULL},
+    {UnmapNotify,       cUnmapNotify,       NULL}
   };
   int   i;
   VALUE event;
@@ -59,7 +54,9 @@ VALUE event_make(XEvent *xev) {
   for (i = 0; i < (sizeof ev_classes / sizeof ev_classes[0]); i++) {
     if (ev_classes[i].type == xev->type) {
       event = event_make_event(ev_classes[i].klass, xev);
-      ev_classes[i].function(event);
+
+      if (ev_classes[i].function)
+        ev_classes[i].function(event);
 
       return event;
     }
@@ -114,18 +111,6 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
   return event;
 }
 
-void event_make_configure_request(VALUE self) {
-  set_xev(self);
-}
-
-void event_make_destroy_notify(VALUE self) {
-  set_xev(self);
-}
-
-void event_make_expose(VALUE self) {
-  set_xev(self);
-}
-
 void event_make_key_any(VALUE self) {
   set_xev(self);
   KeySym ks;
@@ -135,16 +120,4 @@ void event_make_key_any(VALUE self) {
     return;
 
   rb_ivar_set(self, rb_intern("@key"), rb_str_new2(XKeysymToString(ks)));
-}
-
-void event_make_map_request(VALUE self) {
-  set_xev(self);
-}
-
-void event_make_property_notify(VALUE self) {
-  set_xev(self);
-}
-
-void event_make_unmap_notify(VALUE self) {
-  set_xev(self);
 }
