@@ -36,12 +36,15 @@ module Holo
           client.moveresize
           client.show
           client.focus
+          current_client.hide if current_client
           @current_client = client
         end
 
         def remove(client)
+          return unless clients.include? client
           clients.reject! { |e| e == client}
           @current_client = clients.last
+          current_client.show if current_client
         end
 
         def sel_next

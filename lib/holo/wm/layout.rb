@@ -25,26 +25,13 @@ module Holo
       end
 
       def <<(client)
-        #visible_clients.each(&:hide)
         current_tag << client
-        #arrange visible_clients
-        #visible_clients.each(&:show)
-        #focus_current_client
       end
 
       def remove(client)
         tags.each { |e| e.remove client }
-        #focus_current_client
+        focus_current_client
       end
-
-=begin
-      def arrange(clients)
-        clients.each do |c|
-          c.geo = manager.screens.first.geo.dup
-          c.moveresize
-        end
-      end
-=end
 
       def focus_current_client
         current_client.focus if current_client

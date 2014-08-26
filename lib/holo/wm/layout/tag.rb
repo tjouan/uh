@@ -30,10 +30,6 @@ module Holo
           cols.inject([]) { |m, e| m + e.visible_clients }
         end
 
-        def include?(client)
-          clients.include? client
-        end
-
         def <<(client)
           current_col << client
         end
