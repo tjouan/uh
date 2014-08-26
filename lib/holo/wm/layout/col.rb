@@ -12,10 +12,7 @@ module Holo
         end
 
         def to_s
-          [
-            'COL #%d %s' % [id, geo],
-            clients.map { |e| '  %s' % e }.join($/)
-          ].join $/
+          'COL #%d %s' % [id, geo]
         end
 
         def current_client_index

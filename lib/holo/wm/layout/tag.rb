@@ -12,10 +12,7 @@ module Holo
         end
 
         def to_s
-          [
-            'TAG #%d %s' % [id, geo],
-            cols.map { |e| ' %s' % e }.join($/)
-          ].join $/
+          'TAG #%d %s' % [id, geo]
         end
 
         def current_client

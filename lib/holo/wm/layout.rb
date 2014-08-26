@@ -13,7 +13,16 @@ module Holo
       end
 
       def to_s
-        tags.join $/
+        tags.inject('') do |m, tag|
+          m << "%s%s\n" % [tag == current_tag ? '*' : ' ', tag]
+          tag.cols.each do |col|
+            m << "  %s%s\n" % [col == tag.current_col ? '*' : ' ', col]
+            col.clients.each do |client|
+              m << "    %s%s\n" % [client == col.current_client ? '*' : ' ', client]
+            end
+          end
+          m
+        end
       end
 
       def current_client
