@@ -78,7 +78,8 @@ VALUE window_wclass(VALUE self) {
     return Qnil;
 
   wclass = rb_str_new_cstr(ch.res_class);
-  XFree(&ch);
+  XFree(ch.res_name);
+  XFree(ch.res_class);
 
   return wclass;
 }
