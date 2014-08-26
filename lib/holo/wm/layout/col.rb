@@ -28,13 +28,21 @@ module Holo
         end
 
         def <<(client)
-          clients << client
+          insert_client client
           client.geo = geo.dup
           client.moveresize
           client.show
           client.focus
           current_client.hide if current_client
           @current_client = client
+        end
+
+        def insert_client(client)
+          if current_client
+            clients.insert current_client_index + 1, client
+          else
+            clients << client
+          end
         end
 
         def remove(client)
