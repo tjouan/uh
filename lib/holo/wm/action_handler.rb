@@ -40,6 +40,22 @@ module Holo
       def log_line
         puts '-' * 80
       end
+
+      def method_missing(meth, *args, &block)
+        return wm.manager.layout.send layout_method meth if respond_to? meth
+        super
+      end
+
+      def respond_to_missing?(meth, *)
+        meth.to_s =~ /\Alayout_/ || super
+      end
+
+
+      private
+
+      def layout_method(meth)
+        meth.to_s.gsub(/\Alayout_/, 'handle_').to_sym
+      end
     end
   end
 end

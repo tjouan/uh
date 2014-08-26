@@ -71,6 +71,7 @@ module Holo
         current_tag << client
         arrange visible_clients
         visible_clients.each(&:show)
+        focus_current_client
       end
 
       def remove(client)
@@ -81,6 +82,7 @@ module Holo
             visible_clients.each(&:show)
           end
         end
+        focus_current_client
       end
 
       def arrange(clients)
@@ -90,16 +92,22 @@ module Holo
         end
       end
 
-      def sel_next
+      def focus_current_client
+        current_client.focus if current_client
+      end
+
+      def handle_sel_next
         visible_clients.each(&:hide)
         current_tag.sel_next
         visible_clients.each(&:show)
+        focus_current_client
       end
 
-      def sel_prev
+      def handle_sel_prev
         visible_clients.each(&:hide)
         current_tag.sel_prev
         visible_clients.each(&:show)
+        focus_current_client
       end
     end
   end

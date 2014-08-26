@@ -33,27 +33,11 @@ module Holo
       def manage(client)
         clients << client
         layout  << client
-        focus_current_client
       end
 
       def unmanage(client)
         clients.reject! { |e| e == client}
         layout.remove client
-        focus_current_client
-      end
-
-      def focus_current_client
-        layout.current_client.focus if layout.current_client
-      end
-
-      def focus_next_client
-        layout.sel_next
-        focus_current_client
-      end
-
-      def focus_prev_client
-        layout.sel_prev
-        focus_current_client
       end
     end
   end
