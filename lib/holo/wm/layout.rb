@@ -49,6 +49,24 @@ module Holo
         current_client.focus if current_client
       end
 
+      def handle_tag_sel(tag_id)
+        return unless @current_tag.id != tag_id
+        visible_clients.each(&:hide)
+        @current_tag = find_or_create_tag tag_id
+        visible_clients.each(&:show)
+        focus_current_client
+      end
+
+      def handle_tag_set(tag_id)
+        return unless @current_tag.id != tag_id
+        visible_clients.each(&:hide)
+        client = current_tag.current_client
+        current_tag.remove client
+        find_or_create_tag(tag_id) << client
+        visible_clients.each(&:show)
+        focus_current_client
+      end
+
       def handle_sel_next
         visible_clients.each(&:hide)
         current_tag.sel_next
@@ -61,6 +79,14 @@ module Holo
         current_tag.sel_prev
         visible_clients.each(&:show)
         focus_current_client
+      end
+
+
+      private
+
+      def find_or_create_tag(id)
+        tags << tag = Tag.new(id) unless tag = tags.find { |e| e.id == id }
+        tag
       end
     end
   end

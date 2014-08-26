@@ -5,16 +5,24 @@ require 'holo/wm'
 
 
 wm = Holo::WM.new do
-  key(:XK_q)          { quit }
-  key(:XK_Return)     { execute 'urxvt' }
-  key(:XK_f)          { execute 'urxvt' }
-  key(:XK_f, :shift)  { execute 'xterm' }
+  key(:XK_q)              { quit }
 
-  key(:XK_t)          { layout_sel_next }
-  key(:XK_n)          { layout_sel_prev }
+  key(:XK_Return)         { execute 'urxvt' }
+  key(:XK_f)              { execute 'urxvt' }
+  key(:XK_f, :shift)      { execute 'xterm' }
 
-  key(:XK_l)          { log_clients }
-  key(:XK_BackSpace)  { log_line }
+  (0..9).each do |e|
+    key("XK_#{e}".to_sym) { layout_tag_sel e }
+  end
+  (0..9).each do |e|
+    k = "XK_#{e}".to_sym
+    key(k, :shift)        { layout_tag_set e }
+  end
+  key(:XK_t)              { layout_sel_next }
+  key(:XK_n)              { layout_sel_prev }
+
+  key(:XK_l)              { log_clients }
+  key(:XK_BackSpace)      { log_line }
 end
 
 wm.run
