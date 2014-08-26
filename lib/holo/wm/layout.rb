@@ -1,14 +1,19 @@
 module Holo
   class WM
     class Layout
+      require 'holo/wm/layout/col'
       require 'holo/wm/layout/tag'
 
       attr_reader :manager, :tags, :current_tag
 
       def initialize(manager)
-        @manager        = manager
-        @tags           = [Tag.new(1)]
-        @current_tag    = tags.first
+        @manager      = manager
+        @tags         = [Tag.new(1)]
+        @current_tag  = tags.first
+      end
+
+      def to_s
+        tags.join $/
       end
 
       def current_client
@@ -28,13 +33,7 @@ module Holo
       end
 
       def remove(client)
-        tags.each do |t|
-          next unless t.include? client
-          t.remove client
-          if t == current_tag
-            visible_clients.each(&:show)
-          end
-        end
+        tags.each { |e| e.remove client }
         focus_current_client
       end
 
@@ -67,6 +66,13 @@ module Holo
         focus_current_client
       end
 
+      def handle_sel_prev
+        visible_clients.each(&:hide)
+        current_tag.sel_prev
+        visible_clients.each(&:show)
+        focus_current_client
+      end
+
       def handle_sel_next
         visible_clients.each(&:hide)
         current_tag.sel_next
@@ -74,11 +80,17 @@ module Holo
         focus_current_client
       end
 
-      def handle_sel_prev
-        visible_clients.each(&:hide)
-        current_tag.sel_prev
-        visible_clients.each(&:show)
-        focus_current_client
+      def handle_col_sel_prev
+      end
+
+      def handle_col_sel_next
+      end
+
+      def handle_col_set_prev
+      end
+
+      def handle_col_set_next
+        current_tag.col_set_next
       end
 
 

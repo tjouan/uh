@@ -32,6 +32,11 @@ module Holo
         wm.manager.focus_prev_client
       end
 
+      def log_layout
+        puts '> LAYOUT:'
+        wm.manager.layout.to_s.lines.each { |e| puts "  #{e}" }
+      end
+
       def log_clients
         puts '> CLIENTS:'
         wm.manager.to_s.lines.each { |e| puts "  #{e}" }

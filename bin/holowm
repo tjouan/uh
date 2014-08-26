@@ -18,10 +18,15 @@ wm = Holo::WM.new do
     k = "XK_#{e}".to_sym
     key(k, :shift)        { layout_tag_set e }
   end
-  key(:XK_t)              { layout_sel_next }
   key(:XK_n)              { layout_sel_prev }
+  key(:XK_t)              { layout_sel_next }
+  key(:XK_h)              { layout_col_sel_prev }
+  key(:XK_s)              { layout_col_sel_next }
+  key(:XK_h, :shift)      { layout_col_set_prev }
+  key(:XK_s, :shift)      { layout_col_set_next }
 
-  key(:XK_l)              { log_clients }
+  key(:XK_l)              { log_layout }
+  key(:XK_l, :shift)      { log_clients }
   key(:XK_BackSpace)      { log_line }
 end
 

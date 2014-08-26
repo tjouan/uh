@@ -2,20 +2,31 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :id, :clients, :current_client
+        attr_reader :id, :cols, :current_col
 
-        def initialize(id, clients = [])
-          @id             = id
-          @clients        = clients
-          @current_client = nil
+        def initialize(id)
+          @id           = id
+          @cols         = [Col.new(0)]
+          @current_col  = cols.last
         end
 
-        def current_client_index
-          clients.index current_client
+        def to_s
+          [
+            'TAG #%d' % id,
+            cols.map { |e| ' %s' % e }.join($/)
+          ].join $/
+        end
+
+        def current_client
+          current_col.current_client
+        end
+
+        def clients
+          cols.inject([]) { |m, e| m + e.clients }
         end
 
         def visible_clients
-          [current_client].compact
+          cols.inject([]) { |m, e| m + e.visible_clients }
         end
 
         def include?(client)
@@ -23,29 +34,27 @@ module Holo
         end
 
         def <<(client)
-          clients << client
-          @current_client = client
+          current_col << client
         end
 
         def remove(client)
-          clients.reject! { |e| e == client}
-          @current_client = clients.last
+          cols.each { |e| e.remove client }
         end
 
         def sel_next
-          sel :succ
+          current_col.sel_next
         end
 
         def sel_prev
-          sel :pred
+          current_col.sel_prev
         end
 
-
-        private
-
-        def sel(direction)
-          new_index = current_client_index.send direction
-          @current_client = clients[new_index % clients.size]
+        def col_set_next
+          visible_clients.each(&:hide)
+          client = current_col.current_client
+          current_col.remove client
+          find_or_create_col(current_col.id + 1) << client
+          visible_clients.each(&:show)
         end
       end
     end
