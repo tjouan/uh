@@ -10,6 +10,10 @@ module Holo
           @current_client = nil
         end
 
+        def current_client_index
+          clients.index current_client
+        end
+
         def visible_clients
           [current_client].compact
         end
@@ -29,13 +33,19 @@ module Holo
         end
 
         def sel_next
-          i = clients.index(current_client) + 1
-          @current_client = clients[i % clients.size]
+          sel :succ
         end
 
         def sel_prev
-          i = clients.index(current_client) - 1
-          @current_client = clients[i]
+          sel :pred
+        end
+
+
+        private
+
+        def sel(direction)
+          new_index = current_client_index.send direction
+          @current_client = clients[new_index % clients.size]
         end
       end
 
