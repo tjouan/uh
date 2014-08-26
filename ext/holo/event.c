@@ -119,6 +119,6 @@ void event_make_key_any(VALUE self) {
   if (ks == NoSymbol)
     return;
 
-  rb_ivar_set(self, rb_intern("@key"), rb_str_new2(XKeysymToString(ks)));
+  rb_ivar_set(self, rb_intern("@key"), rb_str_new_cstr(XKeysymToString(ks)));
   rb_ivar_set(self, rb_intern("@mod"), INT2FIX(xev->xkey.state));
 }

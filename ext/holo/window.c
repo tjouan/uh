@@ -47,7 +47,7 @@ VALUE window_name(VALUE self) {
   if (!XFetchName(window->dpy, window->id, &wxname))
     return Qnil;
 
-  wname = rb_str_new2(wxname);
+  wname = rb_str_new_cstr(wxname);
   XFree(wxname);
 
   return wname;
@@ -77,7 +77,7 @@ VALUE window_wclass(VALUE self) {
   if (!XGetClassHint(window->dpy, window->id, &ch))
     return Qnil;
 
-  wclass = rb_str_new2(ch.res_class);
+  wclass = rb_str_new_cstr(ch.res_class);
   XFree(&ch);
 
   return wclass;

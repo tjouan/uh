@@ -126,9 +126,9 @@ int display_x_error_handler(Display *dpy, XErrorEvent *e) {
   XGetErrorDatabaseText(dpy, "XRequest", nb, "<unknown>", req, sizeof req);
 
   rb_funcall(rdisplay_error_handler, rb_intern("call"), 3,
-    rb_str_new2(req),
+    rb_str_new_cstr(req),
     LONG2NUM(e->resourceid),
-    rb_str_new2(msg)
+    rb_str_new_cstr(msg)
   );
 
   return 0;
