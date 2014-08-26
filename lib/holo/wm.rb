@@ -27,7 +27,7 @@ module Holo
     end
 
     def key(key, &block)
-      @keys[key] = block
+      @keys[key.to_s.gsub /\AXK_/, ''] = block
     end
 
     def quit_requested?

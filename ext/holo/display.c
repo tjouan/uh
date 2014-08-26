@@ -100,8 +100,6 @@ VALUE display_grab_key(VALUE self, VALUE key) {
   KeySym      ks;
   KeyCode     kc;
 
-  key = rb_id2str(SYM2ID(key));
-
   ks = XStringToKeysym(RSTRING_PTR(key));
   if (ks == NoSymbol)
     rb_raise(rb_eArgError, "Invalid KeySym %s", RSTRING_PTR(key));

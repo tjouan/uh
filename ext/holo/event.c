@@ -10,7 +10,7 @@ VALUE event_make_event(VALUE klass, XEvent *xev);
 void event_make_configure_request(VALUE self);
 void event_make_destroy_notify(VALUE self);
 void event_make_expose(VALUE self);
-void event_make_key_press(VALUE self);
+void event_make_key_any(VALUE self);
 void event_make_map_request(VALUE self);
 void event_make_property_notify(VALUE self);
 void event_make_unmap_notify(VALUE self);
@@ -48,7 +48,7 @@ VALUE event_make(XEvent *xev) {
     {ConfigureRequest,  cConfigureRequest,  event_make_configure_request},
     {DestroyNotify,     cDestroyNotify,     event_make_destroy_notify},
     {Expose,            cExpose,            event_make_expose},
-    {KeyPress,          cKeyPress,          event_make_key_press},
+    {KeyPress,          cKeyPress,          event_make_key_any},
     {MapRequest,        cMapRequest,        event_make_map_request},
     {PropertyNotify,    cPropertyNotify,    event_make_property_notify},
     {UnmapNotify,       cUnmapNotify,       event_make_unmap_notify}
@@ -126,7 +126,7 @@ void event_make_expose(VALUE self) {
   set_xev(self);
 }
 
-void event_make_key_press(VALUE self) {
+void event_make_key_any(VALUE self) {
   set_xev(self);
   KeySym ks;
 
@@ -134,7 +134,7 @@ void event_make_key_press(VALUE self) {
   if (ks == NoSymbol)
     return;
 
-  rb_ivar_set(self, rb_intern("@key"), ID2SYM(rb_intern(XKeysymToString(ks))));
+  rb_ivar_set(self, rb_intern("@key"), rb_str_new2(XKeysymToString(ks)));
 }
 
 void event_make_map_request(VALUE self) {
