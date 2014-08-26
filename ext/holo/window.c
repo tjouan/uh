@@ -92,7 +92,7 @@ VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height
   wc.y      = NUM2INT(y);
   wc.width  = NUM2INT(width);
   wc.height = NUM2INT(height);
-  XConfigureWindow(window->dpy, window->id, CWX | CWY |CWWidth | CWHeight, &wc);
+  XConfigureWindow(window->dpy, window->id, CWX | CWY | CWWidth | CWHeight, &wc);
 
   return Qnil;
 }
