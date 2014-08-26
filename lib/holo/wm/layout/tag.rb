@@ -2,17 +2,18 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :id, :cols, :current_col
+        attr_reader :id, :geo, :cols, :current_col
 
-        def initialize(id)
+        def initialize(id, geo)
           @id           = id
-          @cols         = [Col.new(0)]
+          @geo          = geo
+          @cols         = [Col.new(0, geo.dup)]
           @current_col  = cols.last
         end
 
         def to_s
           [
-            'TAG #%d' % id,
+            'TAG #%d %s' % [id, geo],
             cols.map { |e| ' %s' % e }.join($/)
           ].join $/
         end
@@ -61,7 +62,8 @@ module Holo
         private
 
         def find_or_create_col(id)
-          cols << col = Col.new(id) unless col = cols.find { |e| e.id == id }
+          col = cols.find { |e| e.id == id }
+          cols << col = Col.new(id, geo.dup) unless col
           col
         end
       end

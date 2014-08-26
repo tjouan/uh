@@ -2,17 +2,18 @@ module Holo
   class WM
     class Layout
       class Col
-        attr_reader :id, :clients, :current_client
+        attr_reader :id, :geo, :clients, :current_client
 
-        def initialize(id)
+        def initialize(id, geo)
           @id             = id
+          @geo            = geo
           @clients        = []
           @current_client = nil
         end
 
         def to_s
           [
-            'COL #%d' % id,
+            'COL #%d %s' % [id, geo],
             clients.map { |e| '  %s' % e }.join($/)
           ].join $/
         end
@@ -31,6 +32,10 @@ module Holo
 
         def <<(client)
           clients << client
+          client.geo = geo.dup
+          client.moveresize
+          client.show
+          client.focus
           @current_client = client
         end
 

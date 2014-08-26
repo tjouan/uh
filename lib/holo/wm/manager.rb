@@ -6,7 +6,7 @@ module Holo
       def initialize(clients, screens)
         @clients  = clients
         @screens  = screens
-        @layout   = Layout.new(self)
+        @layout   = Layout.new(screens.first.geo)
       end
 
       def to_s
