@@ -13,7 +13,7 @@ module Holo
       end
 
       def to_s
-        tags.inject('') do |m, tag|
+        tags.sort_by(&:id).inject('') do |m, tag|
           m << "%s%s\n" % [tag == current_tag ? '*' : ' ', tag]
           tag.cols.each do |col|
             m << "  %s%s\n" % [col == tag.current_col ? '*' : ' ', col]
