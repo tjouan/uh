@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 
+pkill -USR1 Xephyr
+
 xrdb $HOME/.Xdefaults
+
+xsetroot -solid SpringGreen
 
 setxkbmap dvorak
 [ -f $HOME/.xmodmap.dvorak ] && xmodmap $HOME/.xmodmap.dvorak
