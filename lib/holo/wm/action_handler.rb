@@ -41,20 +41,20 @@ module Holo
         puts '-' * 80
       end
 
-      def method_missing(meth, *args, &block)
-        return wm.manager.layout.send layout_method meth if respond_to? meth
+      def method_missing(m, *args, &block)
+        return wm.manager.layout.send(layout_method(m), *args) if respond_to? m
         super
       end
 
-      def respond_to_missing?(meth, *)
-        meth.to_s =~ /\Alayout_/ || super
+      def respond_to_missing?(m, *)
+        m.to_s =~ /\Alayout_/ || super
       end
 
 
       private
 
-      def layout_method(meth)
-        meth.to_s.gsub(/\Alayout_/, 'handle_').to_sym
+      def layout_method(m)
+        m.to_s.gsub(/\Alayout_/, 'handle_').to_sym
       end
     end
   end
