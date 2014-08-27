@@ -36,10 +36,6 @@ module Holo
         focus_current_client
       end
 
-      def focus_current_client
-        current_client and current_client.focus
-      end
-
       def handle_tag_sel(tag_id)
 =begin
         return unless @current_tag.id != tag_id
@@ -91,6 +87,10 @@ module Holo
 
       def current_client
         current_tag.current_client
+      end
+
+      def focus_current_client
+        current_client and current_client.focus
       end
 
       def find_or_create_tag(id)
