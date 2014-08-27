@@ -5,9 +5,9 @@ module Holo
         attr_reader :id, :geo, :cols
 
         def initialize(id, geo)
-          @id           = id
-          @geo          = geo
-          @cols         = []
+          @id   = id
+          @geo  = geo
+          @cols = []
         end
 
         def to_s
