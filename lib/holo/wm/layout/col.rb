@@ -46,7 +46,7 @@ module Holo
           current_client.show
         end
 
-        def arrange_clients
+        def arrange!
           clients.each do |c|
             c.geo = geo.dup
             c.moveresize

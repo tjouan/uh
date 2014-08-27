@@ -49,7 +49,7 @@ module Holo
             col.geo.width = Col::WIDTH
           end
           cols.last.geo.width = geo.width - cols.last.geo.x
-          cols.each(&:arrange_clients)
+          cols.each(&:arrange!)
         end
 
         def renumber_cols
