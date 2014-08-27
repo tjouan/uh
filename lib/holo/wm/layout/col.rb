@@ -61,14 +61,6 @@ module Holo
           sel :succ
         end
 
-        def sel(direction)
-          return unless clients.size >= 2
-          old = current_client
-          @current = current.send(direction) % clients.size
-          current_client.show.focus
-          old.hide
-        end
-
 
         private
 
@@ -78,6 +70,14 @@ module Holo
           else
             clients << client
           end
+        end
+
+        def sel(direction)
+          return unless clients.size >= 2
+          old = current_client
+          @current = current.send(direction) % clients.size
+          current_client.show.focus
+          old.hide
         end
       end
     end
