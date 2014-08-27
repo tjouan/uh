@@ -60,12 +60,28 @@ module Holo
           cols.each_with_index { |col, i| col.id = i }
         end
 
+        def sel_prev
+          current_col.sel_prev
+        end
+
         def sel_next
           current_col.sel_next
         end
 
-        def sel_prev
-          current_col.sel_prev
+        def col_sel_prev
+          col_sel :pred
+        end
+
+        def col_sel_next
+          col_sel :succ
+        end
+
+        def col_sel(direction)
+          return unless cols.size >= 2
+          new_current_col = find_col current.send direction
+          return unless new_current_col
+          @current = new_current_col.id
+          current_client.focus
         end
 
         def col_set_next

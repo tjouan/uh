@@ -65,12 +65,12 @@ module Holo
           end
         end
 
-        def sel_next
-          sel :succ
-        end
-
         def sel_prev
           sel :pred
+        end
+
+        def sel_next
+          sel :succ
         end
 
         def sel(direction)
