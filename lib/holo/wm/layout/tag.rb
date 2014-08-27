@@ -36,17 +36,6 @@ module Holo
           @current = (find_col(current) or find_col(current - 1)).id
         end
 
-        def arrange!
-          cols.each do |col|
-            col.geo.x       = Col::WIDTH * col.id
-            col.geo.y       = geo.y
-            col.geo.width   = Col::WIDTH
-            col.geo.height  = geo.height
-          end
-          cols.last.geo.width = geo.width - cols.last.geo.x
-          cols.each(&:arrange!)
-        end
-
         def sel_prev
           current_col.sel_prev
         end
@@ -136,6 +125,17 @@ module Holo
 
         def renumber_cols
           cols.each_with_index { |col, i| col.id = i }
+        end
+
+        def arrange!
+          cols.each do |col|
+            col.geo.x       = Col::WIDTH * col.id
+            col.geo.y       = geo.y
+            col.geo.width   = Col::WIDTH
+            col.geo.height  = geo.height
+          end
+          cols.last.geo.width = geo.width - cols.last.geo.x
+          cols.each(&:arrange!)
         end
 
         def max_cols
