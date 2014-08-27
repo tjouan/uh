@@ -32,7 +32,7 @@ module Holo
         def <<(client)
           insert_client client
           client.geo = geo.dup
-          client.moveresize.show
+          client.moveresize
           current_client.hide if current_client
           @current = clients.index client
         end
@@ -50,6 +50,14 @@ module Holo
             c.geo = geo.dup
             c.moveresize
           end
+        end
+
+        def show
+          current_client.show
+        end
+
+        def hide
+          current_client.hide
         end
 
         def sel_prev

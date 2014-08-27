@@ -29,11 +29,21 @@ module Holo
         end
 
         def remove(client)
-          client_col = find_col_by_client client
+          return unless client_col = find_col_by_client(client)
           client_col.remove client
           delete_col! client_col if client_col.empty?
           return unless current_col? client_col
           @current = (find_col(current) or find_col(current - 1)).id
+        end
+
+        def show
+          cols.each &:show
+          self
+        end
+
+        def hide
+          cols.each &:hide
+          self
         end
 
         def sel_prev
