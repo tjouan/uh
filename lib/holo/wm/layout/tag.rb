@@ -90,13 +90,13 @@ module Holo
 
         def col_set(client_col, client, direction)
           client_col.remove client
-          delete_col! client_col if client_col.empty?
-          new_col = find_or_create_col(
+          dest_col = find_or_create_col(
             client_col.id.send(direction),
             arrange: true
           )
-          new_col << client
-          @current = new_col.id
+          delete_col! client_col if client_col.empty?
+          dest_col << client
+          @current = dest_col.id
         end
 
         def create_col(id, arrange: false)
