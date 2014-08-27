@@ -30,9 +30,7 @@ module Holo
         def <<(client)
           insert_client client
           client.geo = geo.dup
-          client.moveresize
-          client.show
-          client.focus
+          client.moveresize.show.focus
           current_client.hide if current_client
           @current = clients.index client
         end
@@ -50,8 +48,7 @@ module Holo
           clients.delete_at index
           return unless clients.any? && index == current
           @current = index.zero? ? 0 : index - 1
-          current_client.show
-          current_client.focus
+          current_client.show.focus
         end
 
         def sel_next
@@ -66,9 +63,8 @@ module Holo
           return unless clients.size >= 2
           old = current_client
           @current = current.send(direction) % clients.size
+          current_client.show.focus
           old.hide
-          current_client.show
-          current_client.focus
         end
       end
     end

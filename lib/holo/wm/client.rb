@@ -22,19 +22,23 @@ module Holo
 
       def moveresize
         window.moveresize geo
+        self
       end
 
       def show
         window.map
+        self
       end
 
       def hide
         window.unmap
+        self
       end
 
       def focus
         window.raise
         window.focus
+        self
       end
     end
   end
