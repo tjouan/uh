@@ -4,6 +4,9 @@ module Holo
       class Col
         WIDTH = 484
 
+        extend Forwardable
+        def_delegators :@clients, :empty?, :include?
+
         attr_accessor :id
         attr_reader   :geo, :clients, :current
 
@@ -20,14 +23,6 @@ module Holo
 
         def current_client
           current ? clients[current] : nil
-        end
-
-        def empty?
-          clients.empty?
-        end
-
-        def include?(client)
-          clients.include? client
         end
 
         def <<(client)

@@ -1,6 +1,7 @@
 module Holo
   class WM
     class Layout
+      require 'forwardable'
       require 'holo/wm/layout/col'
       require 'holo/wm/layout/tag'
 
