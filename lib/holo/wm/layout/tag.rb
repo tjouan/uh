@@ -27,10 +27,6 @@ module Holo
           current_col and current_col.current_client
         end
 
-        def visible_clients
-          cols.inject([]) { |m, e| m + e.visible_clients }
-        end
-
         def <<(client)
           @current = create_col(0).id unless current_col
           current_col << client

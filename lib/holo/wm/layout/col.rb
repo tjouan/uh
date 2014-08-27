@@ -22,10 +22,6 @@ module Holo
           current ? clients[current] : nil
         end
 
-        def visible_clients
-          [current_client].compact
-        end
-
         def empty?
           clients.empty?
         end

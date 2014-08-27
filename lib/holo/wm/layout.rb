@@ -29,10 +29,6 @@ module Holo
         current_tag.current_client
       end
 
-      def visible_clients
-        current_tag.visible_clients
-      end
-
       def <<(client)
         current_tag << client
         focus_current_client
