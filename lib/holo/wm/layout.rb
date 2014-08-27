@@ -26,10 +26,6 @@ module Holo
         end
       end
 
-      def current_client
-        current_tag.current_client
-      end
-
       def <<(client)
         current_tag << client
         focus_current_client
@@ -92,6 +88,10 @@ module Holo
 
 
       private
+
+      def current_client
+        current_tag.current_client
+      end
 
       def find_or_create_tag(id)
         tags << tag = Tag.new(id, geo) unless tag = tags.find { |e| e.id == id }
