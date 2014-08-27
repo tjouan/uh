@@ -39,7 +39,6 @@ module Holo
 
       def remove(client)
         tags.each { |e| e.remove client }
-        focus_current_client
       end
 
       def focus_current_client
@@ -65,17 +64,11 @@ module Holo
       end
 
       def handle_sel_prev
-        visible_clients.each(&:hide)
         current_tag.sel_prev
-        visible_clients.each(&:show)
-        focus_current_client
       end
 
       def handle_sel_next
-        visible_clients.each(&:hide)
         current_tag.sel_next
-        visible_clients.each(&:show)
-        focus_current_client
       end
 
       def handle_col_sel_prev

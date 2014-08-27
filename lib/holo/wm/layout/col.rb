@@ -62,9 +62,13 @@ module Holo
           sel :pred
         end
 
-        # FIXME: should handle client changes directly here.
         def sel(direction)
+          return unless clients.size >= 2
+          old = current_client
           @current = current.send(direction) % clients.size
+          old.hide
+          current_client.show
+          current_client.focus
         end
       end
     end
