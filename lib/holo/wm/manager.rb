@@ -14,7 +14,7 @@ module Holo
       end
 
       def map(window)
-        # FIXME: get window attributes, check if override_redirect is true and return
+        return if window.override_redirect?
         return if client_for window
         manage Client.new(window)
       end

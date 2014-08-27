@@ -60,6 +60,7 @@ VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
 VALUE window_focus(VALUE self);
 VALUE window_map(VALUE self);
 VALUE window_name(VALUE self);
+VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);
 VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);

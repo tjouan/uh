@@ -53,6 +53,16 @@ VALUE window_name(VALUE self) {
   return wname;
 }
 
+VALUE window_override_redirect(VALUE self) {
+  set_window(self);
+  XWindowAttributes wa;
+
+  if (!XGetWindowAttributes(window->dpy, window->id, &wa))
+    return Qnil;
+
+  return wa.override_redirect ? Qtrue : Qfalse;
+}
+
 VALUE window_raise(VALUE self) {
   set_window(self);
 
