@@ -77,6 +77,10 @@ module Holo
         current_tag.col_set_next
       end
 
+      def handle_kill_current
+        current_client.kill if current_client
+      end
+
 
       private
 

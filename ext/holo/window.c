@@ -31,6 +31,14 @@ VALUE window_focus(VALUE self) {
   return Qnil;
 }
 
+VALUE window_kill(VALUE self) {
+  set_window(self);
+
+  XKillClient(window->dpy, window->id);
+
+  return Qnil;
+}
+
 VALUE window_map(VALUE self) {
   set_window(self);
 

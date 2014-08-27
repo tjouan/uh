@@ -40,6 +40,11 @@ module Holo
         window.focus
         self
       end
+
+      def kill
+        window.kill
+        self
+      end
     end
   end
 end

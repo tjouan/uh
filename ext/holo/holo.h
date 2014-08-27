@@ -58,6 +58,7 @@ VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
 VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
 VALUE window_focus(VALUE self);
+VALUE window_kill(VALUE self);
 VALUE window_map(VALUE self);
 VALUE window_name(VALUE self);
 VALUE window_override_redirect(VALUE self);

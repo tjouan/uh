@@ -24,6 +24,7 @@ wm = Holo::WM.new do
   key(:XK_s)              { layout_col_sel_next }
   key(:XK_h, :shift)      { layout_col_set_prev }
   key(:XK_s, :shift)      { layout_col_set_next }
+  key(:XK_e)              { layout_kill_current }
 
   key(:XK_l)              { log_layout }
   key(:XK_l, :shift)      { log_clients }
