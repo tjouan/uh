@@ -48,14 +48,17 @@ module Holo
       end
 
       def handle_tag_sel(tag_id)
+=begin
         return unless @current_tag.id != tag_id
         visible_clients.each(&:hide)
         @current_tag = find_or_create_tag tag_id
         visible_clients.each(&:show)
         focus_current_client
+=end
       end
 
       def handle_tag_set(tag_id)
+=begin
         return unless @current_tag.id != tag_id
         visible_clients.each(&:hide)
         client = current_tag.current_client
@@ -63,6 +66,7 @@ module Holo
         find_or_create_tag(tag_id) << client
         visible_clients.each(&:show)
         focus_current_client
+=end
       end
 
       def handle_sel_prev
