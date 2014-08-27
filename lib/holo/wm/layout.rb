@@ -82,6 +82,7 @@ module Holo
       end
 
       def handle_col_set_prev
+        current_tag.col_set_prev
       end
 
       def handle_col_set_next

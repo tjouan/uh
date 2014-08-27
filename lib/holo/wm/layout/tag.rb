@@ -84,10 +84,17 @@ module Holo
           current_client.focus
         end
 
+        def col_set_prev
+          col_set current_client, :pred
+        end
+
         def col_set_next
-          client = current_client
+          col_set current_client, :succ
+        end
+
+        def col_set(client, direction)
           current_col.remove client
-          @current = find_or_create_col(current_col.id + 1).id
+          @current = find_or_create_col(current_col.id.send direction).id
           current_col << client
           arrange_cols
         end
@@ -99,6 +106,10 @@ module Holo
           Col.new(id, geo.dup).tap { |o| cols << o }
         end
 
+        def col?(id)
+          cols.any? { |e| e.id == id }
+        end
+
         def find_col(id)
           cols.find { |e| e.id == id }
         end
@@ -108,8 +119,7 @@ module Holo
         end
 
         def find_or_create_col(id)
-          col = find_col id
-          col = create_col id unless col
+          col?(id) ? find_col(id) : create_col(id)
         end
 
         def delete_col(col)
