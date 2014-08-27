@@ -23,8 +23,8 @@ module Holo
           [current_client].compact
         end
 
-        def include?(client)
-          clients.include? client
+        def empty?
+          clients.empty?
         end
 
         def <<(client)
@@ -47,9 +47,12 @@ module Holo
 
         def remove(client)
           return unless clients.include? client
+          index = current_client_index
           clients.reject! { |e| e == client}
-          @current_client = clients.last
-          current_client.show if current_client
+          return unless clients.any? && client == current_client
+          index = index.zero? ? 0 : index - 1
+          @current_client = clients[index]
+          current_client.show
         end
 
         def sel_next

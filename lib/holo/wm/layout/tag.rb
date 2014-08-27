@@ -2,17 +2,20 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :id, :geo, :cols, :current_col
+        attr_reader :id, :geo, :cols
 
         def initialize(id, geo)
           @id           = id
           @geo          = geo
-          @cols         = [Col.new(0, geo.dup)]
-          @current_col  = cols.last
+          @cols         = []
         end
 
         def to_s
           'TAG #%d %s' % [id, geo]
+        end
+
+        def current_col
+          @current_col ||= find_or_create_col 0
         end
 
         def current_client
@@ -32,7 +35,9 @@ module Holo
         end
 
         def remove(client)
-          cols.each { |e| e.remove client }
+          cols.each     { |e| e.remove client }
+          cols.reject!  { |e| e.empty? }
+          @current_col = nil if current_col.empty?
         end
 
         def sel_next
