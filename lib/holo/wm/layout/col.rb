@@ -38,14 +38,6 @@ module Holo
           @current = clients.index client
         end
 
-        def insert_client(client)
-          if current_client
-            clients.insert current + 1, client
-          else
-            clients << client
-          end
-        end
-
         def remove(client)
           return unless index = clients.index(client)
           clients.delete_at index
@@ -75,6 +67,17 @@ module Holo
           @current = current.send(direction) % clients.size
           current_client.show.focus
           old.hide
+        end
+
+
+        private
+
+        def insert_client(client)
+          if current_client
+            clients.insert current + 1, client
+          else
+            clients << client
+          end
         end
       end
     end
