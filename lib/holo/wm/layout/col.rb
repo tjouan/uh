@@ -55,6 +55,13 @@ module Holo
           current_client.show.focus
         end
 
+        def arrange_clients
+          clients.each do |c|
+            c.geo = geo.dup
+            c.moveresize
+          end
+        end
+
         def sel_next
           sel :succ
         end
