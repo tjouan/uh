@@ -2,21 +2,21 @@ module Holo
   class WM
     class Layout
       class Col
-        attr_reader :id, :geo, :clients, :current_client
+        attr_reader :id, :geo, :clients, :current
 
         def initialize(id, geo)
-          @id             = id
-          @geo            = geo
-          @clients        = []
-          @current_client = nil
+          @id       = id
+          @geo      = geo
+          @clients  = []
+          @current  = nil
         end
 
         def to_s
           'COL #%d %s' % [id, geo]
         end
 
-        def current_client_index
-          clients.index current_client
+        def current_client
+          current ? clients[current] : nil
         end
 
         def visible_clients
@@ -34,24 +34,22 @@ module Holo
           client.show
           client.focus
           current_client.hide if current_client
-          @current_client = client
+          @current = clients.index client
         end
 
         def insert_client(client)
           if current_client
-            clients.insert current_client_index + 1, client
+            clients.insert current + 1, client
           else
             clients << client
           end
         end
 
         def remove(client)
-          return unless clients.include? client
-          index = current_client_index
-          clients.reject! { |e| e == client}
-          return unless clients.any? && client == current_client
-          index = index.zero? ? 0 : index - 1
-          @current_client = clients[index]
+          return unless index = clients.index(client)
+          clients.delete_at index
+          return unless clients.any? && index == current
+          @current = index.zero? ? 0 : index - 1
           current_client.show
         end
 
@@ -63,12 +61,9 @@ module Holo
           sel :pred
         end
 
-
-        private
-
+        # FIXME: should handle client changes directly here.
         def sel(direction)
-          new_index = current_client_index.send direction
-          @current_client = clients[new_index % clients.size]
+          @current = current.send(direction) % clients.size
         end
       end
     end
