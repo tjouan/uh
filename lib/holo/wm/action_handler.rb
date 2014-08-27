@@ -9,6 +9,7 @@ module Holo
 
       def call(action)
         instance_exec &action
+        log_line
       end
 
       def quit
@@ -47,8 +48,12 @@ module Holo
       end
 
       def method_missing(m, *args, &block)
-        return wm.manager.layout.send(layout_method(m), *args) if respond_to? m
-        super
+        if respond_to? m
+          wm.manager.layout.send(layout_method(m), *args)
+          puts '> LAYOUT -> %s' % layout_method(m)
+        else
+          super
+        end
       end
 
       def respond_to_missing?(m, *)
