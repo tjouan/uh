@@ -22,10 +22,6 @@ module Holo
           current_col.current_client
         end
 
-        def clients
-          cols.inject([]) { |m, e| m + e.clients }
-        end
-
         def visible_clients
           cols.inject([]) { |m, e| m + e.visible_clients }
         end
