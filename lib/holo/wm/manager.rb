@@ -26,6 +26,9 @@ module Holo
         unmanage client_for window
       end
 
+
+      private
+
       def client_for(window)
         clients.find { |e| e.window == window }
       end
