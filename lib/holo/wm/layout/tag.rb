@@ -67,6 +67,7 @@ module Holo
         end
 
         def col_set_next
+          return if current_col.id == max_col_id
           col_set current_col, current_client, :succ
         end
 
@@ -133,6 +134,14 @@ module Holo
 
         def renumber_cols
           cols.each_with_index { |col, i| col.id = i }
+        end
+
+        def max_cols
+          geo.width / Col::WIDTH
+        end
+
+        def max_col_id
+          max_cols - 1
         end
       end
     end
