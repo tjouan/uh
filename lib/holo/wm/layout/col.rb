@@ -2,7 +2,10 @@ module Holo
   class WM
     class Layout
       class Col
-        attr_reader :id, :geo, :clients, :current
+        WIDTH = 484
+
+        attr_accessor :id
+        attr_reader   :geo, :clients, :current
 
         def initialize(id, geo)
           @id       = id

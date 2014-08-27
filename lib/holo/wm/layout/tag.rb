@@ -2,12 +2,13 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :id, :geo, :cols
+        attr_reader :id, :geo, :cols, :current
 
         def initialize(id, geo)
-          @id   = id
-          @geo  = geo
-          @cols = []
+          @id       = id
+          @geo      = geo
+          @cols     = []
+          @current  = nil
         end
 
         def to_s
@@ -15,7 +16,11 @@ module Holo
         end
 
         def current_col
-          @current_col ||= find_or_create_col 0
+          current ? find_col(current) : nil
+        end
+
+        def current?(col)
+          col.id == current
         end
 
         def current_client
@@ -27,13 +32,33 @@ module Holo
         end
 
         def <<(client)
+          @current = create_col(0).id unless current_col
           current_col << client
         end
 
         def remove(client)
-          cols.each     { |e| e.remove client }
-          cols.reject!  { |e| e.empty? }
-          @current_col = nil if current_col.empty?
+          client_col = find_col_by_client client
+          # FIXME: Col#remove will set focus but it's not always needed
+          client_col.remove client
+          delete_col client_col if client_col.empty?
+          return @current = nil if cols.empty?
+          renumber_cols
+          arrange_cols
+          return unless current? client_col
+          @current = (find_col(current) or find_col(current - 1)).id
+        end
+
+        def arrange_cols
+          cols.each do |col|
+            col.geo.x     = Col::WIDTH * col.id
+            col.geo.width = Col::WIDTH
+          end
+          cols.last.geo.width = geo.width - cols.last.geo.x
+          cols.each(&:arrange_clients)
+        end
+
+        def renumber_cols
+          cols.each_with_index { |col, i| col.id = i }
         end
 
         def sel_next
@@ -45,11 +70,13 @@ module Holo
         end
 
         def col_set_next
-          visible_clients.each(&:hide)
-          client = current_col.current_client
+          client = current_client
+          # FIXME: Col#remove will set focus but it's not needed
           current_col.remove client
-          find_or_create_col(current_col.id + 1) << client
-          visible_clients.each(&:show)
+          # FIXME: Col#<< will set focus but it's not needed
+          @current = find_or_create_col(current_col.id + 1).id
+          current_col << client
+          arrange_cols
         end
 
 
@@ -59,9 +86,21 @@ module Holo
           Col.new(id, geo.dup).tap { |o| cols << o }
         end
 
+        def find_col(id)
+          cols.find { |e| e.id == id }
+        end
+
+        def find_col_by_client(client)
+          cols.find { |e| e.include? client }
+        end
+
         def find_or_create_col(id)
-          col = cols.find { |e| e.id == id }
+          col = find_col id
           col = create_col id unless col
+        end
+
+        def delete_col(col)
+          cols.reject! { |e| e == col }
         end
       end
     end
