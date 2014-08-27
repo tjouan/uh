@@ -10,9 +10,9 @@ module Holo
         attr_accessor :id
         attr_reader   :geo, :clients, :current
 
-        def initialize(id, geo)
+        def initialize(id)
           @id       = id
-          @geo      = geo
+          @geo      = Geo.new
           @clients  = []
           @current  = nil
         end

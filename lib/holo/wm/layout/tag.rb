@@ -24,7 +24,7 @@ module Holo
         end
 
         def <<(client)
-          @current = create_col(0).id unless current_col
+          @current = create_col(0, arrange: true).id unless current_col
           current_col << client
         end
 
@@ -38,8 +38,10 @@ module Holo
 
         def arrange!
           cols.each do |col|
-            col.geo.x     = Col::WIDTH * col.id
-            col.geo.width = Col::WIDTH
+            col.geo.x       = Col::WIDTH * col.id
+            col.geo.y       = geo.y
+            col.geo.width   = Col::WIDTH
+            col.geo.height  = geo.height
           end
           cols.last.geo.width = geo.width - cols.last.geo.x
           cols.each(&:arrange!)
@@ -98,7 +100,7 @@ module Holo
         end
 
         def create_col(id, arrange: false)
-          Col.new(id, geo.dup).tap do |o|
+          Col.new(id).tap do |o|
             cols << o
             arrange! if arrange
           end
