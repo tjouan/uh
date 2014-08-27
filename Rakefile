@@ -7,7 +7,7 @@ Rake::ExtensionTask.new('holo')
 
 desc 'Execute holowm in a Xephyr X server'
 task :demo do
-  xephyr = '/usr/local/bin/Xephyr :42 -ac -br -noreset -screen 1024x400'
+  xephyr = '/usr/local/bin/Xephyr :42 -ac -br -noreset -screen 1600x500'
   sh "xinit ./bin/xinitrc -- #{xephyr}"
 end
 
