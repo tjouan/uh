@@ -34,22 +34,18 @@ module Holo
           delete_col client_col if client_col.empty?
           return @current = nil if cols.empty?
           renumber_cols
-          arrange_cols
+          arrange!
           return unless current_col? client_col
           @current = (find_col(current) or find_col(current - 1)).id
         end
 
-        def arrange_cols
+        def arrange!
           cols.each do |col|
             col.geo.x     = Col::WIDTH * col.id
             col.geo.width = Col::WIDTH
           end
           cols.last.geo.width = geo.width - cols.last.geo.x
           cols.each(&:arrange!)
-        end
-
-        def renumber_cols
-          cols.each_with_index { |col, i| col.id = i }
         end
 
         def sel_prev
@@ -68,14 +64,6 @@ module Holo
           col_sel :succ
         end
 
-        def col_sel(direction)
-          return unless cols.size >= 2
-          new_current_col = find_col current.send direction
-          return unless new_current_col
-          @current = new_current_col.id
-          current_client.focus
-        end
-
         def col_set_prev
           col_set current_client, :pred
         end
@@ -84,18 +72,26 @@ module Holo
           col_set current_client, :succ
         end
 
-        def col_set(client, direction)
-          current_col.remove client
-          @current = find_or_create_col(current_col.id.send direction).id
-          current_col << client
-          arrange_cols
-        end
-
 
         private
 
         def current_col?(col)
           current == col.id
+        end
+
+        def col_sel(direction)
+          return unless cols.size >= 2
+          new_current_col = find_col current.send direction
+          return unless new_current_col
+          @current = new_current_col.id
+          current_client.focus
+        end
+
+        def col_set(client, direction)
+          current_col.remove client
+          @current = find_or_create_col(current_col.id.send direction).id
+          current_col << client
+          arrange!
         end
 
         def create_col(id)
@@ -120,6 +116,10 @@ module Holo
 
         def delete_col(col)
           cols.reject! { |e| e == col }
+        end
+
+        def renumber_cols
+          cols.each_with_index { |col, i| col.id = i }
         end
       end
     end
