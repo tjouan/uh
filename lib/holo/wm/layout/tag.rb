@@ -62,6 +62,7 @@ module Holo
         end
 
         def col_set_prev
+          return if current_col.first?
           col_set current_col, current_client, :pred
         end
 

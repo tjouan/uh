@@ -25,6 +25,10 @@ module Holo
           current ? clients[current] : nil
         end
 
+        def first?
+          id == 0
+        end
+
         def <<(client)
           insert_client client
           client.geo = geo.dup
