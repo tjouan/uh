@@ -19,10 +19,6 @@ module Holo
           current ? find_col(current) : nil
         end
 
-        def current?(col)
-          col.id == current
-        end
-
         def current_client
           current_col and current_col.current_client
         end
@@ -39,7 +35,7 @@ module Holo
           return @current = nil if cols.empty?
           renumber_cols
           arrange_cols
-          return unless current? client_col
+          return unless current_col? client_col
           @current = (find_col(current) or find_col(current - 1)).id
         end
 
@@ -98,11 +94,15 @@ module Holo
 
         private
 
+        def current_col?(col)
+          current == col.id
+        end
+
         def create_col(id)
           Col.new(id, geo.dup).tap { |o| cols << o }
         end
 
-        def col?(id)
+        def col_id?(id)
           cols.any? { |e| e.id == id }
         end
 
@@ -115,7 +115,7 @@ module Holo
         end
 
         def find_or_create_col(id)
-          col?(id) ? find_col(id) : create_col(id)
+          col_id?(id) ? find_col(id) : create_col(id)
         end
 
         def delete_col(col)
