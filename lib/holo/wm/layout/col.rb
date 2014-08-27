@@ -51,6 +51,7 @@ module Holo
           return unless clients.any? && index == current
           @current = index.zero? ? 0 : index - 1
           current_client.show
+          current_client.focus
         end
 
         def sel_next
