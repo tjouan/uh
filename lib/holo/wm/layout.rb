@@ -35,14 +35,16 @@ module Holo
 
       def <<(client)
         current_tag << client
+        focus_current_client
       end
 
       def remove(client)
         tags.each { |e| e.remove client }
+        focus_current_client
       end
 
       def focus_current_client
-        current_client.focus if current_client
+        current_client and current_client.focus
       end
 
       def handle_tag_sel(tag_id)

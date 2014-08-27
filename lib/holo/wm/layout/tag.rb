@@ -24,7 +24,7 @@ module Holo
         end
 
         def current_client
-          current_col.current_client
+          current_col and current_col.current_client
         end
 
         def visible_clients
@@ -38,7 +38,6 @@ module Holo
 
         def remove(client)
           client_col = find_col_by_client client
-          # FIXME: Col#remove will set focus but it's not always needed
           client_col.remove client
           delete_col client_col if client_col.empty?
           return @current = nil if cols.empty?
@@ -71,9 +70,7 @@ module Holo
 
         def col_set_next
           client = current_client
-          # FIXME: Col#remove will set focus but it's not needed
           current_col.remove client
-          # FIXME: Col#<< will set focus but it's not needed
           @current = find_or_create_col(current_col.id + 1).id
           current_col << client
           arrange_cols
