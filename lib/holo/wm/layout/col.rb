@@ -27,6 +27,10 @@ module Holo
           clients.empty?
         end
 
+        def include?(client)
+          clients.include? client
+        end
+
         def <<(client)
           insert_client client
           client.geo = geo.dup
