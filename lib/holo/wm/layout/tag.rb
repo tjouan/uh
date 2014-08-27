@@ -55,10 +55,13 @@ module Holo
 
         private
 
+        def create_col(id)
+          Col.new(id, geo.dup).tap { |o| cols << o }
+        end
+
         def find_or_create_col(id)
           col = cols.find { |e| e.id == id }
-          cols << col = Col.new(id, geo.dup) unless col
-          col
+          col = create_col id unless col
         end
       end
     end
