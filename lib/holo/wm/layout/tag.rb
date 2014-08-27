@@ -31,10 +31,7 @@ module Holo
         def remove(client)
           client_col = find_col_by_client client
           client_col.remove client
-          delete_col client_col if client_col.empty?
-          return @current = nil if cols.empty?
-          renumber_cols
-          arrange!
+          delete_col! client_col if client_col.empty?
           return unless current_col? client_col
           @current = (find_col(current) or find_col(current - 1)).id
         end
@@ -65,11 +62,11 @@ module Holo
         end
 
         def col_set_prev
-          col_set current_client, :pred
+          col_set current_col, current_client, :pred
         end
 
         def col_set_next
-          col_set current_client, :succ
+          col_set current_col, current_client, :succ
         end
 
 
@@ -87,15 +84,22 @@ module Holo
           current_client.focus
         end
 
-        def col_set(client, direction)
-          current_col.remove client
-          @current = find_or_create_col(current_col.id.send direction).id
-          current_col << client
-          arrange!
+        def col_set(client_col, client, direction)
+          client_col.remove client
+          delete_col! client_col if client_col.empty?
+          new_col = find_or_create_col(
+            client_col.id.send(direction),
+            arrange: true
+          )
+          new_col << client
+          @current = new_col.id
         end
 
-        def create_col(id)
-          Col.new(id, geo.dup).tap { |o| cols << o }
+        def create_col(id, arrange: false)
+          Col.new(id, geo.dup).tap do |o|
+            cols << o
+            arrange! if arrange
+          end
         end
 
         def col_id?(id)
@@ -110,12 +114,20 @@ module Holo
           cols.find { |e| e.include? client }
         end
 
-        def find_or_create_col(id)
-          col_id?(id) ? find_col(id) : create_col(id)
+        def find_or_create_col(id, arrange: false)
+          col_id?(id) ? find_col(id) : create_col(id, arrange: arrange)
         end
 
-        def delete_col(col)
+        def delete_col(col, arrange: false)
           cols.reject! { |e| e == col }
+          return unless cols.any?
+          renumber_cols
+          arrange! if arrange
+        end
+
+        def delete_col!(col)
+          delete_col col, arrange: true
+          @current = nil if cols.empty?
         end
 
         def renumber_cols
