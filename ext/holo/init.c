@@ -84,6 +84,7 @@ void holo_pixmap() {
   cPixmap = rb_define_class_under(mHolo, "Pixmap", rb_cObject);
   rb_define_attr(cPixmap, "width", 1, 0);
   rb_define_attr(cPixmap, "height", 1, 0);
+  rb_define_method(cPixmap, "draw_rect", pixmap_draw_rect, 4);
   rb_define_method(cPixmap, "draw_string", pixmap_draw_string, 3);
   rb_define_method(cPixmap, "gc_black", pixmap_gc_black, 0);
   rb_define_method(cPixmap, "gc_white", pixmap_gc_white, 0);

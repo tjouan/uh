@@ -9,6 +9,16 @@
 void pixmap_deallocate(HoloPixmap *p);
 
 
+VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
+  set_pixmap(self);
+
+  XFillRectangle(pixmap->dpy, pixmap->pixmap, pixmap->gc,
+    FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h)
+  );
+
+  return Qnil;
+}
+
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
   set_pixmap(self);
 

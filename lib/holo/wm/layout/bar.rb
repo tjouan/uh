@@ -34,6 +34,7 @@ module Holo
         def update(layout)
           puts '> BAR UPDATE! %s' % self
           pixmap.gc_black
+          pixmap.draw_rect 0, 0, geo.width, geo.height
           pixmap.gc_white
           pixmap.draw_string 1, display.font.ascent + 1, [
             tag_status(layout),
@@ -53,7 +54,7 @@ module Holo
         def tag_status(layout)
           layout.tags.sort_by(&:id).map do |tag|
             tag == layout.current_tag ? '[%s]' % tag.id : ' %s ' % tag.id
-          end
+          end * ' '
         end
       end
     end
