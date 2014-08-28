@@ -81,13 +81,13 @@ module Holo
         event = display.next_event
         m = ('handle_%s' % event.type).to_sym
         handled = respond_to? m, true
-        log_event event, handled ? '' : '?'
+        log_event event, handled
         send m.to_sym, event if handled
       end
     end
 
-    def log_event(event, suffix = '')
-      puts '> EVENT%s: %s' % [suffix, event.inspect]
+    def log_event(event, known)
+      puts '> Event: %s%s' % [event.type, known ? '*' : '?']
     end
 
     def handle_configure_request(event)

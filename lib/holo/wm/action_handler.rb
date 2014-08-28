@@ -8,17 +8,17 @@ module Holo
       end
 
       def call(action)
-        instance_exec &action
         log_line
+        instance_exec &action
       end
 
       def quit
-        puts '> ACTION: QUIT'
+        puts '> QUIT requested'
         wm.request_quit!
       end
 
       def execute(command)
-        puts '> ACTION: SPAWN `%s`' % command
+        puts '> Spawn `%s`' % command
         pid = spawn command, pgroup: true
         Process.detach pid
       rescue Errno::ENOENT
@@ -33,12 +33,12 @@ module Holo
       end
 
       def log_layout
-        puts '> LAYOUT:'
+        puts '> Layout:'
         wm.manager.layout.to_s.lines.each { |e| puts "  #{e}" }
       end
 
       def log_clients
-        puts '> CLIENTS:'
+        puts '> Clients:'
         wm.manager.to_s.lines.each { |e| puts "  #{e}" }
       end
 
@@ -49,7 +49,7 @@ module Holo
       def method_missing(m, *args, &block)
         if respond_to? m
           wm.manager.layout.send(layout_method(m), *args)
-          puts '> LAYOUT -> %s' % layout_method(m)
+          puts '> Layout -> %s' % layout_method(m)
         else
           super
         end
