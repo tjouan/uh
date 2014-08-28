@@ -25,15 +25,15 @@ void holo_display() {
   rb_define_singleton_method(cDisplay, "on_error", display_s_on_error, 1);
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
-  rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
-  rb_define_method(cDisplay, "screens", display_screens, 0);
-  rb_define_method(cDisplay, "next_event", display_next_event, 0);
+  rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
-  rb_define_method(cDisplay, "sync", display_sync, 1);
+  rb_define_method(cDisplay, "next_event", display_next_event, 0);
+  rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "root_change_attributes",
     display_root_change_attributes, 1);
-  rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
+  rb_define_method(cDisplay, "screens", display_screens, 0);
+  rb_define_method(cDisplay, "sync", display_sync, 1);
 }
 
 void holo_events() {
