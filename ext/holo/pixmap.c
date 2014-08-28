@@ -21,6 +21,16 @@ VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
   return Qnil;
 }
 
+VALUE pixmap_gc_black(VALUE self) {
+  set_pixmap(self);
+
+  XSetForeground(pixmap->dpy, pixmap->gc,
+    BlackPixel(pixmap->dpy, DefaultScreen(pixmap->dpy))
+  );
+
+  return Qnil;
+}
+
 VALUE pixmap_gc_white(VALUE self) {
   set_pixmap(self);
 

@@ -33,6 +33,7 @@ module Holo
 
         def update(layout)
           puts '> BAR UPDATE! %s' % self
+          pixmap.gc_black
           pixmap.gc_white
           pixmap.draw_string 1, display.font.ascent + 1, [
             tag_status(layout),
