@@ -33,15 +33,15 @@ VALUE display_close(VALUE self) {
   return self;
 }
 
-VALUE display_create_pixmap(VALUE self, VALUE w, VALUE h) {
+VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
   set_display(self);
   Pixmap pixmap;
 
-  pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(w), FIX2INT(h),
+  pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(width), FIX2INT(height),
     DefaultDepth(DPY, DefaultScreen(DPY))
   );
 
-  return pixmap_make(DPY, pixmap);
+  return pixmap_make(DPY, pixmap, width, height);
 }
 
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {

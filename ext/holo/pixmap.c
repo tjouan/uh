@@ -1,0 +1,43 @@
+#include "holo.h"
+
+
+#define set_pixmap(x) \
+  HoloPixmap *pixmap;\
+  Data_Get_Struct(x, HoloPixmap, pixmap);
+
+
+void pixmap_deallocate(HoloPixmap *p);
+
+
+VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight) {
+  set_pixmap(self);
+
+  XCopyArea(pixmap->dpy, pixmap->pixmap, FIX2INT(rwindow_id), pixmap->gc,
+    0, 0, FIX2INT(rwidth), FIX2INT(rheight), 0, 0
+  );
+
+  return Qnil;
+}
+
+
+VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height) {
+  HoloPixmap  *pixmap;
+  VALUE       obj;
+
+  obj = Data_Make_Struct(cPixmap, HoloPixmap, 0, pixmap_deallocate, pixmap);
+  pixmap->dpy     = display;
+  pixmap->pixmap  = xpixmap;
+  pixmap->gc      = XCreateGC(display, DefaultRootWindow(display), 0, NULL);
+
+  rb_ivar_set(obj, rb_intern("@width"), width);
+  rb_ivar_set(obj, rb_intern("@height"), height);
+
+  return obj;
+}
+
+
+void pixmap_deallocate(HoloPixmap *p) {
+  XFreePixmap(p->dpy, p->pixmap);
+  XFreeGC(p->dpy, p->gc);
+  free(p);
+}

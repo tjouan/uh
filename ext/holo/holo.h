@@ -27,6 +27,7 @@ struct s_display {
 struct s_pixmap {
   Display *dpy;
   Pixmap  pixmap;
+  GC      gc;
 };
 
 struct s_window {
@@ -62,7 +63,8 @@ VALUE event_alloc(VALUE klass);
 VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
 
-VALUE pixmap_make(Display *display, Pixmap xpixmap);
+VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight);
+VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 

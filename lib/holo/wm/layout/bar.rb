@@ -15,13 +15,13 @@ module Holo
           end
         end
 
-        attr_reader :display, :geo, :window
+        attr_reader :display, :geo, :window, :pixmap
 
         def initialize(display, geo)
           @display  = display
           @geo      = geo
-          @pixmap   = display.create_pixmap geo.width, geo.height
           @window   = display.create_subwindow geo
+          @pixmap   = display.create_pixmap geo.width, geo.height
         end
 
         def show
@@ -35,6 +35,7 @@ module Holo
         end
 
         def blit
+          pixmap.copy window
           self
         end
       end

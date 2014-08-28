@@ -73,6 +73,9 @@ void holo_events() {
 
 void holo_pixmap() {
   cPixmap = rb_define_class_under(mHolo, "Pixmap", rb_cObject);
+  rb_define_attr(cPixmap, "width", 1, 0);
+  rb_define_attr(cPixmap, "height", 1, 0);
+  rb_define_private_method(cPixmap, "_copy", pixmap__copy, 3);
 }
 
 void holo_screen() {
