@@ -85,6 +85,7 @@ void holo_pixmap() {
   rb_define_attr(cPixmap, "width", 1, 0);
   rb_define_attr(cPixmap, "height", 1, 0);
   rb_define_method(cPixmap, "draw_string", pixmap_draw_string, 3);
+  rb_define_method(cPixmap, "gc_white", pixmap_gc_white, 0);
   rb_define_private_method(cPixmap, "_copy", pixmap__copy, 3);
 }
 

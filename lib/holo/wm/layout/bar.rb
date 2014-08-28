@@ -31,7 +31,8 @@ module Holo
 
         def update(layout)
           puts '> BAR UPDATE! %s' % self
-          pixmap.draw_string 1, display.font.ascent + 1, "toto blah"
+          pixmap.gc_white
+          pixmap.draw_string 1, display.font.ascent + 1, "totoy éÉ ? ¤ ²…"
           self
         end
 

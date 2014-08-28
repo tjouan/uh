@@ -69,6 +69,7 @@ VALUE font_make(int ascent, int descent);
 
 VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight);
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str);
+VALUE pixmap_gc_white(VALUE self);
 VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
