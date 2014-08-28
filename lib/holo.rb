@@ -40,4 +40,17 @@ module Holo
   PropertyChangeMask        = 1 << 22
   ColormapChangeMask        = 1 << 23
   OwnerGrabButtonMask       = 1 << 24
+
+  # Key masks. Used as modifiers to GrabButton and GrabKey, results of
+  # QueryPointer, state in various key-, mouse-, and button-related events.
+  MODIFIERS   = {
+    shift:  1 << 0,
+    lock:   1 << 1,
+    ctrl:   1 << 2,
+    mod1:   1 << 3,
+    mod2:   1 << 4,
+    mod3:   1 << 5,
+    mod4:   1 << 6,
+    mod5:   1 << 7
+  }.freeze
 end

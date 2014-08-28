@@ -8,16 +8,6 @@ module Holo
     INPUT_MASK  = SubstructureRedirectMask
     ROOT_MASK   = (PropertyChangeMask | SubstructureRedirectMask |
                   SubstructureNotifyMask | StructureNotifyMask)
-    MODIFIERS   = {
-      shift:  1 << 0,
-      lock:   1 << 1,
-      ctrl:   1 << 2,
-      mod1:   1 << 3,
-      mod2:   1 << 4,
-      mod3:   1 << 5,
-      mod4:   1 << 6,
-      mod5:   1 << 7
-    }.freeze
 
     attr_reader :modifier, :keys, :action_handler, :manager, :display
 
