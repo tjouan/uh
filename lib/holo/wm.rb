@@ -71,7 +71,7 @@ module Holo
     end
 
     def setup_manager
-      @manager = Manager.new([], display.screens)
+      @manager = Manager.new(display)
     end
 
     def read_events

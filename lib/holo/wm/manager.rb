@@ -1,12 +1,12 @@
 module Holo
   class WM
     class Manager
-      attr_reader :clients, :screens, :layout
+      attr_reader :display, :clients, :layout
 
-      def initialize(clients, screens)
-        @clients  = clients
-        @screens  = screens
-        @layout   = Layout.new(screens.first.geo)
+      def initialize(display)
+        @display  = display
+        @clients  = []
+        @layout   = Layout.new(display)
       end
 
       def to_s

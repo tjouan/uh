@@ -2,15 +2,18 @@ module Holo
   class WM
     class Layout
       require 'forwardable'
+      require 'holo/wm/layout/bar'
       require 'holo/wm/layout/col'
       require 'holo/wm/layout/tag'
 
-      attr_reader :geo, :tags, :current_tag
+      attr_reader :display, :geo, :tags, :current_tag, :bar
 
-      def initialize(geo)
-        @geo          = geo
+      def initialize(display)
+        @display      = display
+        @geo          = display.screens.first.geo
         @tags         = [Tag.new(1, geo)]
         @current_tag  = tags.first
+        setup_bar
       end
 
       def to_s
@@ -41,6 +44,7 @@ module Holo
         current_tag.hide
         @current_tag = find_or_create_tag(tag_id).show
         focus_current_client
+        bar.update self
       end
 
       def handle_tag_set(tag_id)
@@ -50,6 +54,7 @@ module Holo
         current_tag.remove client
         find_or_create_tag(tag_id) << client
         focus_current_client
+        bar.update self
       end
 
       def handle_sel_prev
@@ -94,6 +99,11 @@ module Holo
       def find_or_create_tag(id)
         tags << tag = Tag.new(id, geo) unless tag = tags.find { |e| e.id == id }
         tag
+      end
+
+      def setup_bar
+        @bar = Bar.build(display, geo)
+        geo.height -= bar.geo.height
       end
     end
   end
