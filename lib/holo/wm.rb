@@ -50,6 +50,9 @@ module Holo
       disconnect
     end
 
+
+    private
+
     def connect
       display.open
       Display.on_error proc { fail OtherWMRunningError }
@@ -77,7 +80,7 @@ module Holo
       while !quit_requested? do
         event = display.next_event
         m = ('handle_%s' % event.type).to_sym
-        handled = respond_to? m
+        handled = respond_to? m, true
         log_event event, handled ? '' : '?'
         send m.to_sym, event if handled
       end
