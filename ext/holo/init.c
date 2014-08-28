@@ -3,6 +3,7 @@
 
 void holo_display();
 void holo_events();
+void holo_font();
 void holo_pixmap();
 void holo_screen();
 void holo_window();
@@ -17,6 +18,7 @@ void Init_holo(void) {
 
   holo_display();
   holo_events();
+  holo_font();
   holo_pixmap();
   holo_screen();
   holo_window();
@@ -33,6 +35,7 @@ void holo_display() {
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
   rb_define_method(cDisplay, "open", display_open, 0);
+  rb_define_method(cDisplay, "query_font", display_query_font, 0);
   rb_define_method(cDisplay, "root", display_root, 0);
   rb_define_method(cDisplay, "root_change_attributes",
     display_root_change_attributes, 1);
@@ -69,6 +72,12 @@ void holo_events() {
   cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
 
   cUnmapNotify = rb_define_class_under(mEvents, "UnmapNotify", cEvent);
+}
+
+void holo_font() {
+  cFont = rb_define_class_under(mHolo, "Font", rb_cObject);
+  rb_define_attr(cFont, "ascent", 1, 0);
+  rb_define_attr(cFont, "descent", 1, 0);
 }
 
 void holo_pixmap() {

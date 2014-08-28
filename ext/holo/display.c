@@ -96,6 +96,21 @@ VALUE display_open(VALUE self) {
   return self;
 }
 
+VALUE display_query_font(VALUE self) {
+  set_display(self);
+  XFontStruct *xfs;
+  VALUE       font;
+
+  if (!(xfs = XQueryFont(DPY,
+      XGContextFromGC(DefaultGC(DPY, DefaultScreen(DPY))))))
+    return Qnil;
+
+  font = font_make(xfs->ascent, xfs->descent);
+  XFreeFontInfo(NULL, xfs, 1);
+
+  return font;
+}
+
 VALUE display_root(VALUE self) {
   set_display(self);
 

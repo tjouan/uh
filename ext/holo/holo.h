@@ -40,6 +40,7 @@ VALUE mHolo, mEvents,
   cDisplay,
   cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cKeyRelease,
     cMapRequest, cPropertyNotify, cUnmapNotify,
+  cFont,
   cPixmap,
   cScreen,
   cWindow,
@@ -54,6 +55,7 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_next_event(VALUE self);
 VALUE display_open(VALUE self);
+VALUE display_query_font(VALUE self);
 VALUE display_root(VALUE self);
 VALUE display_root_change_attributes(VALUE self, VALUE mask);
 VALUE display_screens(VALUE self);
@@ -62,6 +64,8 @@ VALUE display_sync(VALUE self, VALUE discard);
 VALUE event_alloc(VALUE klass);
 VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
+
+VALUE font_make(int ascent, int descent);
 
 VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight);
 VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
