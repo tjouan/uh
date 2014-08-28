@@ -51,8 +51,8 @@ module Holo
 
         def tag_status(layout)
           layout.tags.sort_by(&:id).map do |tag|
-            tag == layout.current_tag ? '[%s]' % tag.id : tag.id
-          end * ' '
+            tag == layout.current_tag ? '[%s]' % tag.id : ' %s ' % tag.id
+          end
         end
       end
     end
