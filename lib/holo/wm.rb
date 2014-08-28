@@ -5,9 +5,11 @@ module Holo
     require 'holo/wm/layout'
     require 'holo/wm/manager'
 
-    INPUT_MASK  = SubstructureRedirectMask
-    ROOT_MASK   = (PropertyChangeMask | SubstructureRedirectMask |
-                  SubstructureNotifyMask | StructureNotifyMask)
+    INPUT_MASK  = SUBSTRUCTURE_REDIRECT_MASK
+    ROOT_MASK   = PROPERTY_CHANGE_MASK |
+                  SUBSTRUCTURE_REDIRECT_MASK |
+                  SUBSTRUCTURE_NOTIFY_MASK |
+                  STRUCTURE_NOTIFY_MASK
 
     attr_reader :modifier, :keys, :action_handler, :manager, :display
 
