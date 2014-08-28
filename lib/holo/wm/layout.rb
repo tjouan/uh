@@ -44,7 +44,7 @@ module Holo
         current_tag.hide
         @current_tag = find_or_create_tag(tag_id).show
         focus_current_client
-        bar.update self
+        update_bar!
       end
 
       def handle_tag_set(tag_id)
@@ -54,7 +54,7 @@ module Holo
         current_tag.remove client
         find_or_create_tag(tag_id) << client
         focus_current_client
-        bar.update self
+        update_bar!
       end
 
       def handle_sel_prev
@@ -105,6 +105,10 @@ module Holo
         @bar = Bar.build(display, geo)
         geo.height -= bar.geo.height
         bar.show.update(self).blit
+      end
+
+      def update_bar!
+        bar.update(self).blit
       end
     end
   end

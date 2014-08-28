@@ -1,6 +1,7 @@
 module Holo
   require 'holo.so'
   require 'holo/display'
+  require 'holo/font'
   require 'holo/geo'
   require 'holo/pixmap'
   require 'holo/screen'

@@ -6,11 +6,13 @@ module Holo
 
         class << self
           def build(display, geo)
+            bar_height = display.font.height + 2
+
             new(display, Geo.new(
               geo.x,
-              geo.height - HEIGHT,
+              geo.height - bar_height,
               geo.width,
-              HEIGHT
+              bar_height
             ))
           end
         end
@@ -32,13 +34,25 @@ module Holo
         def update(layout)
           puts '> BAR UPDATE! %s' % self
           pixmap.gc_white
-          pixmap.draw_string 1, display.font.ascent + 1, "totoy éÉ ? ¤ ²…"
+          pixmap.draw_string 1, display.font.ascent + 1, [
+            tag_status(layout),
+            "totoy éÉ ? ¤ ²…"
+          ] * ' | '
           self
         end
 
         def blit
           pixmap.copy window
           self
+        end
+
+
+        private
+
+        def tag_status(layout)
+          layout.tags.sort_by(&:id).map do |tag|
+            tag == layout.current_tag ? '[%s]' % tag.id : tag.id
+          end * ' '
         end
       end
     end
