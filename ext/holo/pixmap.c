@@ -9,6 +9,19 @@
 void pixmap_deallocate(HoloPixmap *p);
 
 
+VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
+  set_pixmap(self);
+
+  XDrawString(
+    pixmap->dpy, pixmap->pixmap, pixmap->gc,
+    FIX2INT(x), FIX2INT(y),
+    RSTRING_PTR(str), RSTRING_LEN(str)
+  );
+
+  return Qnil;
+}
+
+
 VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight) {
   set_pixmap(self);
 
