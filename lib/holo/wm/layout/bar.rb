@@ -32,7 +32,6 @@ module Holo
         end
 
         def update(layout)
-          puts '> BAR UPDATE! %s' % self
           pixmap.gc_black
           pixmap.draw_rect 0, 0, geo.width, geo.height
           pixmap.gc_white
