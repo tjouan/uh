@@ -22,7 +22,6 @@ module Holo
         pid = spawn command, pgroup: true
         Process.detach pid
       rescue Errno::ENOENT
-        ;
       end
 
       def focus_next_client
