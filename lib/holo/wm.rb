@@ -87,7 +87,7 @@ module Holo
     end
 
     def log_event(event, known)
-      puts '> Event: %s%s' % [event.type, known ? '*' : '?']
+      puts '> Event %s%s' % [event.type, known ? '*' : '?']
     end
 
     def handle_configure_request(event)
