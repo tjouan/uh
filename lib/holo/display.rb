@@ -5,7 +5,7 @@ module Holo
     end
 
     def create_subwindow(geo)
-      root.create_sub(geo)
+      root.create_sub geo
     end
   end
 end
