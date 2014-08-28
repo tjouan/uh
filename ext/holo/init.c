@@ -3,6 +3,7 @@
 
 void holo_display();
 void holo_events();
+void holo_pixmap();
 void holo_screen();
 void holo_window();
 
@@ -16,6 +17,7 @@ void Init_holo(void) {
 
   holo_display();
   holo_events();
+  holo_pixmap();
   holo_screen();
   holo_window();
 }
@@ -26,6 +28,7 @@ void holo_display() {
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
+  rb_define_method(cDisplay, "create_pixmap", display_create_pixmap, 2);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
@@ -66,6 +69,10 @@ void holo_events() {
   cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
 
   cUnmapNotify = rb_define_class_under(mEvents, "UnmapNotify", cEvent);
+}
+
+void holo_pixmap() {
+  cPixmap = rb_define_class_under(mHolo, "Pixmap", rb_cObject);
 }
 
 void holo_screen() {

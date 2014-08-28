@@ -33,6 +33,17 @@ VALUE display_close(VALUE self) {
   return self;
 }
 
+VALUE display_create_pixmap(VALUE self, VALUE w, VALUE h) {
+  set_display(self);
+  Pixmap pixmap;
+
+  pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(w), FIX2INT(h),
+    DefaultDepth(DPY, DefaultScreen(DPY))
+  );
+
+  return pixmap_make(DPY, pixmap);
+}
+
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
   set_display(self);
   KeySym      ks;

@@ -17,10 +17,16 @@
 
 
 typedef struct s_display  HoloDisplay;
+typedef struct s_pixmap   HoloPixmap;
 typedef struct s_window   HoloWindow;
 
 struct s_display {
   Display *dpy;
+};
+
+struct s_pixmap {
+  Display *dpy;
+  Pixmap  pixmap;
 };
 
 struct s_window {
@@ -33,6 +39,7 @@ VALUE mHolo, mEvents,
   cDisplay,
   cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cKeyRelease,
     cMapRequest, cPropertyNotify, cUnmapNotify,
+  cPixmap,
   cScreen,
   cWindow,
   eDisplayError;
@@ -41,6 +48,7 @@ VALUE mHolo, mEvents,
 VALUE display_s_on_error(VALUE klass, VALUE handler);
 VALUE display_alloc(VALUE klass);
 VALUE display_close(VALUE self);
+VALUE display_create_pixmap(VALUE self, VALUE w, VALUE h);
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_next_event(VALUE self);
@@ -53,6 +61,8 @@ VALUE display_sync(VALUE self, VALUE discard);
 VALUE event_alloc(VALUE klass);
 VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
+
+VALUE pixmap_make(Display *display, Pixmap xpixmap);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 

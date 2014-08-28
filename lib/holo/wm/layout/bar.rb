@@ -20,6 +20,7 @@ module Holo
         def initialize(display, geo)
           @display  = display
           @geo      = geo
+          @pixmap   = display.create_pixmap geo.width, geo.height
           @window   = display.create_subwindow geo
         end
 
