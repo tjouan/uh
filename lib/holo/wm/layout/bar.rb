@@ -15,15 +15,26 @@ module Holo
           end
         end
 
-        attr_reader :display, :geo
+        attr_reader :display, :geo, :window
 
         def initialize(display, geo)
           @display  = display
           @geo      = geo
+          @window   = display.create_subwindow geo
+        end
+
+        def show
+          window.show
+          self
         end
 
         def update(layout)
           puts '> BAR UPDATE! %s' % self
+          self
+        end
+
+        def blit
+          self
         end
       end
     end

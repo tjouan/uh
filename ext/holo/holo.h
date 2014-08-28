@@ -45,6 +45,7 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_next_event(VALUE self);
 VALUE display_open(VALUE self);
+VALUE display_root(VALUE self);
 VALUE display_root_change_attributes(VALUE self, VALUE mask);
 VALUE display_screens(VALUE self);
 VALUE display_sync(VALUE self, VALUE discard);
@@ -64,6 +65,7 @@ VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);
 VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);
+VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 VALUE window_make(Display *display, Window window_id);
 

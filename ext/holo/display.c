@@ -85,6 +85,12 @@ VALUE display_open(VALUE self) {
   return self;
 }
 
+VALUE display_root(VALUE self) {
+  set_display(self);
+
+  return window_make(DPY, ROOT_DEFAULT);
+}
+
 VALUE display_root_change_attributes(VALUE self, VALUE mask) {
   set_display(self);
   XSetWindowAttributes attr;

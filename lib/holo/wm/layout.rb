@@ -104,6 +104,7 @@ module Holo
       def setup_bar
         @bar = Bar.build(display, geo)
         geo.height -= bar.geo.height
+        bar.show.update(self).blit
       end
     end
   end

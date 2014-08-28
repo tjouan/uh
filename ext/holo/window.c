@@ -23,6 +23,7 @@ VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id) {
   return Qnil;
 }
 
+
 VALUE window_focus(VALUE self) {
   set_window(self);
 
@@ -102,6 +103,24 @@ VALUE window_wclass(VALUE self) {
   return wclass;
 }
 
+
+VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
+  set_window(self);
+  XSetWindowAttributes  wa;
+  Window                sub_win;
+
+  wa.override_redirect  = True;
+  wa.background_pixmap  = ParentRelative;
+  wa.event_mask         = ExposureMask;
+
+  sub_win = XCreateWindow(window->dpy, window->id,
+    FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h), 0,
+    CopyFromParent, CopyFromParent, CopyFromParent,
+    CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa
+  );
+
+  return window_make(window->dpy, sub_win);
+}
 
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
   set_window(self);

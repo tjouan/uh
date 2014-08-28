@@ -30,6 +30,7 @@ void holo_display() {
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
   rb_define_method(cDisplay, "open", display_open, 0);
+  rb_define_method(cDisplay, "root", display_root, 0);
   rb_define_method(cDisplay, "root_change_attributes",
     display_root_change_attributes, 1);
   rb_define_method(cDisplay, "screens", display_screens, 0);
@@ -88,5 +89,6 @@ void holo_window() {
   rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_method(cWindow, "unmap", window_unmap, 0);
   rb_define_method(cWindow, "wclass", window_wclass, 0);
+  rb_define_private_method(cWindow, "_create_sub", window__create_sub, 4);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }
