@@ -12,24 +12,13 @@ VALUE display_s_on_error(VALUE klass, VALUE handler) {
   return Qnil;
 }
 
+
 VALUE display_alloc(VALUE klass) {
   HoloDisplay *display;
 
   return Data_Make_Struct(klass, HoloDisplay, 0, free, display);
 }
 
-VALUE display_open(VALUE self) {
-  set_display(self);
-
-  if (!(DPY = XOpenDisplay(NULL))) {
-    rb_raise(eDisplayError, "Can't open display");
-  }
-
-  rdisplay_error_handler = Qnil;
-  XSetErrorHandler(display_x_error_handler);
-
-  return self;
-}
 
 VALUE display_close(VALUE self) {
   set_display(self);
@@ -42,57 +31,6 @@ VALUE display_close(VALUE self) {
   }
 
   return self;
-}
-
-VALUE display_screens(VALUE self) {
-  set_display(self);
-  VALUE args[5];
-
-  args[0] = INT2FIX(DefaultScreen(DPY));
-  args[1] = INT2FIX(0);
-  args[2] = INT2FIX(0);
-  args[3] = INT2FIX(XDisplayWidth(DPY, DefaultScreen(DPY)));
-  args[4] = INT2FIX(XDisplayHeight(DPY, DefaultScreen(DPY)));
-
-  return rb_ary_new_from_args(1, rb_class_new_instance(5, args, cScreen));
-}
-
-VALUE display_next_event(VALUE self) {
-  set_display(self);
-  XEvent      *xev;
-  VALUE       ev;
-
-  xev = calloc(1, sizeof(*xev));
-  XNextEvent(display->dpy, xev);
-  ev = event_make(xev);
-
-  return ev;
-}
-
-VALUE display_listen_events(VALUE self, VALUE mask) {
-  set_display(self);
-
-  XSelectInput(DPY, ROOT_DEFAULT, FIX2LONG(mask));
-
-  return Qnil;
-}
-
-VALUE display_sync(VALUE self, VALUE discard) {
-  set_display(self);
-
-  XSync(display->dpy, RTEST(discard));
-
-  return Qnil;
-}
-
-VALUE display_root_change_attributes(VALUE self, VALUE mask) {
-  set_display(self);
-  XSetWindowAttributes attr;
-
-  attr.event_mask = FIX2LONG(mask);
-  XChangeWindowAttributes(DPY, ROOT_DEFAULT, CWEventMask, &attr);
-
-  return Qnil;
 }
 
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
@@ -110,6 +48,70 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
 
   XGrabKey(DPY, kc, FIX2INT(modifier), ROOT_DEFAULT, True,
     GrabModeAsync, GrabModeAsync);
+
+  return Qnil;
+}
+
+VALUE display_listen_events(VALUE self, VALUE mask) {
+  set_display(self);
+
+  XSelectInput(DPY, ROOT_DEFAULT, FIX2LONG(mask));
+
+  return Qnil;
+}
+
+VALUE display_next_event(VALUE self) {
+  set_display(self);
+  XEvent      *xev;
+  VALUE       ev;
+
+  xev = calloc(1, sizeof(*xev));
+  XNextEvent(display->dpy, xev);
+  ev = event_make(xev);
+
+  return ev;
+}
+
+VALUE display_open(VALUE self) {
+  set_display(self);
+
+  if (!(DPY = XOpenDisplay(NULL))) {
+    rb_raise(eDisplayError, "Can't open display");
+  }
+
+  rdisplay_error_handler = Qnil;
+  XSetErrorHandler(display_x_error_handler);
+
+  return self;
+}
+
+VALUE display_root_change_attributes(VALUE self, VALUE mask) {
+  set_display(self);
+  XSetWindowAttributes attr;
+
+  attr.event_mask = FIX2LONG(mask);
+  XChangeWindowAttributes(DPY, ROOT_DEFAULT, CWEventMask, &attr);
+
+  return Qnil;
+}
+
+VALUE display_screens(VALUE self) {
+  set_display(self);
+  VALUE args[5];
+
+  args[0] = INT2FIX(DefaultScreen(DPY));
+  args[1] = INT2FIX(0);
+  args[2] = INT2FIX(0);
+  args[3] = INT2FIX(XDisplayWidth(DPY, DefaultScreen(DPY)));
+  args[4] = INT2FIX(XDisplayHeight(DPY, DefaultScreen(DPY)));
+
+  return rb_ary_new_from_args(1, rb_class_new_instance(5, args, cScreen));
+}
+
+VALUE display_sync(VALUE self, VALUE discard) {
+  set_display(self);
+
+  XSync(display->dpy, RTEST(discard));
 
   return Qnil;
 }
