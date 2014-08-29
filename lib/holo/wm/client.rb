@@ -9,7 +9,10 @@ module Holo
       end
 
       def to_s
-        '<%s> (%s) %s' % [name, wclass, geo]
+        [
+          '<%s> (%s)' % [name, wclass],
+          geo
+        ].compact * ' '
       end
 
       def name
