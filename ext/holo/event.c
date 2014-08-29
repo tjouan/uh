@@ -66,7 +66,7 @@ VALUE event_make(XEvent *xev) {
 }
 
 VALUE event_make_event(VALUE klass, XEvent *xev) {
-  char *type_descs[37];
+  char *type_descs[LASTEvent];
   VALUE event;
 
   type_descs[KeyPress]          = "key_press";
@@ -103,7 +103,6 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
   type_descs[ClientMessage]     = "client_message";
   type_descs[MappingNotify]     = "mapping_notify";
   type_descs[GenericEvent]      = "generic";
-  type_descs[LASTEvent]         = "last";
 
   event = Data_Wrap_Struct(klass, 0, free, xev);
   rb_ivar_set(event, rb_intern("@type"), ID2SYM(rb_intern(type_descs[xev->type])));
