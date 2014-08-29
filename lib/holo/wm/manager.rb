@@ -20,14 +20,18 @@ module Holo
         end
 
         if client = client_for(window)
-          puts '  client `%s\' already registered, skipping' % client
-          return
+          puts '  client `%s\' already managed, skipping' % client
+        else
+          manage Client.new(window)
         end
-
-        manage Client.new(window)
       end
 
       def unmap(window)
+        if client = client_for(window)
+          puts '  client `%s\' is managed' % client
+        else
+          puts '  window not managed #%d' % window.id
+        end
       end
 
       def remove(window)
