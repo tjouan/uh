@@ -7,6 +7,7 @@
 
 
 VALUE event_make_event(VALUE klass, XEvent *xev);
+void event_make_configure_request(VALUE self);
 void event_make_key_any(VALUE self);
 
 
@@ -39,7 +40,7 @@ VALUE event_make(XEvent *xev) {
     void  (*function)(VALUE self);
   } EvClass;
   EvClass ev_classes[] = {
-    {ConfigureRequest,  cConfigureRequest,  NULL},
+    {ConfigureRequest,  cConfigureRequest,  event_make_configure_request},
     {DestroyNotify,     cDestroyNotify,     NULL},
     {Expose,            cExpose,            NULL},
     {KeyPress,          cKeyPress,          event_make_key_any},
@@ -105,9 +106,35 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
   type_descs[GenericEvent]      = "generic";
 
   event = Data_Wrap_Struct(klass, 0, free, xev);
-  rb_ivar_set(event, rb_intern("@type"), ID2SYM(rb_intern(type_descs[xev->type])));
+  rb_ivar_set(event, rb_intern("@type"),
+    ID2SYM(rb_intern(type_descs[xev->type])));
 
   return event;
+}
+
+void event_make_configure_request(VALUE self) {
+  set_xev(self);
+
+  if (xev->xconfigurerequest.value_mask & CWX)
+    rb_ivar_set(self, rb_intern("@x"), INT2FIX(xev->xconfigurerequest.x));
+
+  if (xev->xconfigurerequest.value_mask & CWY)
+    rb_ivar_set(self, rb_intern("@y"), INT2FIX(xev->xconfigurerequest.y));
+
+  if (xev->xconfigurerequest.value_mask & CWWidth)
+    rb_ivar_set(self, rb_intern("@width"),
+      INT2FIX(xev->xconfigurerequest.width));
+
+  if (xev->xconfigurerequest.value_mask & CWHeight)
+    rb_ivar_set(self, rb_intern("@height"),
+      INT2FIX(xev->xconfigurerequest.height));
+
+  rb_ivar_set(self, rb_intern("@above_window_id"),
+    LONG2NUM(xev->xconfigurerequest.above));
+  rb_ivar_set(self, rb_intern("@detail"),
+    INT2FIX(xev->xconfigurerequest.detail));
+  rb_ivar_set(self, rb_intern("@value_mask"),
+    LONG2NUM(xev->xconfigurerequest.detail));
 }
 
 void event_make_key_any(VALUE self) {

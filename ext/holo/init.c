@@ -52,7 +52,13 @@ void holo_events() {
   rb_define_method(cEvent, "window", event_window, 0);
 
   cConfigureRequest = rb_define_class_under(mEvents, "ConfigureRequest", cEvent);
-  rb_define_attr(cConfigureRequest, "window_id", 1, 0);
+  rb_define_attr(cConfigureRequest, "x", 1, 0);
+  rb_define_attr(cConfigureRequest, "y", 1, 0);
+  rb_define_attr(cConfigureRequest, "width", 1, 0);
+  rb_define_attr(cConfigureRequest, "height", 1, 0);
+  rb_define_attr(cConfigureRequest, "above_window_id", 1, 0);
+  rb_define_attr(cConfigureRequest, "detail", 1, 0);
+  rb_define_attr(cConfigureRequest, "value_mask", 1, 0);
 
   cDestroyNotify = rb_define_class_under(mEvents, "DestroyNotify", cEvent);
 
@@ -67,7 +73,6 @@ void holo_events() {
   rb_define_attr(cKeyRelease, "mod", 1, 0);
 
   cMapRequest = rb_define_class_under(mEvents, "MapRequest", cEvent);
-  rb_define_attr(cMapRequest, "window_id", 1, 0);
 
   cPropertyNotify = rb_define_class_under(mEvents, "PropertyNotify", cEvent);
 
