@@ -52,6 +52,7 @@ module Holo
       end
 
       def unmanage(client)
+        puts '  unmanaging `%s\'' % client
         clients.reject! { |e| e == client}
         layout.remove client
       end
