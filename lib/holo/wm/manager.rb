@@ -14,8 +14,16 @@ module Holo
       end
 
       def map(window)
-        return if window.override_redirect?
-        return if client_for window
+        if window.override_redirect?
+          puts '  override_redirect, skipping'
+          return
+        end
+
+        if client = client_for(window)
+          puts '  client `%s\' already registered, skipping' % client
+          return
+        end
+
         manage Client.new(window)
       end
 
@@ -34,6 +42,7 @@ module Holo
       end
 
       def manage(client)
+        puts '  managing `%s\'' % client
         clients << client
         layout  << client
       end
