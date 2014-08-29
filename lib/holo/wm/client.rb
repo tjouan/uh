@@ -24,6 +24,7 @@ module Holo
       end
 
       def moveresize
+        puts '  moveresize %s' % self
         window.moveresize geo
         self
       end
