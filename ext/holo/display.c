@@ -150,7 +150,6 @@ VALUE display_sync(VALUE self, VALUE discard) {
 
 
 int display_x_error_handler(Display *dpy, XErrorEvent *e) {
-  printf("X ERROR HANDLER\n");
   char msg[80];
   char req[80];
   char nb[80];
