@@ -15,12 +15,12 @@ module Holo
 
       def map(window)
         if window.override_redirect?
-          puts '  override_redirect, skipping'
+          puts '  window.override_redirect, skipping'
           return
         end
 
         if client = client_for(window)
-          puts '  client `%s\' already managed, skipping' % client
+          puts '  client %s already managed' % client
         else
           manage Client.new(window)
         end
@@ -28,7 +28,7 @@ module Holo
 
       def unmap(window)
         if client = client_for(window)
-          puts '  client `%s\' is managed' % client
+          puts '  client %s is managed' % client
         else
           puts '  window not managed #%d' % window.id
         end
@@ -36,11 +36,12 @@ module Holo
 
       def configure(window)
         if client = client_for(window)
-          puts '  client %s is managed' % client
+          puts '  client %s already managed' % client
           client.configure
         else
           geo = layout.suggest_geo
-          puts '  window not managed #%d, suggesting %s' % [window.id, geo]
+          puts '  window %d not managed, suggesting %s' % [window.id, geo]
+          puts '  configure event %s' % geo
           window.configure_event geo
         end
       end
@@ -58,13 +59,13 @@ module Holo
       end
 
       def manage(client)
-        puts '  managing %s' % client
+        puts '  manage %s' % client
         clients << client
         layout  << client
       end
 
       def unmanage(client)
-        puts '  unmanaging %s' % client
+        puts '  unmanage %s' % client
         clients.reject! { |e| e == client}
         layout.remove client
       end

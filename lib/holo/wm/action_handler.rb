@@ -48,8 +48,8 @@ module Holo
 
       def method_missing(m, *args, &block)
         if respond_to? m
-          wm.manager.layout.send(layout_method(m), *args)
           puts '> Layout -> %s' % layout_method(m)
+          wm.manager.layout.send(layout_method(m), *args)
         else
           super
         end

@@ -35,22 +35,26 @@ module Holo
       end
 
       def show
+        puts '  show %s' % self
         window.map
         self
       end
 
       def hide
+        puts '  hide %s' % self
         window.unmap
         self
       end
 
       def focus
+        puts '  raise, focus %s' % self
         window.raise
         window.focus
         self
       end
 
       def kill
+        puts '  kill %s' % self
         window.kill
         self
       end
