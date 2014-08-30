@@ -43,6 +43,10 @@ module Holo
         current_tag.current_col.geo
       end
 
+      def current_tag?(tag)
+        current_tag == tag
+      end
+
       def handle_tag_sel(tag_id)
         return unless current_tag.id != tag_id
         current_tag.hide

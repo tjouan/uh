@@ -2,7 +2,8 @@ module Holo
   class WM
     class Layout
       class Bar
-        HEIGHT = 13
+        HEIGHT    = 13
+        TAG_WIDTH = 10
 
         class << self
           def build(display, geo)
@@ -32,13 +33,10 @@ module Holo
         end
 
         def update(layout)
-          pixmap.gc_black
-          pixmap.draw_rect 0, 0, geo.width, geo.height
-          pixmap.gc_white
-          pixmap.draw_string 1, display.font.ascent + 1, [
-            tag_status(layout),
-            "totoy éÉ ? ¤ ²…"
-          ] * ' | '
+          draw_background
+          sort_tags(layout.tags).each_with_index do |t, i|
+            draw_tag t, i, layout.current_tag?(t)
+          end
           self
         end
 
@@ -50,10 +48,25 @@ module Holo
 
         private
 
-        def tag_status(layout)
-          layout.tags.sort_by(&:id).map do |tag|
-            tag == layout.current_tag ? '[%s]' % tag.id : ' %s ' % tag.id
-          end * ' '
+        def sort_tags(tags)
+          tags.sort_by(&:id)
+        end
+
+        def draw_background
+          pixmap.gc_black
+          pixmap.draw_rect 0, 0, geo.width, geo.height
+        end
+
+        def draw_tag(tag, index, current)
+          offset = index * TAG_WIDTH
+          if current
+            pixmap.gc_white
+            pixmap.draw_rect offset, 0, TAG_WIDTH, geo.height
+            pixmap.gc_black
+          else
+            pixmap.gc_white
+          end
+          pixmap.draw_string offset + 2, display.font.ascent + 1, tag.id.to_s
         end
       end
     end
