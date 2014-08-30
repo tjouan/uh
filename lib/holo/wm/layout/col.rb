@@ -40,7 +40,7 @@ module Holo
         def remove(client)
           return unless index = clients.index(client)
           clients.delete_at index
-          return unless clients.any? && index == current
+          return unless clients.any?
           @current = index.zero? ? 0 : index - 1
           current_client.show
         end
