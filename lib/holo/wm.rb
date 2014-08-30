@@ -136,9 +136,9 @@ module Holo
     end
 
     def handle_error(req, resource_id, msg)
-      $stderr.puts '> ERROR: XErrorEvent %s(0x%x): %s' % [
-        req,
+      $stderr.puts '> XERROR: %d, %s, %s' % [
         resource_id,
+        req,
         msg
       ]
     end
