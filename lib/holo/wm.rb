@@ -114,7 +114,7 @@ module Holo
     end
 
     def handle_destroy_notify(event)
-      manager.remove event.window
+      manager.destroy event.window
     end
 
     def handle_expose(event)

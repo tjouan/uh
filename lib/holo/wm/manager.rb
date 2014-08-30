@@ -45,8 +45,9 @@ module Holo
         end
       end
 
-      def remove(window)
-        unmanage client_for window
+      def destroy(window)
+        return unless client = client_for(window)
+        unmanage client
       end
 
 
