@@ -2,21 +2,17 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :id, :geo, :cols, :current
+        attr_reader :id, :geo, :cols, :current_col
 
         def initialize(id, geo)
-          @id       = id
-          @geo      = geo
-          @cols     = []
-          @current  = nil
+          @id           = id
+          @geo          = geo
+          @cols         = []
+          @current_col  = nil
         end
 
         def to_s
           'TAG #%d %s' % [id, geo]
-        end
-
-        def current_col
-          current ? find_col(current) : nil
         end
 
         def current_client
@@ -24,7 +20,7 @@ module Holo
         end
 
         def <<(client)
-          @current = create_col(0, arrange: true).id unless current_col
+          @current_col = create_col 0, arrange: true unless current_col
           current_col << client
         end
 
@@ -33,7 +29,7 @@ module Holo
           client_col.remove client
           delete_col! client_col if client_col.empty?
           return unless current_col? client_col
-          @current = (find_col(current) or find_col(current - 1)).id
+          @current_col = find_col current_col.id, current_col.id - 1
         end
 
         def show
@@ -76,14 +72,14 @@ module Holo
         private
 
         def current_col?(col)
-          current == col.id
+          current_col == col
         end
 
         def col_sel(direction)
           return unless cols.size >= 2
-          new_current_col = find_col current.send direction
+          new_current_col = find_col current_col.id.send direction
           return unless new_current_col
-          @current = new_current_col.id
+          @current_col = new_current_col
           current_client.focus
         end
 
@@ -95,7 +91,7 @@ module Holo
           )
           delete_col! client_col if client_col.empty?
           dest_col << client
-          @current = dest_col.id
+          @current_col = dest_col
         end
 
         def create_col(id, arrange: false)
@@ -109,8 +105,8 @@ module Holo
           cols.any? { |e| e.id == id }
         end
 
-        def find_col(id)
-          cols.find { |e| e.id == id }
+        def find_col(*ids)
+          ids.inject(nil) { |m, id| m || cols.find { |e| e.id == id } }
         end
 
         def find_col_by_client(client)
@@ -130,7 +126,7 @@ module Holo
 
         def delete_col!(col)
           delete_col col, arrange: true
-          @current = nil if cols.empty?
+          @current_col = nil if cols.empty?
         end
 
         def renumber_cols
