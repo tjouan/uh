@@ -80,13 +80,33 @@ module Holo
       while !quit_requested? do
         event = display.next_event
         next unless respond_to? event_handler_method(event), true
-        puts '> Event %s' % event.type.inspect
+        log_event event
         send event_handler_method(event), event
       end
     end
 
     def event_handler_method(event)
       ('handle_%s' % event.type).to_sym
+    end
+
+    def log_event(event)
+      fmt         = '> Event %s'
+      complement  = case event.type
+      when :configure_request
+        '%s, above: #%d, detail: #%d, value_mask: %d' % [
+          Geo.new(event.x, event.y, event.width, event.height),
+          event.above_window_id,
+          event.detail,
+          event.value_mask
+        ]
+      else
+        nil
+      end
+
+      puts fmt % [
+        event.type,
+        complement
+      ].compact.join(' ')
     end
 
     def handle_configure_request(event)
