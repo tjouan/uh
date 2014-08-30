@@ -33,6 +33,19 @@ VALUE display_close(VALUE self) {
   return self;
 }
 
+VALUE display_color_by_name(VALUE self, VALUE rcolor) {
+  set_display(self);
+  Colormap  map;
+  XColor    color;
+
+  map = DefaultColormap(DPY, DefaultScreen(DPY));
+
+  if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor), &color, &color))
+    rb_raise(rb_eArgError, "Invalid color name `%s'", RSTRING_PTR(rcolor));
+
+  return color_make(color.pixel);
+}
+
 VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
   set_display(self);
   Pixmap pixmap;

@@ -1,6 +1,7 @@
 #include "holo.h"
 
 
+void holo_color();
 void holo_display();
 void holo_events();
 void holo_font();
@@ -16,6 +17,7 @@ void Init_holo(void) {
     mHolo, "DisplayError", rb_eStandardError
   );
 
+  holo_color();
   holo_display();
   holo_events();
   holo_font();
@@ -24,12 +26,18 @@ void Init_holo(void) {
   holo_window();
 }
 
+void holo_color() {
+  cColor = rb_define_class_under(mHolo, "Color", rb_cObject);
+  rb_define_attr(cColor, "pixel", 1, 0);
+}
+
 void holo_display() {
   cDisplay = rb_define_class_under(mHolo, "Display", rb_cObject);
   rb_define_singleton_method(cDisplay, "on_error", display_s_on_error, 1);
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
+  rb_define_method(cDisplay, "color_by_name", display_color_by_name, 1);
   rb_define_method(cDisplay, "create_pixmap", display_create_pixmap, 2);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
@@ -92,6 +100,7 @@ void holo_pixmap() {
   rb_define_method(cPixmap, "draw_rect", pixmap_draw_rect, 4);
   rb_define_method(cPixmap, "draw_string", pixmap_draw_string, 3);
   rb_define_method(cPixmap, "gc_black", pixmap_gc_black, 0);
+  rb_define_method(cPixmap, "gc_color", pixmap_gc_color, 1);
   rb_define_method(cPixmap, "gc_white", pixmap_gc_white, 0);
   rb_define_private_method(cPixmap, "_copy", pixmap__copy, 3);
 }

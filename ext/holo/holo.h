@@ -37,6 +37,7 @@ struct s_window {
 
 
 VALUE mHolo, mEvents,
+  cColor,
   cDisplay,
   cEvent, cConfigureRequest, cDestroyNotify, cExpose, cKeyPress, cKeyRelease,
     cMapRequest, cPropertyNotify, cUnmapNotify,
@@ -47,9 +48,12 @@ VALUE mHolo, mEvents,
   eDisplayError;
 
 
+VALUE color_make(unsigned long pixel);
+
 VALUE display_s_on_error(VALUE klass, VALUE handler);
 VALUE display_alloc(VALUE klass);
 VALUE display_close(VALUE self);
+VALUE display_color_by_name(VALUE self, VALUE rcolor);
 VALUE display_create_pixmap(VALUE self, VALUE w, VALUE h);
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
 VALUE display_listen_events(VALUE self, VALUE mask);
@@ -71,6 +75,7 @@ VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight);
 VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str);
 VALUE pixmap_gc_black(VALUE self);
+VALUE pixmap_gc_color(VALUE self, VALUE rcolor);
 VALUE pixmap_gc_white(VALUE self);
 VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
 

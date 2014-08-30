@@ -3,6 +3,8 @@ module Holo
     class Layout
       class Bar
         HEIGHT    = 13
+        COLOR     = 'rgb:d7/00/5f'.freeze
+        COLOR_ALT = 'rgb:ed/33/86'.freeze
         TAG_WIDTH = 10
 
         class << self
@@ -18,13 +20,15 @@ module Holo
           end
         end
 
-        attr_reader :display, :geo, :window, :pixmap
+        attr_reader :display, :geo, :window, :pixmap, :color, :color_alt
 
         def initialize(display, geo)
-          @display  = display
-          @geo      = geo
-          @window   = display.create_subwindow geo
-          @pixmap   = display.create_pixmap geo.width, geo.height
+          @display    = display
+          @geo        = geo
+          @window     = display.create_subwindow geo
+          @pixmap     = display.create_pixmap geo.width, geo.height
+          @color      = display.color_by_name COLOR
+          @color_alt  = display.color_by_name COLOR_ALT
         end
 
         def show
@@ -60,12 +64,10 @@ module Holo
         def draw_tag(tag, index, current)
           offset = index * TAG_WIDTH
           if current
-            pixmap.gc_white
+            pixmap.gc_color color
             pixmap.draw_rect offset, 0, TAG_WIDTH, geo.height
-            pixmap.gc_black
-          else
-            pixmap.gc_white
           end
+          pixmap.gc_white
           pixmap.draw_string offset + 2, display.font.ascent + 1, tag.id.to_s
         end
       end

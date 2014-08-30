@@ -41,6 +41,16 @@ VALUE pixmap_gc_black(VALUE self) {
   return Qnil;
 }
 
+VALUE pixmap_gc_color(VALUE self, VALUE rcolor) {
+  set_pixmap(self);
+
+  XSetForeground(pixmap->dpy, pixmap->gc,
+    NUM2LONG(rb_ivar_get(rcolor, rb_intern("@pixel")))
+  );
+
+  return Qnil;
+}
+
 VALUE pixmap_gc_white(VALUE self) {
   set_pixmap(self);
 
