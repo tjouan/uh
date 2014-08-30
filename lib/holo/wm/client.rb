@@ -10,7 +10,7 @@ module Holo
 
       def to_s
         [
-          '<%s> (%s)' % [name, wclass],
+          '<%s> (%s) window: %s' % [name, wclass, window],
           geo
         ].compact * ' '
       end
