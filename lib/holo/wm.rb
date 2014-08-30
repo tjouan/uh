@@ -110,7 +110,7 @@ module Holo
     end
 
     def handle_configure_request(event)
-      display.window_configure event.window
+      manager.configure event.window
     end
 
     def handle_destroy_notify(event)

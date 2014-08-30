@@ -76,7 +76,6 @@ VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
-VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id);
 VALUE window_focus(VALUE self);
 VALUE window_kill(VALUE self);
 VALUE window_map(VALUE self);
@@ -85,6 +84,7 @@ VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);
 VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);
+VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 VALUE window_make(Display *display, Window window_id);

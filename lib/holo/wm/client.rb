@@ -23,6 +23,11 @@ module Holo
         @wclass ||= window.wclass
       end
 
+      def configure
+        puts '  configure %s' % self
+        window.configure geo
+      end
+
       def moveresize
         puts '  moveresize %s' % self
         window.moveresize geo

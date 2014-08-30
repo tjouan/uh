@@ -6,24 +6,6 @@
   Data_Get_Struct(x, HoloWindow, window);
 
 
-VALUE window_s_configure(VALUE klass, VALUE rdisplay, VALUE window_id) {
-  set_display(rdisplay);
-  XWindowChanges  wc;
-  unsigned int    mask;
-
-  mask = CWX | CWY | CWWidth | CWHeight | CWBorderWidth | CWStackMode;
-  wc.x            = 0;
-  wc.y            = 0;
-  wc.width        = 484;
-  wc.height       = 100;
-  wc.border_width = 0;
-  wc.stack_mode   = Above;
-  XConfigureWindow(DPY, NUM2LONG(window_id), mask, &wc);
-
-  return Qnil;
-}
-
-
 VALUE window_focus(VALUE self) {
   set_window(self);
 
@@ -103,6 +85,23 @@ VALUE window_wclass(VALUE self) {
   return wclass;
 }
 
+
+VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
+  set_window(self);
+  XWindowChanges  wc;
+  unsigned int    mask;
+
+  mask = CWX | CWY | CWWidth | CWHeight | CWBorderWidth | CWStackMode;
+  wc.x            = FIX2INT(rx);
+  wc.y            = FIX2INT(ry);
+  wc.width        = FIX2INT(rw);
+  wc.height       = FIX2INT(rh);
+  wc.border_width = 0;
+  wc.stack_mode   = Above;
+  XConfigureWindow(window->dpy, window->id, mask, &wc);
+
+  return Qnil;
+}
 
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
   set_window(self);

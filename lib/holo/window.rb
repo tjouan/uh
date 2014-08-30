@@ -4,6 +4,10 @@ module Holo
       id == other.id
     end
 
+    def configure(geo)
+      _configure(geo.x, geo.y, geo.width, geo.height)
+    end
+
     def create_sub(geo)
       _create_sub(geo.x, geo.y, geo.width, geo.height)
     end

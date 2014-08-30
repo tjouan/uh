@@ -39,6 +39,10 @@ module Holo
         focus_current_client
       end
 
+      def suggest_geo
+        current_tag.current_col.geo
+      end
+
       def handle_tag_sel(tag_id)
         return unless current_tag.id != tag_id
         current_tag.hide

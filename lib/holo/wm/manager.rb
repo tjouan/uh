@@ -34,6 +34,16 @@ module Holo
         end
       end
 
+      def configure(window)
+        if client = client_for(window)
+          puts '  client `%s\' is managed' % client
+          client.configure
+        else
+          puts '  window not managed #%d' % window.id
+          window.configure layout.suggest_geo
+        end
+      end
+
       def remove(window)
         unmanage client_for window
       end

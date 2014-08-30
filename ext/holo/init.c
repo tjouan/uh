@@ -107,7 +107,6 @@ void holo_screen() {
 
 void holo_window() {
   cWindow = rb_define_class_under(mHolo, "Window", rb_cObject);
-  rb_define_singleton_method(cWindow, "configure", window_s_configure, 2);
   rb_define_attr(cWindow, "id", 1, 0);
   rb_define_method(cWindow, "focus", window_focus, 0);
   rb_define_method(cWindow, "kill", window_kill, 0);
@@ -117,6 +116,7 @@ void holo_window() {
   rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_method(cWindow, "unmap", window_unmap, 0);
   rb_define_method(cWindow, "wclass", window_wclass, 0);
+  rb_define_private_method(cWindow, "_configure", window__configure, 4);
   rb_define_private_method(cWindow, "_create_sub", window__create_sub, 4);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }
