@@ -93,7 +93,7 @@ module Holo
       fmt         = '> Event %s'
       complement  = case event.type
       when :configure_request
-        '%s, above: #%d, detail: #%d, value_mask: %d' % [
+        '%s, above: #%d, detail: #%d, value_mask: #%d' % [
           Geo.new(event.x, event.y, event.width, event.height),
           event.above_window_id,
           event.detail,
