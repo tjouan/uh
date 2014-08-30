@@ -39,8 +39,9 @@ module Holo
           puts '  client `%s\' is managed' % client
           client.configure
         else
-          puts '  window not managed #%d' % window.id
-          window.configure layout.suggest_geo
+          geo = layout.suggest_geo
+          puts '  window not managed #%d, suggesting %s' % [window.id, geo]
+          window.configure geo
         end
       end
 
