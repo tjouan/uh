@@ -36,7 +36,7 @@ module Holo
 
       def configure(window)
         if client = client_for(window)
-          puts '  client `%s\' is managed' % client
+          puts '  client %s is managed' % client
           client.configure
         else
           geo = layout.suggest_geo
@@ -58,13 +58,13 @@ module Holo
       end
 
       def manage(client)
-        puts '  managing `%s\'' % client
+        puts '  managing %s' % client
         clients << client
         layout  << client
       end
 
       def unmanage(client)
-        puts '  unmanaging `%s\'' % client
+        puts '  unmanaging %s' % client
         clients.reject! { |e| e == client}
         layout.remove client
       end
