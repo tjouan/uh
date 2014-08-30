@@ -103,6 +103,26 @@ VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
   return Qnil;
 }
 
+VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
+  set_window(self);
+  XConfigureEvent ev;
+
+  ev.type               = ConfigureNotify;
+  ev.display            = window->dpy;
+  ev.event              = window->id;
+  ev.window             = window->id;
+  ev.x                  = FIX2INT(rx);
+  ev.y                  = FIX2INT(ry);
+  ev.width              = FIX2INT(rw);
+  ev.height             = FIX2INT(rh);
+  ev.border_width       = 0;
+  ev.above              = None;
+  ev.override_redirect  = False;
+  XSendEvent(window->dpy, window->id, False, StructureNotifyMask, (XEvent *)&ev);
+
+  return Qnil;
+}
+
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
   set_window(self);
   XSetWindowAttributes  wa;

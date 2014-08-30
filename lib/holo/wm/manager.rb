@@ -41,7 +41,7 @@ module Holo
         else
           geo = layout.suggest_geo
           puts '  window not managed #%d, suggesting %s' % [window.id, geo]
-          window.configure geo
+          window.configure_event geo
         end
       end
 

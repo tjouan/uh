@@ -117,6 +117,8 @@ void holo_window() {
   rb_define_method(cWindow, "unmap", window_unmap, 0);
   rb_define_method(cWindow, "wclass", window_wclass, 0);
   rb_define_private_method(cWindow, "_configure", window__configure, 4);
+  rb_define_private_method(cWindow, "_configure_event",
+    window__configure_event, 4);
   rb_define_private_method(cWindow, "_create_sub", window__create_sub, 4);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }
