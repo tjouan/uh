@@ -17,7 +17,6 @@ module Holo
     attr_reader :keys, :action_handler, :manager, :display
 
     def initialize(&block)
-      @quit_requested = false
       @modifier       = DEFAULT_MODIFIER
       @keys           = {}
       @action_handler = ActionHandler.new(self)
@@ -44,7 +43,7 @@ module Holo
     end
 
     def quit_requested?
-      @quit_requested
+      !!@quit_requested
     end
 
     def request_quit!
