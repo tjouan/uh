@@ -152,7 +152,7 @@ module Holo
             col.geo.height  = geo.height
           end
           cols.last.geo.width = geo.width - cols.last.geo.x
-          cols.each(&:arrange!)
+          cols.each &:arrange!
         end
 
         def max_cols
