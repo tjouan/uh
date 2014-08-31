@@ -9,10 +9,7 @@ module Holo
       end
 
       def to_s
-        [
-          '<%s> (%s) window: %s' % [name, wclass, window],
-          geo
-        ].compact * ' '
+        '<%s> (%s) window: %s, geo: %s' % [name, wclass, window, geo]
       end
 
       def name
@@ -26,6 +23,7 @@ module Holo
       def configure
         puts '  configure %s' % self
         window.configure geo
+        self
       end
 
       def moveresize
