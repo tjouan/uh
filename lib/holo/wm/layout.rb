@@ -63,9 +63,7 @@ module Holo
 
       def handle_tag_set(tag_id)
         return unless current_tag.id != tag_id && current_client
-        client = current_tag.current_client
-        client.hide
-        current_tag.remove client
+        current_tag.remove client = current_tag.current_client.hide
         find_or_create_tag(tag_id) << client
         focus_current_client
         update_bar!
