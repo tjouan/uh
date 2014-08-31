@@ -81,7 +81,7 @@ module Holo
     end
 
     def read_events
-      display.root_change_attributes ROOT_MASK
+      display.root.mask = ROOT_MASK
 
       while !quit_requested? do
         event = display.next_event

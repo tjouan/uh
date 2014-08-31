@@ -84,6 +84,7 @@ VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window_focus(VALUE self);
 VALUE window_kill(VALUE self);
 VALUE window_map(VALUE self);
+VALUE window_mask_set(VALUE self, VALUE mask);
 VALUE window_name(VALUE self);
 VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);

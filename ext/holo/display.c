@@ -130,16 +130,6 @@ VALUE display_root(VALUE self) {
   return window_make(DPY, ROOT_DEFAULT);
 }
 
-VALUE display_root_change_attributes(VALUE self, VALUE mask) {
-  set_display(self);
-  XSetWindowAttributes attr;
-
-  attr.event_mask = FIX2LONG(mask);
-  XChangeWindowAttributes(DPY, ROOT_DEFAULT, CWEventMask, &attr);
-
-  return Qnil;
-}
-
 VALUE display_screens(VALUE self) {
   set_display(self);
   VALUE args[5];

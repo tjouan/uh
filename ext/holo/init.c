@@ -45,8 +45,6 @@ void holo_display() {
   rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "query_font", display_query_font, 0);
   rb_define_method(cDisplay, "root", display_root, 0);
-  rb_define_method(cDisplay, "root_change_attributes",
-    display_root_change_attributes, 1);
   rb_define_method(cDisplay, "screens", display_screens, 0);
   rb_define_method(cDisplay, "sync", display_sync, 1);
 }
@@ -120,6 +118,7 @@ void holo_window() {
   rb_define_method(cWindow, "focus", window_focus, 0);
   rb_define_method(cWindow, "kill", window_kill, 0);
   rb_define_method(cWindow, "map", window_map, 0);
+  rb_define_method(cWindow, "mask=", window_mask_set, 1);
   rb_define_method(cWindow, "name", window_name, 0);
   rb_define_method(cWindow, "override_redirect?", window_override_redirect, 0);
   rb_define_method(cWindow, "raise", window_raise, 0);

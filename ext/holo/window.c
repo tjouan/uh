@@ -30,6 +30,16 @@ VALUE window_map(VALUE self) {
   return Qnil;
 }
 
+VALUE window_mask_set(VALUE self, VALUE mask) {
+  set_window(self);
+  XSetWindowAttributes attrs;
+
+  attrs.event_mask = FIX2LONG(mask);
+  XChangeWindowAttributes(window->dpy, window->id, CWEventMask, &attrs);
+
+  return Qnil;
+}
+
 VALUE window_name(VALUE self) {
   set_window(self);
   char        *wxname;
