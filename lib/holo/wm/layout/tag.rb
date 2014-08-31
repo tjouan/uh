@@ -2,6 +2,8 @@ module Holo
   class WM
     class Layout
       class Tag
+        include Comparable
+
         attr_accessor :geo
         attr_reader   :id, :cols, :current_col
 
@@ -14,6 +16,10 @@ module Holo
 
         def to_s
           'TAG #%d %s' % [id, geo]
+        end
+
+        def <=>(other)
+          id <=> other.id
         end
 
         def current_client

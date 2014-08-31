@@ -12,7 +12,7 @@ module Holo
 
         def <<(tag)
           tags << tag
-          tags.sort_by! &:id
+          tags.sort!
         end
 
         def each(&block)
