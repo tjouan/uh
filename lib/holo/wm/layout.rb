@@ -37,7 +37,7 @@ module Holo
       end
 
       def remove(client)
-        tags.each { |e| e.remove client }
+        tags.remove_client client
         focus_current_client
       end
 

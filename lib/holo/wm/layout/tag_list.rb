@@ -18,6 +18,10 @@ module Holo
         def each(&block)
           tags.each &block
         end
+
+        def remove_client(client)
+          tags.each { |t| t.remove client }
+        end
       end
     end
   end
