@@ -11,9 +11,10 @@ module Holo
       def initialize(display)
         @display      = display
         @geo          = display.screens.first.geo
-        @tags         = [Tag.new(1, geo)]
+        @bar          = Bar.new(display, geo).show
+        @tags         = [Tag.new(1, geo_for_new_tag)]
         @current_tag  = tags.first
-        setup_bar
+        update_bar!
       end
 
       def to_s
@@ -96,6 +97,10 @@ module Holo
 
       private
 
+      def geo_for_new_tag
+        geo.dup.tap { |o| o.height -= bar.height }
+      end
+
       def current_client
         current_tag.current_client
       end
@@ -105,14 +110,8 @@ module Holo
       end
 
       def find_or_create_tag(id)
-        tags << tag = Tag.new(id, geo) unless tag = tags.find { |e| e.id == id }
+        tags << tag = Tag.new(id, geo_for_new_tag) unless tag = tags.find { |e| e.id == id }
         tag
-      end
-
-      def setup_bar
-        @bar = Bar.build(display, geo)
-        geo.height -= bar.geo.height
-        bar.show.update(self).blit
       end
 
       def update_bar!

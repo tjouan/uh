@@ -7,24 +7,14 @@ module Holo
         COLOR_ALT = 'rgb:ed/33/86'.freeze
         TAG_WIDTH = 15
 
-        class << self
-          def build(display, geo)
-            bar_height = display.font.height + 2
-
-            new(display, Geo.new(
-              geo.x,
-              geo.height - bar_height,
-              geo.width,
-              bar_height
-            ))
-          end
-        end
+        extend Forwardable
+        def_delegators :@geo, :x, :y, :width, :height
 
         attr_reader :display, :geo, :window, :pixmap, :color, :color_alt
 
-        def initialize(display, geo)
+        def initialize(display, layout_geo)
           @display    = display
-          @geo        = geo
+          @geo        = build_geo layout_geo
           @window     = display.create_subwindow geo
           @pixmap     = display.create_pixmap geo.width, geo.height
           @color      = display.color_by_name COLOR
@@ -51,6 +41,17 @@ module Holo
 
 
         private
+
+        def build_geo(layout_geo)
+          bar_height = display.font.height + 2
+
+          Geo.new(
+            layout_geo.x,
+            layout_geo.height - bar_height,
+            layout_geo.width,
+            bar_height
+          )
+        end
 
         def sort_tags(tags)
           tags.sort_by(&:id)
