@@ -13,7 +13,7 @@ module Holo
       end
 
       def quit
-        puts '> QUIT requested'
+        puts '> Exiting...'
         wm.request_quit!
       end
 
