@@ -5,7 +5,7 @@ module Holo
         HEIGHT    = 13
         COLOR     = 'rgb:d7/00/5f'.freeze
         COLOR_ALT = 'rgb:ed/33/86'.freeze
-        TAG_WIDTH = 10
+        TAG_WIDTH = 15
 
         class << self
           def build(display, geo)
@@ -68,7 +68,7 @@ module Holo
             pixmap.draw_rect offset, 0, TAG_WIDTH, geo.height
           end
           pixmap.gc_white
-          pixmap.draw_string offset + 2, display.font.ascent + 1, tag.id.to_s
+          pixmap.draw_string offset + 5, display.font.ascent + 1, tag.id.to_s
         end
       end
     end
