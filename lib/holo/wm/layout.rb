@@ -45,12 +45,12 @@ module Holo
         focus_current_client
       end
 
-      def suggest_geo_for_client
-        current_tag.current_col_geo
-      end
-
       def current_tag?(tag)
         current_tag == tag
+      end
+
+      def suggest_geo_for_client
+        current_tag.current_col_geo
       end
 
       def handle_tag_sel(tag_id)
