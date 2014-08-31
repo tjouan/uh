@@ -17,7 +17,6 @@ module Holo
     attr_reader :keys, :action_handler, :manager, :display
 
     def initialize(&block)
-      @modifier       = DEFAULT_MODIFIER
       @keys           = {}
       @action_handler = ActionHandler.new(self)
       @display        = Display.new
@@ -32,7 +31,7 @@ module Holo
     end
 
     def modifier(mod = nil)
-      return @modifier unless mod
+      return (@modifier or DEFAULT_MODIFIER) unless mod
       @modifier = mod
     end
 
