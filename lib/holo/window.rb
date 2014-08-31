@@ -20,7 +20,6 @@ module Holo
 
     def create_sub(geo)
       _create_sub geo.x, geo.y, geo.width, geo.height
-      self
     end
 
     def moveresize(geo)
