@@ -15,7 +15,7 @@ module Holo
         @display      = display
         @geo          = display.screens.first.geo
         @bar          = Bar.new(display, geo).show
-        @tags         = TagList.new()
+        @tags         = TagList.new
         @current_tag  = tags.create FIRST_TAG_ID, geo_for_new_tag
         update_bar!
       end
