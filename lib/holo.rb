@@ -13,9 +13,7 @@ module Holo
   RuntimeError        = Class.new(RuntimeError)
   OtherWMRunningError = Class.new(RuntimeError)
 
-  # Key masks. Used as modifiers to GrabButton and GrabKey, results of
-  # QueryPointer, state in various key-, mouse-, and button-related events.
-  MODIFIERS = {
+  KEY_MODIFIERS = {
     shift:  1 << 0,
     lock:   1 << 1,
     ctrl:   1 << 2,

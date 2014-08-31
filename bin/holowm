@@ -5,6 +5,8 @@ require 'holo/wm'
 
 
 wm = Holo::WM.new do
+  modifier :mod1
+
   key(:XK_q)              { quit }
 
   key(:XK_Return)         { execute 'urxvt' }

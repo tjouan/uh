@@ -7,17 +7,18 @@ module Holo
 
     include Events
 
-    INPUT_MASK  = SUBSTRUCTURE_REDIRECT_MASK
-    ROOT_MASK   = PROPERTY_CHANGE_MASK |
-                  SUBSTRUCTURE_REDIRECT_MASK |
-                  SUBSTRUCTURE_NOTIFY_MASK |
-                  STRUCTURE_NOTIFY_MASK
+    DEFAULT_MODIFIER  = :mod1
+    INPUT_MASK        = SUBSTRUCTURE_REDIRECT_MASK
+    ROOT_MASK         = PROPERTY_CHANGE_MASK |
+                        SUBSTRUCTURE_REDIRECT_MASK |
+                        SUBSTRUCTURE_NOTIFY_MASK |
+                        STRUCTURE_NOTIFY_MASK
 
-    attr_reader :modifier, :keys, :action_handler, :manager, :display
+    attr_reader :keys, :action_handler, :manager, :display
 
     def initialize(&block)
       @quit_requested = false
-      @modifier       = MODIFIERS[:mod1]
+      @modifier       = DEFAULT_MODIFIER
       @keys           = {}
       @action_handler = ActionHandler.new(self)
       @display        = Display.new
@@ -31,9 +32,15 @@ module Holo
       end
     end
 
+    def modifier(mod = nil)
+      return @modifier unless mod
+      @modifier = mod
+    end
+
     def key(key, mod = nil, &block)
-      mod = mod ? modifier | MODIFIERS[mod] : modifier
-      @keys[[key.to_s.gsub(/\AXK_/, ''), mod]] = block
+      mod_mask = KEY_MODIFIERS[modifier]
+      mod_mask |= KEY_MODIFIERS[mod] if mod
+      @keys[[key, mod_mask]] = block
     end
 
     def quit_requested?
@@ -55,6 +62,10 @@ module Holo
 
     private
 
+    def modifier_mask(mod)
+      KEY_MODIFIERS[mod]
+    end
+
     def connect
       display.open
       Display.on_error proc { fail OtherWMRunningError }
@@ -69,7 +80,11 @@ module Holo
     end
 
     def grab_keys
-      keys.each { |k, v| display.grab_key *k }
+      keys.each do |k, v|
+        key, mod = *k
+        key = key.to_s.gsub /\AXK_/, ''
+        display.grab_key key, mod
+      end
     end
 
     def setup_manager
@@ -123,7 +138,7 @@ module Holo
     end
 
     def handle_key_press(event)
-      action_handler.call keys[[event.key, event.mod]]
+      action_handler.call keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
     end
 
     def handle_map_request(event)
