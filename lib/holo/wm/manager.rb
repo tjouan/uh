@@ -39,7 +39,7 @@ module Holo
           puts '  client %s already managed' % client
           client.configure
         else
-          geo = layout.suggest_geo
+          geo = layout.suggest_geo_for_client
           puts '  window %d not managed, suggesting %s' % [window.id, geo]
           puts '  configure event %s' % geo
           window.configure_event geo

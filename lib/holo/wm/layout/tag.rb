@@ -30,6 +30,10 @@ module Holo
           current_col == col
         end
 
+        def current_col_geo
+          current_col.geo
+        end
+
         def <<(client)
           @current_col = create_col 0, arrange: true unless current_col
           current_col << client
