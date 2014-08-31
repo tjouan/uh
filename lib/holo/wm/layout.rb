@@ -5,6 +5,7 @@ module Holo
       require 'holo/wm/layout/bar'
       require 'holo/wm/layout/col'
       require 'holo/wm/layout/tag'
+      require 'holo/wm/layout/tag_list'
 
       attr_reader :display, :geo, :tags, :current_tag, :bar
 
@@ -12,13 +13,13 @@ module Holo
         @display      = display
         @geo          = display.screens.first.geo
         @bar          = Bar.new(display, geo).show
-        @tags         = [Tag.new(1, geo_for_new_tag)]
+        @tags         = TagList.new(Tag.new(1, geo_for_new_tag))
         @current_tag  = tags.first
         update_bar!
       end
 
       def to_s
-        tags.sort_by(&:id).inject('') do |m, tag|
+        tags.inject('') do |m, tag|
           m << "%s%s\n" % [tag == current_tag ? '*' : ' ', tag]
           tag.cols.each do |col|
             m << "  %s%s\n" % [col == tag.current_col ? '*' : ' ', col]

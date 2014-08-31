@@ -28,7 +28,7 @@ module Holo
 
         def update(layout)
           draw_background
-          sort_tags(layout.tags).each_with_index do |t, i|
+          layout.tags.each_with_index do |t, i|
             draw_tag t, i, layout.current_tag?(t)
           end
           self
@@ -51,10 +51,6 @@ module Holo
             layout_geo.width,
             bar_height
           )
-        end
-
-        def sort_tags(tags)
-          tags.sort_by(&:id)
         end
 
         def draw_background
