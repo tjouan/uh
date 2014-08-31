@@ -59,12 +59,11 @@ VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
 
 VALUE display_each_event(VALUE self) {
   set_display(self);
-  XEvent      *xev;
+  XEvent xev;
 
   while (1) {
-    xev = calloc(1, sizeof(*xev));
-    XNextEvent(DPY, xev);
-    rb_yield(event_make(xev));
+    XNextEvent(DPY, &xev);
+    rb_yield(event_make(&xev));
   }
 
   return Qnil;

@@ -65,7 +65,6 @@ VALUE display_root_change_attributes(VALUE self, VALUE mask);
 VALUE display_screens(VALUE self);
 VALUE display_sync(VALUE self, VALUE discard);
 
-VALUE event_alloc(VALUE klass);
 VALUE event_window(VALUE self);
 VALUE event_make(XEvent *xev);
 

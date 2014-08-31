@@ -11,12 +11,6 @@ void event_make_configure_request(VALUE self);
 void event_make_key_any(VALUE self);
 
 
-VALUE event_alloc(VALUE klass) {
-  XEvent *xev;
-
-  return Data_Make_Struct(klass, XEvent, 0, free, xev);
-}
-
 VALUE event_window(VALUE self) {
   set_xev(self);
 
@@ -105,7 +99,7 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
   type_descs[MappingNotify]     = "mapping_notify";
   type_descs[GenericEvent]      = "generic";
 
-  event = Data_Wrap_Struct(klass, 0, free, xev);
+  event = Data_Wrap_Struct(klass, 0, 0, xev);
   rb_ivar_set(event, rb_intern("@type"),
     ID2SYM(rb_intern(type_descs[xev->type])));
 
