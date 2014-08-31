@@ -2,9 +2,10 @@ module Holo
   class WM
     class Layout
       class Tag
-        attr_reader :id, :geo, :cols, :current_col
+        attr_accessor :geo
+        attr_reader   :id, :cols, :current_col
 
-        def initialize(id, geo)
+        def initialize(id, geo = nil)
           @id           = id
           @geo          = geo
           @cols         = []

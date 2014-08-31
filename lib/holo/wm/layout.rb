@@ -111,8 +111,7 @@ module Holo
       end
 
       def find_or_create_tag(id)
-        tags << tag = Tag.new(id, geo_for_new_tag) unless tag = tags.find { |e| e.id == id }
-        tag
+        tags.find_or_create id, geo_for_new_tag
       end
 
       def update_bar!
