@@ -47,7 +47,7 @@ module Holo
     def run
       connect
       grab_keys
-      setup_manager
+      @manager = Manager.new(display)
       read_events
       disconnect
     end
@@ -78,10 +78,6 @@ module Holo
         key = key.to_s.gsub /\AXK_/, ''
         display.grab_key key, mod
       end
-    end
-
-    def setup_manager
-      @manager = Manager.new(display)
     end
 
     def read_events
