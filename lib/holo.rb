@@ -8,7 +8,6 @@ module Holo
   require 'holo/window'
   require 'pry'
 
-  # FIXME: ruby errors defined in C ext should be considered
   Error               = Class.new(StandardError)
   RuntimeError        = Class.new(RuntimeError)
   OtherWMRunningError = Class.new(RuntimeError)
