@@ -26,6 +26,10 @@ module Holo
           current_col and current_col.current_client
         end
 
+        def current_col?(col)
+          current_col == col
+        end
+
         def <<(client)
           @current_col = create_col 0, arrange: true unless current_col
           current_col << client
@@ -77,10 +81,6 @@ module Holo
 
 
         private
-
-        def current_col?(col)
-          current_col == col
-        end
 
         def col_sel(direction)
           return unless cols.size >= 2

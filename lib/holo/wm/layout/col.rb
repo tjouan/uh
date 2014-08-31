@@ -25,6 +25,10 @@ module Holo
           current ? clients[current] : nil
         end
 
+        def current_client?(client)
+          current_client == client
+        end
+
         def first?
           id == 0
         end

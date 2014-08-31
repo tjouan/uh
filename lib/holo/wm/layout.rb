@@ -20,11 +20,14 @@ module Holo
 
       def to_s
         tags.inject('') do |m, tag|
-          m << "%s%s\n" % [tag == current_tag ? '*' : ' ', tag]
+          m << "%s%s\n" % [current_tag?(tag) ? '*' : ' ', tag]
           tag.cols.each do |col|
-            m << "  %s%s\n" % [col == tag.current_col ? '*' : ' ', col]
+            m << "  %s%s\n" % [tag.current_col?(col) ? '*' : ' ', col]
             col.clients.each do |client|
-              m << "    %s%s\n" % [client == col.current_client ? '*' : ' ', client]
+              m << "    %s%s\n" % [
+                col.current_client?(client) ? '*' : ' ',
+                client
+              ]
             end
           end
           m
