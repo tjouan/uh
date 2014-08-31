@@ -36,7 +36,8 @@ module Holo
 
       def <<(client)
         current_tag << client
-        client.show.focus
+        client.show
+        focus_current_client
       end
 
       def remove(client)
