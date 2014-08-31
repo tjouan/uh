@@ -57,6 +57,19 @@ VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
   return pixmap_make(DPY, pixmap, width, height);
 }
 
+VALUE display_each_event(VALUE self) {
+  set_display(self);
+  XEvent      *xev;
+
+  while (1) {
+    xev = calloc(1, sizeof(*xev));
+    XNextEvent(DPY, xev);
+    rb_yield(event_make(xev));
+  }
+
+  return Qnil;
+}
+
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
   set_display(self);
   KeySym      ks;
@@ -82,18 +95,6 @@ VALUE display_listen_events(VALUE self, VALUE mask) {
   XSelectInput(DPY, ROOT_DEFAULT, FIX2LONG(mask));
 
   return Qnil;
-}
-
-VALUE display_next_event(VALUE self) {
-  set_display(self);
-  XEvent      *xev;
-  VALUE       ev;
-
-  xev = calloc(1, sizeof(*xev));
-  XNextEvent(display->dpy, xev);
-  ev = event_make(xev);
-
-  return ev;
 }
 
 VALUE display_open(VALUE self) {

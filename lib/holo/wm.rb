@@ -48,6 +48,7 @@ module Holo
       connect
       grab_keys
       @manager = Manager.new(display)
+      display.root.mask = ROOT_MASK
       read_events
       disconnect
     end
@@ -81,10 +82,8 @@ module Holo
     end
 
     def read_events
-      display.root.mask = ROOT_MASK
-
-      while !quit_requested? do
-        event = display.next_event
+      display.each_event do |event|
+        break if quit_requested?
         next unless respond_to? event_handler_method(event), true
         log_event event
         send event_handler_method(event), event
