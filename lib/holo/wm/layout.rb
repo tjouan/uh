@@ -7,13 +7,15 @@ module Holo
       require 'holo/wm/layout/tag'
       require 'holo/wm/layout/tag_list'
 
+      FIRST_TAG_ID = 1
+
       attr_reader :display, :geo, :tags, :current_tag, :bar
 
       def initialize(display)
         @display      = display
         @geo          = display.screens.first.geo
         @bar          = Bar.new(display, geo).show
-        @tags         = TagList.new(Tag.new(1, geo_for_new_tag))
+        @tags         = TagList.new(Tag.new(FIRST_TAG_ID, geo_for_new_tag))
         @current_tag  = tags.first
         update_bar!
       end
