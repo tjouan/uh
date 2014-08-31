@@ -22,12 +22,7 @@ module Holo
       @display        = Display.new
 
       return unless block_given?
-
-      if block.arity == 1
-        yield self
-      else
-        instance_eval &block
-      end
+      if block.arity == 1 then yield self else instance_eval &block end
     end
 
     def modifier(mod = nil)
