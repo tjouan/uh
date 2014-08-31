@@ -5,6 +5,8 @@ module Holo
     require 'holo/wm/layout'
     require 'holo/wm/manager'
 
+    include Events
+
     INPUT_MASK  = SUBSTRUCTURE_REDIRECT_MASK
     ROOT_MASK   = PROPERTY_CHANGE_MASK |
                   SUBSTRUCTURE_REDIRECT_MASK |
