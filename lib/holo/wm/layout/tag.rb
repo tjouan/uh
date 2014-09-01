@@ -57,14 +57,6 @@ module Holo
           self
         end
 
-        def sel_prev
-          current_col.sel_prev
-        end
-
-        def sel_next
-          current_col.sel_next
-        end
-
         def col_sel_prev
           col_sel :pred
         end

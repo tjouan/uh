@@ -54,11 +54,11 @@ module Holo
           current_client.hide
         end
 
-        def sel_prev
+        def client_sel_prev
           client_sel :pred
         end
 
-        def sel_next
+        def client_sel_next
           client_sel :succ
         end
 

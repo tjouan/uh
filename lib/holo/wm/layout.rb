@@ -71,12 +71,12 @@ module Holo
         update_bar!
       end
 
-      def handle_sel_prev
-        current_tag.sel_prev
+      def handle_client_sel_prev
+        current_tag.current_col.client_sel_prev
       end
 
-      def handle_sel_next
-        current_tag.sel_next
+      def handle_client_sel_next
+        current_tag.current_col.client_sel_next
       end
 
       def handle_col_sel_prev
