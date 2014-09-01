@@ -5,28 +5,21 @@ module Holo
         WIDTH = 484
 
         extend Forwardable
-        def_delegators :@clients, :empty?, :include?
+        def_delegators  :@clients, :empty?, :include?
+        def_delegator   :@clients, :current, :current_client
+        def_delegator   :@clients, :current?, :current_client?
 
         attr_accessor :id
-        attr_reader   :geo, :clients, :current
+        attr_reader   :geo, :clients
 
         def initialize(id)
           @id       = id
           @geo      = Geo.new
-          @clients  = []
-          @current  = nil
+          @clients  = ClientList.new
         end
 
         def to_s
           'COL #%d %s' % [id, geo]
-        end
-
-        def current_client
-          current ? clients[current] : nil
-        end
-
-        def current_client?(client)
-          current_client == client
         end
 
         def first?
@@ -34,19 +27,16 @@ module Holo
         end
 
         def <<(client)
-          insert_client client
+          current_client.hide if current_client
+          clients << client
           client.geo = geo.dup
           client.moveresize
-          current_client.hide if current_client
-          @current = clients.index client
+          client.show
         end
 
         def remove(client)
-          return unless index = clients.index(client)
-          clients.delete_at index
-          return unless clients.any?
-          @current = index.zero? ? 0 : index - 1
-          current_client.show
+          clients.remove client
+          current_client.show if current_client
         end
 
         def arrange!
@@ -65,30 +55,20 @@ module Holo
         end
 
         def sel_prev
-          sel :pred
+          client_sel :pred
         end
 
         def sel_next
-          sel :succ
+          client_sel :succ
         end
 
 
         private
 
-        def insert_client(client)
-          if current_client
-            clients.insert current + 1, client
-          else
-            clients << client
-          end
-        end
-
-        def sel(direction)
-          return unless clients.size >= 2
-          old = current_client
-          @current = current.send(direction) % clients.size
+        def client_sel(direction)
+          current_client.hide
+          clients.sel direction
           current_client.show.focus
-          old.hide
         end
       end
     end

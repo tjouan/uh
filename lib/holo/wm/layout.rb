@@ -3,6 +3,7 @@ module Holo
     class Layout
       require 'forwardable'
       require 'holo/wm/layout/bar'
+      require 'holo/wm/layout/client_list'
       require 'holo/wm/layout/col'
       require 'holo/wm/layout/tag'
       require 'holo/wm/layout/tag_list'
@@ -38,7 +39,6 @@ module Holo
 
       def <<(client)
         current_tag << client
-        client.show
         focus_current_client
       end
 
