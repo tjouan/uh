@@ -5,13 +5,12 @@ module Holo
         include Comparable
 
         attr_accessor :geo
-        attr_reader   :id, :cols, :current_col
+        attr_reader   :id, :cols
 
         def initialize(id, geo = nil)
-          @id           = id
-          @geo          = geo
-          @cols         = []
-          @current_col  = nil
+          @id   = id
+          @geo  = geo
+          @cols = ColList.new { arrange! }
         end
 
         def to_s
@@ -26,8 +25,12 @@ module Holo
           current_col and current_col.current_client
         end
 
+        def current_col
+          cols.current
+        end
+
         def current_col?(col)
-          current_col == col
+          cols.current? col
         end
 
         def current_col_geo
@@ -35,16 +38,13 @@ module Holo
         end
 
         def <<(client)
-          @current_col = create_col 0, arrange: true unless current_col
-          current_col << client
+          cols.current_or_create << client
         end
 
         def remove(client)
-          return unless client_col = find_col_by_client(client)
+          return unless client_col = cols.find { |e| e.include? client }
           client_col.remove client
-          delete_col! client_col if client_col.empty?
-          return unless current_col? client_col
-          @current_col = find_col current_col.id, current_col.id - 1
+          cols.purge
         end
 
         def show
@@ -66,77 +66,18 @@ module Holo
         end
 
         def col_set_prev
-          return if current_col.first?
-          col_set current_col, current_client, :pred
+          col_set current_col, current_client, current_col.id.pred
         end
 
         def col_set_next
-          return if current_col.id == max_col_id
-          col_set current_col, current_client, :succ
+          col_set current_col, current_client, current_col.id.succ
         end
 
 
         private
 
-        def col_sel(direction)
-          return unless cols.size >= 2
-          new_current_col = find_col current_col.id.send direction
-          return unless new_current_col
-          @current_col = new_current_col
-          current_client.focus
-        end
-
-        def col_set(client_col, client, direction)
-          client_col.remove client
-          dest_col = find_or_create_col(
-            client_col.id.send(direction),
-            arrange: true
-          )
-          delete_col! client_col if client_col.empty?
-          dest_col << client
-          @current_col = dest_col
-        end
-
-        def create_col(id, arrange: false)
-          Col.new(id).tap do |o|
-            cols << o
-            arrange! if arrange
-          end
-        end
-
-        def col_id?(id)
-          cols.any? { |e| e.id == id }
-        end
-
-        def find_col(*ids)
-          ids.inject(nil) { |m, id| m || cols.find { |e| e.id == id } }
-        end
-
-        def find_col_by_client(client)
-          cols.find { |e| e.include? client }
-        end
-
-        def find_or_create_col(id, arrange: false)
-          col_id?(id) ? find_col(id) : create_col(id, arrange: arrange)
-        end
-
-        def delete_col(col, arrange: false)
-          cols.reject! { |e| e == col }
-          return unless cols.any?
-          renumber_cols
-          arrange! if arrange
-        end
-
-        def delete_col!(col)
-          delete_col col, arrange: true
-          @current_col = nil if cols.empty?
-        end
-
-        def renumber_cols
-          cols.each_with_index { |col, i| col.id = i }
-        end
-
         def arrange!
+          return if cols.empty?
           cols.each do |col|
             col.geo.x       = Col::WIDTH * col.id
             col.geo.y       = geo.y
@@ -151,8 +92,17 @@ module Holo
           geo.width / Col::WIDTH
         end
 
-        def max_col_id
-          max_cols - 1
+        def col_sel(direction)
+          return unless cols.size >= 2
+          cols.sel direction
+          current_client.focus
+        end
+
+        def col_set(source_col, client, dest_col_id)
+          source_col.remove client
+          dest_col = cols.find_or_create(dest_col_id).tap { |o| o << client }
+          cols.purge
+          cols.current = dest_col
         end
       end
     end

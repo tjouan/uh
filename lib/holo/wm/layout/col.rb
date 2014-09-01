@@ -4,6 +4,8 @@ module Holo
       class Col
         WIDTH = 484
 
+        include Comparable
+
         extend Forwardable
         def_delegators  :@clients, :empty?, :include?
         def_delegator   :@clients, :current, :current_client
@@ -20,6 +22,10 @@ module Holo
 
         def to_s
           'COL #%d %s' % [id, geo]
+        end
+
+        def <=>(other)
+          id <=> other.id
         end
 
         def first?

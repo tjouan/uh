@@ -5,6 +5,7 @@ module Holo
       require 'holo/wm/layout/bar'
       require 'holo/wm/layout/client_list'
       require 'holo/wm/layout/col'
+      require 'holo/wm/layout/col_list'
       require 'holo/wm/layout/tag'
       require 'holo/wm/layout/tag_list'
 
