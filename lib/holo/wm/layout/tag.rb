@@ -4,6 +4,11 @@ module Holo
       class Tag
         include Comparable
 
+        extend Forwardable
+        def_delegator :@cols, :current, :current_col
+        def_delegator :@cols, :current?, :current_col?
+        def_delegator :current_col, :geo, :current_col_geo
+
         attr_accessor :geo
         attr_reader   :id, :cols
 
@@ -23,18 +28,6 @@ module Holo
 
         def current_client
           current_col and current_col.current_client
-        end
-
-        def current_col
-          cols.current
-        end
-
-        def current_col?(col)
-          cols.current? col
-        end
-
-        def current_col_geo
-          current_col.geo
         end
 
         def <<(client)
