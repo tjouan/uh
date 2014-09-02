@@ -10,6 +10,8 @@ module Holo
         def_delegators  :@clients, :empty?, :include?
         def_delegator   :@clients, :current, :current_client
         def_delegator   :@clients, :current?, :current_client?
+        def_delegator   :@clients, :current_index, :current_client_index
+        def_delegator   :@clients, :size, :clients_count
 
         attr_accessor :id
         attr_reader   :geo, :clients

@@ -3,10 +3,10 @@ module Holo
     class Layout
       class ClientList
         extend Forwardable
-        def_delegators  :@clients, :any?, :each, :empty?, :include?
+        def_delegators  :@clients, :any?, :each, :empty?, :include?, :size
         def_delegator   :current, :==, :current?
 
-        attr_reader :clients
+        attr_reader :clients, :current_index
 
         def initialize
           @clients        = []

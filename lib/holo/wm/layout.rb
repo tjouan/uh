@@ -41,11 +41,13 @@ module Holo
       def <<(client)
         current_tag << client
         focus_current_client
+        update_bar!
       end
 
       def remove(client)
         tags.remove_client client
         focus_current_client
+        update_bar!
       end
 
       def current_tag?(tag)
@@ -74,30 +76,38 @@ module Holo
 
       def handle_client_sel_prev
         current_tag.current_col.client_sel_prev
+        update_bar!
       end
 
       def handle_client_sel_next
         current_tag.current_col.client_sel_next
+        update_bar!
       end
 
       def handle_col_sel_prev
         current_tag.col_sel_prev
+        update_bar!
       end
 
       def handle_col_sel_next
         current_tag.col_sel_next
+        update_bar!
       end
 
       def handle_col_set_prev
         current_tag.col_set_prev
+        update_bar!
       end
 
       def handle_col_set_next
         current_tag.col_set_next
+        update_bar!
       end
 
       def handle_kill_current
-        current_client.kill if current_client
+        return unless current_client
+        current_client.kill
+        update_bar!
       end
 
 
