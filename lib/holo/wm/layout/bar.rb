@@ -2,7 +2,6 @@ module Holo
   class WM
     class Layout
       class Bar
-        HEIGHT    = 13
         COLOR     = 'rgb:d7/00/5f'.freeze
         COLOR_ALT = 'rgb:ed/33/86'.freeze
         TAG_WIDTH = 15
