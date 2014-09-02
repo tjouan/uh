@@ -27,9 +27,7 @@ module Holo
 
         def update(layout)
           draw_background
-          layout.tags.each_with_index do |t, i|
-            draw_tag t, i, layout.current_tag?(t)
-          end
+          draw_tags layout.tags, layout.current_tag
           self
         end
 
@@ -55,6 +53,12 @@ module Holo
         def draw_background
           pixmap.gc_black
           pixmap.draw_rect 0, 0, geo.width, geo.height
+        end
+
+        def draw_tags(tags, current_tag)
+          tags.each_with_index do |t, i|
+            draw_tag t, i, t == current_tag
+          end
         end
 
         def draw_tag(tag, index, current)
