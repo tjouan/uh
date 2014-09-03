@@ -70,6 +70,14 @@ module Holo
           client_sel :succ
         end
 
+        def client_swap_prev
+          clients.set :pred
+        end
+
+        def client_swap_next
+          clients.set :succ
+        end
+
 
         private
 

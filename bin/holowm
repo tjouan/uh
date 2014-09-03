@@ -11,7 +11,6 @@ wm = Holo::WM.new do
 
   key(:XK_Return)         { execute 'urxvt' }
   key(:XK_f)              { execute 'urxvt' }
-  key(:XK_f, :shift)      { execute 'xterm' }
 
   (0..9).each do |e|
     key("XK_#{e}".to_sym) { layout_tag_sel e }
@@ -22,6 +21,8 @@ wm = Holo::WM.new do
   end
   key(:XK_n)              { layout_client_sel_prev }
   key(:XK_t)              { layout_client_sel_next }
+  key(:XK_n, :shift)      { layout_client_swap_prev }
+  key(:XK_t, :shift)      { layout_client_swap_next }
   key(:XK_h)              { layout_col_sel_prev }
   key(:XK_s)              { layout_col_sel_next }
   key(:XK_h, :shift)      { layout_col_set_prev }

@@ -32,7 +32,32 @@ module Holo
         end
 
         def sel(direction)
-          @current_index = @current_index.send(direction) % clients.size
+          @current_index = @current_index.send(direction) % size
+        end
+
+        def set(direction)
+          other_index = @current_index.send(direction)
+          if other_index.between? 0, size - 1
+            swap @current_index, other_index
+            @current_index = other_index
+          else
+            rotate direction
+            @current_index = other_index % size
+          end
+        end
+
+
+        private
+
+        def swap(a, b)
+          clients[a], clients[b] = clients[b], clients[a]
+        end
+
+        def rotate(direction)
+          case direction
+          when :pred then @clients = @clients.push    @clients.shift
+          when :succ then @clients = @clients.unshift @clients.pop
+          end
         end
       end
     end

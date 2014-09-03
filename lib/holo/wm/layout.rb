@@ -84,6 +84,16 @@ module Holo
         update_bar!
       end
 
+      def handle_client_swap_prev
+        current_tag.current_col.client_swap_prev
+        update_bar!
+      end
+
+      def handle_client_swap_next
+        current_tag.current_col.client_swap_next
+        update_bar!
+      end
+
       def handle_col_sel_prev
         current_tag.col_sel_prev
         update_bar!
