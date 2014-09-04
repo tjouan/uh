@@ -2,12 +2,20 @@ module Holo
   class WM
     class Layout
       class TagList
+        FIRST_TAG_ID = 1
+
         include Enumerable
 
-        attr_reader :tags
+        extend Forwardable
+        def_delegator :current, :==, :current?
 
-        def initialize(*tags)
-          @tags = tags
+        attr_accessor :current
+        attr_reader   :tags
+
+        def initialize(*tag_args)
+          @tag_args = tag_args
+          @current  = Tag.new(FIRST_TAG_ID, *tag_args)
+          @tags     = [@current]
         end
 
         def <<(tag)
@@ -19,20 +27,29 @@ module Holo
           tags.each &block
         end
 
-        def create(id, geo)
-          Tag.new(id, geo).tap { |t| self << t }
+        def create(id)
+          Tag.new(id, *@tag_args).tap { |t| self << t }
         end
 
         def find_by_id(id)
           tags.find { |t| t.id == id }
         end
 
-        def find_or_create(id, geo)
-          find_by_id(id) or create(id, geo)
+        def find_or_create(id)
+          find_by_id(id) or create(id)
         end
 
         def remove_client(client)
           tags.each { |t| t.remove client }
+        end
+
+        def sel(id)
+          @current = find_or_create id
+        end
+
+        def set(id, client)
+          @current.remove client
+          find_or_create(id) << client
         end
       end
     end

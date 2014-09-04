@@ -9,16 +9,18 @@ module Holo
       require 'holo/wm/layout/tag'
       require 'holo/wm/layout/tag_list'
 
-      FIRST_TAG_ID = 1
+      extend Forwardable
+      def_delegator :@tags, :current, :current_tag
+      def_delegator :@tags, :current?, :current_tag?
+      def_delegator :current_tag, :current_client, :current_client
 
-      attr_reader :display, :geo, :tags, :current_tag, :bar
+      attr_reader :display, :geo, :tags, :bar
 
       def initialize(display)
-        @display      = display
-        @geo          = display.screens.first.geo
-        @bar          = Bar.new(display, geo).show
-        @tags         = TagList.new
-        @current_tag  = tags.create FIRST_TAG_ID, geo_for_new_tag
+        @display  = display
+        @geo      = display.screens.first.geo
+        @bar      = Bar.new(display, geo).show
+        @tags     = TagList.new(geo_for_new_tag)
         update_bar!
       end
 
@@ -50,10 +52,6 @@ module Holo
         update_bar!
       end
 
-      def current_tag?(tag)
-        current_tag == tag
-      end
-
       def suggest_geo_for_client
         current_tag.current_col_geo
       end
@@ -61,15 +59,15 @@ module Holo
       def handle_tag_sel(tag_id)
         return unless current_tag.id != tag_id
         current_tag.hide
-        @current_tag = find_or_create_tag(tag_id).show
+        tags.sel(tag_id).show
         focus_current_client
         update_bar!
       end
 
       def handle_tag_set(tag_id)
         return unless current_tag.id != tag_id && current_client
-        current_tag.remove client = current_tag.current_client.hide
-        find_or_create_tag(tag_id) << client
+        current_client.hide
+        tags.set tag_id, current_client.hide
         focus_current_client
         update_bar!
       end
@@ -127,16 +125,8 @@ module Holo
         geo.dup.tap { |o| o.height -= bar.height }
       end
 
-      def current_client
-        current_tag.current_client
-      end
-
       def focus_current_client
         current_client and current_client.focus
-      end
-
-      def find_or_create_tag(id)
-        tags.find_or_create id, geo_for_new_tag
       end
 
       def update_bar!
