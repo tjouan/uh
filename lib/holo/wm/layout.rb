@@ -112,6 +112,10 @@ module Holo
         current_client.kill
       end
 
+      def update_screen_bars!
+        screens.each { |e| e.update_bar! current_screen? e }
+      end
+
 
       private
 
@@ -121,10 +125,6 @@ module Holo
         else
           current_screen.bar.focus
         end
-      end
-
-      def update_screen_bars!
-        screens.each { |e| e.update_bar! current_screen? e }
       end
     end
   end
