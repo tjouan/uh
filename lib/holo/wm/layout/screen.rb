@@ -6,6 +6,7 @@ module Holo
         def_delegator :@tags, :current, :current_tag
         def_delegator :@tags, :current?, :current_tag?
         def_delegator :@tags, :remove, :remove
+        def_delegator :current_tag, :current_client, :current_client
         def_delegator :current_tag, :suggest_geo, :suggest_geo
 
         attr_reader :bar, :tags
