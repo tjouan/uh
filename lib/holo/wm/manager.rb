@@ -59,13 +59,13 @@ module Holo
       end
 
       def manage(client)
-        puts '  manage %s' % client
+        puts '  %s.manage %s' % [self.class, client]
         clients << client
         layout  << client
       end
 
       def unmanage(client)
-        puts '  unmanage %s' % client
+        puts '  %s.unmanage %s' % [self.class, client]
         clients.reject! { |e| e == client}
         layout.remove client
       end

@@ -21,38 +21,38 @@ module Holo
       end
 
       def configure
-        puts '  configure %s' % self
+        puts '  %s.configure %s' % [self.class, self]
         window.configure geo
         self
       end
 
       def moveresize
-        puts '  moveresize %s' % self
+        puts '  %s.moveresize %s' % [self.class, self]
         window.moveresize geo
         self
       end
 
       def show
-        puts '  show %s' % self
+        puts '  %s.show %s' % [self.class, self]
         window.map
         self
       end
 
       def hide
-        puts '  hide %s' % self
+        puts '  %s.hide %s' % [self.class, self]
         window.unmap
         self
       end
 
       def focus
-        puts '  raise, focus %s' % self
+        puts '  %s.{raise,focus} %s' % [self.class, self]
         window.raise
         window.focus
         self
       end
 
       def kill
-        puts '  kill %s' % self
+        puts '  %s.kill %s' % [self.class, self]
         window.kill
         self
       end
