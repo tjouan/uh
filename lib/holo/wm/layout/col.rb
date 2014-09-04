@@ -34,6 +34,10 @@ module Holo
           id == 0
         end
 
+        def suggest_geo
+          geo.dup
+        end
+
         def <<(client)
           current_client.hide if current_client
           clients << client

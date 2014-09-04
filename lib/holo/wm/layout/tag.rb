@@ -7,7 +7,7 @@ module Holo
         extend Forwardable
         def_delegator :@cols, :current, :current_col
         def_delegator :@cols, :current?, :current_col?
-        def_delegator :current_col, :geo, :current_col_geo
+        def_delegator :current_col, :suggest_geo, :suggest_geo
 
         attr_accessor :geo
         attr_reader   :id, :cols
