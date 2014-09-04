@@ -50,6 +50,7 @@ module Holo
         if respond_to? m
           puts '> Layout -> %s' % layout_method(m)
           wm.manager.layout.send(layout_method(m), *args)
+          wm.manager.layout.update_screen_bars!
         else
           super
         end

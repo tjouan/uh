@@ -63,65 +63,53 @@ module Holo
       def handle_screen_sel_next
         screens.sel_next
         focus_current_client
-        update_screen_bars!
       end
 
       def handle_tag_sel(tag_id)
         current_screen.tag_sel tag_id
         focus_current_client
-        update_screen_bars!
       end
 
       def handle_tag_set(tag_id)
         current_screen.tag_set tag_id
         focus_current_client
-        update_screen_bars!
       end
 
       def handle_client_sel_prev
         current_col.client_sel_prev
-        update_screen_bars!
       end
 
       def handle_client_sel_next
         current_col.client_sel_next
-        update_screen_bars!
       end
 
       def handle_client_swap_prev
         current_col.client_swap_prev
-        update_screen_bars!
       end
 
       def handle_client_swap_next
         current_col.client_swap_next
-        update_screen_bars!
       end
 
       def handle_col_sel_prev
         current_tag.col_sel_prev
-        update_screen_bars!
       end
 
       def handle_col_sel_next
         current_tag.col_sel_next
-        update_screen_bars!
       end
 
       def handle_col_set_prev
         current_tag.col_set_prev
-        update_screen_bars!
       end
 
       def handle_col_set_next
         current_tag.col_set_next
-        update_screen_bars!
       end
 
       def handle_kill_current
         return unless current_client
         current_client.kill
-        update_screen_bars!
       end
 
 
