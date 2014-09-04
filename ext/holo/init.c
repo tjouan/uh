@@ -105,6 +105,7 @@ void holo_pixmap() {
 void holo_screen() {
   cScreen = rb_define_class_under(mHolo, "Screen", rb_cObject);
   rb_define_method(cScreen, "initialize", screen_init, 5);
+  rb_define_attr(cScreen, "id", 1, 0);
   rb_define_attr(cScreen, "x", 1, 0);
   rb_define_attr(cScreen, "y", 1, 0);
   rb_define_attr(cScreen, "width", 1, 0);

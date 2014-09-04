@@ -11,14 +11,19 @@ module Holo
         def_delegators :@geo, :x, :y, :width, :height
 
         attr_reader :display, :geo, :window, :pixmap, :color, :color_alt
+        attr_writer :active
 
-        def initialize(display, layout_geo)
+        def initialize(display, screen_geo)
           @display    = display
-          @geo        = build_geo layout_geo
+          @geo        = build_geo screen_geo
           @window     = display.create_subwindow geo
           @pixmap     = display.create_pixmap geo.width, geo.height
           @color      = display.color_by_name COLOR
           @color_alt  = display.color_by_name COLOR_ALT
+        end
+
+        def active?
+          !!@active
         end
 
         def show
@@ -26,10 +31,15 @@ module Holo
           self
         end
 
-        def update(layout)
+        def focus
+          window.focus
+          self
+        end
+
+        def update(tags, current_tag)
           draw_background
-          draw_cols layout.current_tag.cols, layout.current_tag.current_col
-          draw_tags layout.tags, layout.current_tag
+          draw_cols current_tag.cols, current_tag.current_col
+          draw_tags tags, current_tag
           self
         end
 
@@ -50,6 +60,10 @@ module Holo
             layout_geo.width,
             bar_height
           )
+        end
+
+        def active_color
+          active? ? color : color_alt
         end
 
         def text_line_height
@@ -80,16 +94,20 @@ module Holo
         end
 
         def draw_col(col, current)
-          pixmap.gc_color current ? color : color_alt
-          pixmap.draw_rect col.geo.x + 1, col_widget_y,
+          pixmap.gc_color current ? active_color : color_alt
+          pixmap.draw_rect col_x(col) + 1, col_widget_y,
             col.geo.width - 1, COL_WIDGET_HEIGHT
           pixmap.gc_white
           text_y = col_line_y + display.font.ascent + 1
-          pixmap.draw_string col.geo.x + 2, text_y, '%d/%d %s' % [
+          pixmap.draw_string col_x(col) + 2, text_y, '%d/%d %s' % [
             col.current_client_index,
             col.clients_count,
             col.current_client.to_s
           ]
+        end
+
+        def col_x(col)
+          col.geo.x - x
         end
 
         def draw_tags(tags, current_tag)
@@ -101,7 +119,7 @@ module Holo
         def draw_tag(tag, index, current)
           offset = index * TAG_WIDTH
           if current
-            pixmap.gc_color color
+            pixmap.gc_color active_color
             pixmap.draw_rect offset, layout_line_y, TAG_WIDTH, text_line_height
           end
           pixmap.gc_white

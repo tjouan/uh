@@ -72,12 +72,12 @@ module Holo
         def arrange!
           return if cols.empty?
           cols.each do |col|
-            col.geo.x       = Col::WIDTH * col.id
+            col.geo.x       = geo.x + Col::WIDTH * col.id
             col.geo.y       = geo.y
             col.geo.width   = Col::WIDTH
             col.geo.height  = geo.height
           end
-          cols.last.geo.width = geo.width - cols.last.geo.x
+          cols.last.geo.width = geo.x + geo.width - cols.last.geo.x
           cols.each &:arrange!
         end
 

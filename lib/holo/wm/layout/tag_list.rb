@@ -39,7 +39,7 @@ module Holo
           find_by_id(id) or create(id)
         end
 
-        def remove_client(client)
+        def remove(client)
           tags.each { |t| t.remove client }
         end
 
