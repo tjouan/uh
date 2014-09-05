@@ -20,8 +20,9 @@ task :demo do
   sh 'xinit ./bin/xinitrc -- %s' % xephyr
 end
 
-desc 'Execute pry console with holowm required'
+desc 'Execute pry console'
 task :console do
+  require 'pry'
   require 'holo'
   require 'holo/wm'
   pry

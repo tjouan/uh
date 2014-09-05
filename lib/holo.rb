@@ -8,7 +8,6 @@ module Holo
   require 'holo/pixmap'
   require 'holo/screen'
   require 'holo/window'
-  require 'pry'
 
   Error               = Class.new(StandardError)
   RuntimeError        = Class.new(RuntimeError)
