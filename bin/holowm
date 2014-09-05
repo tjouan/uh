@@ -20,6 +20,7 @@ wm = Holo::WM.new do
     key(k, :shift)        { layout_tag_set e }
   end
   key(:XK_c)              { layout_screen_sel_next }
+  key(:XK_c, :shift)      { layout_screen_set_next }
   key(:XK_n)              { layout_client_sel_prev }
   key(:XK_t)              { layout_client_sel_next }
   key(:XK_n, :shift)      { layout_client_swap_prev }

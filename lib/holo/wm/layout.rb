@@ -66,6 +66,12 @@ module Holo
         focus_current_client
       end
 
+      def handle_screen_set_next
+        return unless current_client
+        screens.set_next current_client
+        focus_current_client
+      end
+
       def handle_tag_sel(tag_id)
         current_screen.tag_sel tag_id
         focus_current_client

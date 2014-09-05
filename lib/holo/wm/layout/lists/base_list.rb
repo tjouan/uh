@@ -28,10 +28,6 @@ module Holo
             @entries.each { |e| e.remove entry }
           end
 
-          def sel(direction)
-            @current_index = @current_index.send(direction) % size
-          end
-
           def sel_prev
             sel :pred
           end
@@ -40,8 +36,22 @@ module Holo
             sel :succ
           end
 
+          def sel(direction)
+            @current_index = @current_index.send(direction) % size
+          end
+
+          def set_next(entry)
+            set entry, :succ
+          end
+
 
           private
+
+          def set(entry, direction)
+            destination = @entries[@current_index.send(direction) % size]
+            current.remove entry
+            destination << entry
+          end
 
           def swap(a, b)
             @entries[a], @entries[b] = @entries[b], @entries[a]
