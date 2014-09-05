@@ -5,11 +5,14 @@
   HoloWindow *window;\
   Data_Get_Struct(x, HoloWindow, window);
 
+#define DPY     window->dpy
+#define WINDOW  window->id
+
 
 VALUE window_focus(VALUE self) {
   set_window(self);
 
-  XSetInputFocus(window->dpy, window->id, RevertToPointerRoot, CurrentTime);
+  XSetInputFocus(DPY, WINDOW, RevertToPointerRoot, CurrentTime);
 
   return Qnil;
 }
@@ -17,7 +20,7 @@ VALUE window_focus(VALUE self) {
 VALUE window_kill(VALUE self) {
   set_window(self);
 
-  XKillClient(window->dpy, window->id);
+  XKillClient(DPY, WINDOW);
 
   return Qnil;
 }
@@ -25,7 +28,7 @@ VALUE window_kill(VALUE self) {
 VALUE window_map(VALUE self) {
   set_window(self);
 
-  XMapWindow(window->dpy, window->id);
+  XMapWindow(DPY, WINDOW);
 
   return Qnil;
 }
@@ -35,7 +38,7 @@ VALUE window_mask_set(VALUE self, VALUE mask) {
   XSetWindowAttributes attrs;
 
   attrs.event_mask = FIX2LONG(mask);
-  XChangeWindowAttributes(window->dpy, window->id, CWEventMask, &attrs);
+  XChangeWindowAttributes(DPY, WINDOW, CWEventMask, &attrs);
 
   return Qnil;
 }
@@ -45,7 +48,7 @@ VALUE window_name(VALUE self) {
   char        *wxname;
   VALUE       wname;
 
-  if (!XFetchName(window->dpy, window->id, &wxname))
+  if (!XFetchName(DPY, WINDOW, &wxname))
     return Qnil;
 
   wname = rb_str_new_cstr(wxname);
@@ -58,7 +61,7 @@ VALUE window_override_redirect(VALUE self) {
   set_window(self);
   XWindowAttributes wa;
 
-  if (!XGetWindowAttributes(window->dpy, window->id, &wa))
+  if (!XGetWindowAttributes(DPY, WINDOW, &wa))
     return Qnil;
 
   return wa.override_redirect ? Qtrue : Qfalse;
@@ -67,7 +70,7 @@ VALUE window_override_redirect(VALUE self) {
 VALUE window_raise(VALUE self) {
   set_window(self);
 
-  XRaiseWindow(window->dpy, window->id);
+  XRaiseWindow(DPY, WINDOW);
 
   return Qnil;
 }
@@ -75,7 +78,7 @@ VALUE window_raise(VALUE self) {
 VALUE window_unmap(VALUE self) {
   set_window(self);
 
-  XUnmapWindow(window->dpy, window->id);
+  XUnmapWindow(DPY, WINDOW);
 
   return Qnil;
 }
@@ -85,7 +88,7 @@ VALUE window_wclass(VALUE self) {
   XClassHint  ch;
   VALUE       wclass;
 
-  if (!XGetClassHint(window->dpy, window->id, &ch))
+  if (!XGetClassHint(DPY, WINDOW, &ch))
     return Qnil;
 
   wclass = rb_str_new_cstr(ch.res_class);
@@ -108,7 +111,7 @@ VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
   wc.height       = FIX2INT(rh);
   wc.border_width = 0;
   wc.stack_mode   = Above;
-  XConfigureWindow(window->dpy, window->id, mask, &wc);
+  XConfigureWindow(DPY, WINDOW, mask, &wc);
 
   return Qnil;
 }
@@ -118,9 +121,9 @@ VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh
   XConfigureEvent ev;
 
   ev.type               = ConfigureNotify;
-  ev.display            = window->dpy;
-  ev.event              = window->id;
-  ev.window             = window->id;
+  ev.display            = DPY;
+  ev.event              = WINDOW;
+  ev.window             = WINDOW;
   ev.x                  = FIX2INT(rx);
   ev.y                  = FIX2INT(ry);
   ev.width              = FIX2INT(rw);
@@ -128,7 +131,7 @@ VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh
   ev.border_width       = 0;
   ev.above              = None;
   ev.override_redirect  = False;
-  XSendEvent(window->dpy, window->id, False, StructureNotifyMask, (XEvent *)&ev);
+  XSendEvent(DPY, WINDOW, False, StructureNotifyMask, (XEvent *)&ev);
 
   return Qnil;
 }
@@ -142,13 +145,13 @@ VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
   wa.background_pixmap  = ParentRelative;
   wa.event_mask         = ExposureMask;
 
-  sub_win = XCreateWindow(window->dpy, window->id,
+  sub_win = XCreateWindow(DPY, WINDOW,
     FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h), 0,
     CopyFromParent, CopyFromParent, CopyFromParent,
     CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa
   );
 
-  return window_make(window->dpy, sub_win);
+  return window_make(DPY, sub_win);
 }
 
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
@@ -159,7 +162,7 @@ VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height
   wc.y      = NUM2INT(y);
   wc.width  = NUM2INT(width);
   wc.height = NUM2INT(height);
-  XConfigureWindow(window->dpy, window->id, CWX | CWY | CWWidth | CWHeight, &wc);
+  XConfigureWindow(DPY, WINDOW, CWX | CWY | CWWidth | CWHeight, &wc);
 
   return Qnil;
 }
