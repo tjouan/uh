@@ -38,7 +38,7 @@ VALUE display_color_by_name(VALUE self, VALUE rcolor) {
   Colormap  map;
   XColor    color;
 
-  map = DefaultColormap(DPY, DefaultScreen(DPY));
+  map = DefaultColormap(DPY, SCREEN_DEFAULT);
 
   if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor), &color, &color))
     rb_raise(rb_eArgError, "Invalid color name `%s'", RSTRING_PTR(rcolor));
@@ -51,7 +51,7 @@ VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
   Pixmap pixmap;
 
   pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(width), FIX2INT(height),
-    DefaultDepth(DPY, DefaultScreen(DPY))
+    DefaultDepth(DPY, SCREEN_DEFAULT)
   );
 
   return pixmap_make(DPY, pixmap, width, height);
@@ -115,7 +115,7 @@ VALUE display_query_font(VALUE self) {
   VALUE       font;
 
   if (!(xfs = XQueryFont(DPY,
-      XGContextFromGC(DefaultGC(DPY, DefaultScreen(DPY))))))
+      XGContextFromGC(DefaultGC(DPY, SCREEN_DEFAULT)))))
     return Qnil;
 
   font = font_make(xfs->ascent, xfs->descent);
@@ -151,11 +151,11 @@ VALUE display_screens(VALUE self) {
     }
   }
   else {
-    args[0] = INT2FIX(DefaultScreen(DPY));
+    args[0] = INT2FIX(SCREEN_DEFAULT);
     args[1] = INT2FIX(0);
     args[2] = INT2FIX(0);
-    args[3] = INT2FIX(XDisplayWidth(DPY, DefaultScreen(DPY)));
-    args[4] = INT2FIX(XDisplayHeight(DPY, DefaultScreen(DPY)));
+    args[3] = INT2FIX(XDisplayWidth(DPY, SCREEN_DEFAULT));
+    args[4] = INT2FIX(XDisplayHeight(DPY, SCREEN_DEFAULT));
 
     rb_ary_push(screens, rb_class_new_instance(5, args, cScreen));
   }
