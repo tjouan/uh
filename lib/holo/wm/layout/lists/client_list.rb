@@ -4,11 +4,7 @@ module Holo
       module Lists
         class ClientList < BaseList
           def <<(client)
-            if current
-              insert current_index + 1, client
-            else
-              super
-            end
+            if current then insert current_index + 1, client else super end
             @current_index = index client
           end
 
@@ -18,7 +14,7 @@ module Holo
           end
 
           def set(direction)
-            other_index = current_index.send(direction)
+            other_index = current_index.send direction
             if other_index.between? 0, size - 1
               swap current_index, other_index
               @current_index = other_index
