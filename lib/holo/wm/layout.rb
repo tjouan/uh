@@ -4,6 +4,7 @@ module Holo
       require 'forwardable'
       require 'holo/wm/layout/bar'
       require 'holo/wm/layout/col'
+      require 'holo/wm/layout/lists/base_list'
       require 'holo/wm/layout/lists/client_list'
       require 'holo/wm/layout/lists/col_list'
       require 'holo/wm/layout/lists/screen_list'
@@ -23,7 +24,7 @@ module Holo
 
       def initialize(display)
         @display  = display
-        @screens  = Lists::ScreenList.new(display.screens) do |e|
+        @screens  = Lists::ScreenList.new(*display.screens) do |e|
           Screen.new(display, e)
         end
         update_screen_bars!
