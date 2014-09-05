@@ -33,6 +33,14 @@ wm = Holo::WM.new do
   key(:XK_s, :shift)      { layout_col_set_next }
   key(:XK_e)              { layout_kill_current }
 
+  key(:XK_apostrophe)         { execute 'mocp --toggle-pause' }
+  key(:XK_comma)              { execute 'mixer vol -3' }
+  key(:XK_period)             { execute 'mixer vol +3' }
+  key(:XK_apostrophe, :shift) { execute 'mocp --seek 30' }
+  key(:XK_comma, :shift)      { execute 'mocp --previous' }
+  key(:XK_period, :shift)     { execute 'mocp --next' }
+
+
   key(:XK_l)              { log_layout }
   key(:XK_l, :shift)      { log_clients }
   key(:XK_BackSpace)      { log_line }
