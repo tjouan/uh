@@ -11,6 +11,7 @@ wm = Holo::WM.new do
 
   key(:XK_Return)         { execute 'urxvt' }
   key(:XK_f)              { execute 'urxvt' }
+  key(:XK_f, :shift)      { execute 'firefox -P test' }
 
   (0..9).each do |e|
     key("XK_#{e}".to_sym) { layout_tag_sel e }
