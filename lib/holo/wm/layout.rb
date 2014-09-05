@@ -3,13 +3,13 @@ module Holo
     class Layout
       require 'forwardable'
       require 'holo/wm/layout/bar'
-      require 'holo/wm/layout/client_list'
       require 'holo/wm/layout/col'
-      require 'holo/wm/layout/col_list'
+      require 'holo/wm/layout/lists/client_list'
+      require 'holo/wm/layout/lists/col_list'
+      require 'holo/wm/layout/lists/screen_list'
+      require 'holo/wm/layout/lists/tag_list'
       require 'holo/wm/layout/screen'
-      require 'holo/wm/layout/screen_list'
       require 'holo/wm/layout/tag'
-      require 'holo/wm/layout/tag_list'
 
       extend Forwardable
       def_delegator :@screens, :current,  :current_screen
@@ -23,7 +23,7 @@ module Holo
 
       def initialize(display)
         @display  = display
-        @screens  = ScreenList.new(display.screens) do |e|
+        @screens  = Lists::ScreenList.new(display.screens) do |e|
           Screen.new(display, e)
         end
         update_screen_bars!

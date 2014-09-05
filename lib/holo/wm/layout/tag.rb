@@ -15,7 +15,7 @@ module Holo
         def initialize(id, geo = nil)
           @id   = id
           @geo  = geo
-          @cols = ColList.new { arrange! }
+          @cols = Lists::ColList.new { arrange! }
         end
 
         def to_s

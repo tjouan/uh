@@ -19,7 +19,7 @@ module Holo
         def initialize(id)
           @id       = id
           @geo      = Geo.new
-          @clients  = ClientList.new
+          @clients  = Lists::ClientList.new
         end
 
         def to_s

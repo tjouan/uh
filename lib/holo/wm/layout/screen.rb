@@ -16,7 +16,7 @@ module Holo
           @display  = display
           @geo      = screen.geo.dup
           @bar      = Bar.new(display, @geo).show
-          @tags     = TagList.new(geo_for_new_tag)
+          @tags     = Lists::TagList.new(geo_for_new_tag)
         end
 
         def to_s
