@@ -1,6 +1,9 @@
 #include "holo.h"
 
 
+#define DPY display->dpy
+
+
 VALUE rdisplay_error_handler;
 
 int display_x_error_handler(Display *dpy, XErrorEvent *e);

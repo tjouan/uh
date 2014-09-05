@@ -13,7 +13,6 @@
   HoloDisplay *display;\
   Data_Get_Struct(x, HoloDisplay, display);
 
-#define DPY             display->dpy
 #define ROOT_DEFAULT    DefaultRootWindow(DPY)
 #define SCREEN_DEFAULT  DefaultScreen(DPY)
 

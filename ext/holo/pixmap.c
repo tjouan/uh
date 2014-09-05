@@ -5,6 +5,10 @@
   HoloPixmap *pixmap;\
   Data_Get_Struct(x, HoloPixmap, pixmap);
 
+#define DPY     pixmap->dpy
+#define PIXMAP  pixmap->pixmap
+#define GC      pixmap->gc
+
 
 void pixmap_deallocate(HoloPixmap *p);
 
@@ -12,7 +16,7 @@ void pixmap_deallocate(HoloPixmap *p);
 VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
   set_pixmap(self);
 
-  XFillRectangle(pixmap->dpy, pixmap->pixmap, pixmap->gc,
+  XFillRectangle(DPY, PIXMAP, GC,
     FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h)
   );
 
@@ -22,10 +26,8 @@ VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
   set_pixmap(self);
 
-  XDrawString(
-    pixmap->dpy, pixmap->pixmap, pixmap->gc,
-    FIX2INT(x), FIX2INT(y),
-    RSTRING_PTR(str), RSTRING_LEN(str)
+  XDrawString(DPY, PIXMAP, GC,
+    FIX2INT(x), FIX2INT(y), RSTRING_PTR(str), RSTRING_LEN(str)
   );
 
   return Qnil;
@@ -34,9 +36,7 @@ VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
 VALUE pixmap_gc_black(VALUE self) {
   set_pixmap(self);
 
-  XSetForeground(pixmap->dpy, pixmap->gc,
-    BlackPixel(pixmap->dpy, DefaultScreen(pixmap->dpy))
-  );
+  XSetForeground(DPY, GC, BlackPixel(DPY, SCREEN_DEFAULT));
 
   return Qnil;
 }
@@ -44,9 +44,7 @@ VALUE pixmap_gc_black(VALUE self) {
 VALUE pixmap_gc_color(VALUE self, VALUE rcolor) {
   set_pixmap(self);
 
-  XSetForeground(pixmap->dpy, pixmap->gc,
-    NUM2LONG(rb_ivar_get(rcolor, rb_intern("@pixel")))
-  );
+  XSetForeground(DPY, GC, NUM2LONG(rb_ivar_get(rcolor, rb_intern("@pixel"))));
 
   return Qnil;
 }
@@ -54,9 +52,7 @@ VALUE pixmap_gc_color(VALUE self, VALUE rcolor) {
 VALUE pixmap_gc_white(VALUE self) {
   set_pixmap(self);
 
-  XSetForeground(pixmap->dpy, pixmap->gc,
-    WhitePixel(pixmap->dpy, DefaultScreen(pixmap->dpy))
-  );
+  XSetForeground(DPY, GC, WhitePixel(DPY, SCREEN_DEFAULT));
 
   return Qnil;
 }
@@ -65,7 +61,7 @@ VALUE pixmap_gc_white(VALUE self) {
 VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight) {
   set_pixmap(self);
 
-  XCopyArea(pixmap->dpy, pixmap->pixmap, FIX2INT(rwindow_id), pixmap->gc,
+  XCopyArea(DPY, PIXMAP, FIX2INT(rwindow_id), GC,
     0, 0, FIX2INT(rwidth), FIX2INT(rheight), 0, 0
   );
 
@@ -89,8 +85,8 @@ VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height) {
 }
 
 
-void pixmap_deallocate(HoloPixmap *p) {
-  XFreePixmap(p->dpy, p->pixmap);
-  XFreeGC(p->dpy, p->gc);
-  free(p);
+void pixmap_deallocate(HoloPixmap *pixmap) {
+  XFreePixmap(DPY, PIXMAP);
+  XFreeGC(DPY, GC);
+  free(pixmap);
 }
