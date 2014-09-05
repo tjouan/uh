@@ -23,7 +23,7 @@ module Holo
         end
 
         def <=>(other)
-          id <=> other.id
+          id.to_s <=> other.id.to_s
         end
 
         def current_client

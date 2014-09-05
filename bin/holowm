@@ -19,6 +19,8 @@ wm = Holo::WM.new do
     k = "XK_#{e}".to_sym
     key(k, :shift)        { layout_tag_set e }
   end
+  key(:XK_w)              { layout_tag_sel 'www' }
+  key(:XK_w, :shift)      { layout_tag_set 'www' }
   key(:XK_c)              { layout_screen_sel_next }
   key(:XK_c, :shift)      { layout_screen_set_next }
   key(:XK_n)              { layout_client_sel_prev }
