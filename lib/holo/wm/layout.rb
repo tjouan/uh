@@ -49,6 +49,10 @@ module Holo
         end
       end
 
+      def update_screen_bars!
+        screens.each { |e| e.update_bar! current_screen? e }
+      end
+
       def <<(client)
         current_screen << client
         focus_current_client
@@ -117,10 +121,6 @@ module Holo
       def handle_kill_current
         return unless current_client
         current_client.kill
-      end
-
-      def update_screen_bars!
-        screens.each { |e| e.update_bar! current_screen? e }
       end
 
 
