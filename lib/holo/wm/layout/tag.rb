@@ -30,6 +30,10 @@ module Holo
           current_col and current_col.current_client
         end
 
+        def suggest_geo
+          current_col ? current_col.suggest_geo : geo
+        end
+
         def <<(client)
           cols.current_or_create << client
         end
