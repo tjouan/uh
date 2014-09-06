@@ -87,19 +87,19 @@ module Holo
       end
 
       def handle_client_sel_prev
-        current_col.client_sel_prev
+        current_col.client_sel_prev if current_client
       end
 
       def handle_client_sel_next
-        current_col.client_sel_next
+        current_col.client_sel_next if current_client
       end
 
       def handle_client_swap_prev
-        current_col.client_swap_prev
+        current_col.client_swap_prev if current_client
       end
 
       def handle_client_swap_next
-        current_col.client_swap_next
+        current_col.client_swap_next if current_client
       end
 
       def handle_col_sel_prev
@@ -111,16 +111,15 @@ module Holo
       end
 
       def handle_col_set_prev
-        current_tag.col_set_prev
+        current_tag.col_set_prev if current_client
       end
 
       def handle_col_set_next
-        current_tag.col_set_next
+        current_tag.col_set_next if current_client
       end
 
       def handle_kill_current
-        return unless current_client
-        current_client.kill
+        current_client.kill if current_client
       end
 
 
