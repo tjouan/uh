@@ -9,7 +9,7 @@ module Holo
             :insert, :last, :size, :sort!
           def_delegator :current, :==, :current?
 
-          attr_reader :current_index
+          attr_reader :entries, :current_index
 
           def initialize(*entries)
             @entries        = entries
@@ -44,15 +44,6 @@ module Holo
             set object, :succ
           end
 
-
-          private
-
-          def set(object, direction)
-            destination = @entries[@current_index.send(direction) % size]
-            current.remove object
-            destination << object
-          end
-
           def swap(a, b)
             @entries[a], @entries[b] = @entries[b], @entries[a]
           end
@@ -62,6 +53,15 @@ module Holo
             when :pred then @entries = @entries.push    @entries.shift
             when :succ then @entries = @entries.unshift @entries.pop
             end
+          end
+
+
+          private
+
+          def set(object, direction)
+            destination = @entries[@current_index.send(direction) % size]
+            current.remove object
+            destination << object
           end
         end
       end

@@ -99,6 +99,29 @@ module Holo
               expect { list.set_next :object }.not_to change { list.current }
             end
           end
+
+          describe '#swap' do
+            it 'swaps entries matched by given indexes' do
+              list.swap 0, 1
+              expect(list.entries).to eq %i[bar foo baz]
+            end
+          end
+
+          describe '#rotate' do
+            context 'succ direction' do
+              it 'rotates entries' do
+                list.rotate :pred
+                expect(list.entries).to eq %i[bar baz foo]
+              end
+            end
+
+            context 'pred direction' do
+              it 'rotates entries' do
+                list.rotate :succ
+                expect(list.entries).to eq %i[baz foo bar]
+              end
+            end
+          end
         end
       end
     end
