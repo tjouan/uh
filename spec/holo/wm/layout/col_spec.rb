@@ -5,8 +5,8 @@ module Holo
   class WM
     class Layout
       describe Col do
-        let(:some_client)   { instance_spy 'Client' }
-        let(:other_client)  { instance_spy 'Client' }
+        let(:some_client)   { instance_spy Client }
+        let(:other_client)  { instance_spy Client }
         subject(:col)       { described_class.new(0) << some_client }
 
         describe '#to_s' do
