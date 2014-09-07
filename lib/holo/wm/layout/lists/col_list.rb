@@ -16,7 +16,7 @@ module Holo
             super
             sort!
             renumber_cols
-            @on_update.call col
+            @on_update.call col if @on_update
           end
 
           def find_by_id(id)
@@ -33,7 +33,7 @@ module Holo
             return @current_index = nil if empty?
             @current_index -= 1 unless current
             renumber_cols
-            @on_update.call
+            @on_update.call if @on_update
           end
 
 
