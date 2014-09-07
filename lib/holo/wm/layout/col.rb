@@ -75,11 +75,11 @@ module Holo
         end
 
         def client_swap_prev
-          clients.set :pred
+          clients.swap_prev
         end
 
         def client_swap_next
-          clients.set :succ
+          clients.swap_next
         end
 
 

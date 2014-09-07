@@ -13,7 +13,18 @@ module Holo
             @current_index -= 1 unless current_index.zero?
           end
 
-          def set(direction)
+          def swap_prev
+            swap_client :pred
+          end
+
+          def swap_next
+            swap_client :succ
+          end
+
+
+          private
+
+          def swap_client(direction)
             other_index = current_index.send direction
             if other_index.between? 0, size - 1
               swap current_index, other_index
