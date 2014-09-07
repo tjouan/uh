@@ -44,6 +44,7 @@ module Holo
           client.geo = geo.dup
           client.moveresize
           client.show
+          self
         end
 
         def remove(client)
