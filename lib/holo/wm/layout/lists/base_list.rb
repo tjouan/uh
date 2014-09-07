@@ -5,8 +5,8 @@ module Holo
         class BaseList
           extend Forwardable
           def_delegators  :@entries, :<<, :delete_at, :delete_if, :each,
-            :each_with_index, :empty?, :find, :include?, :index, :inject,
-            :insert, :last, :size, :sort!
+            :each_with_index, :empty?, :find, :first, :include?, :index,
+            :inject, :insert, :last, :size, :sort!
           def_delegator :current, :==, :current?
 
           attr_reader :entries, :current_index
