@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'holo/wm'
 
 module Holo
