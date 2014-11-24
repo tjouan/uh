@@ -2,6 +2,7 @@ require 'rake/extensiontask'
 
 Rake::ExtensionTask.new('holo')
 
+
 task default: :demo
 
 desc 'Execute holowm in a Xephyr X server'
@@ -26,6 +27,3 @@ task :console do
   require 'holo/wm'
   pry
 end
-
-desc 'Build holowm'
-task build: %i[clean compile]
