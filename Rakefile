@@ -6,7 +6,7 @@ Rake::ExtensionTask.new('holo')
 task default: :demo
 
 desc 'Execute holowm in a Xephyr X server'
-task :demo do
+task demo: :compile do
   xephyr_base = '/usr/local/bin/Xephyr :42 -ac -br -noreset'
   xephyr = if ENV.key? 'XINERAMA'
     '%s +xinerama %s %s' % [
