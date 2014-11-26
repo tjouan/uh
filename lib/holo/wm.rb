@@ -14,6 +14,16 @@ module Holo
                         SUBSTRUCTURE_NOTIFY_MASK |
                         STRUCTURE_NOTIFY_MASK
 
+    class << self
+      def default
+        new do
+          key(:XK_q)          { quit }
+          key(:XK_Return)     { execute 'xterm' }
+          key(:XK_l, :shift)  { log_clients }
+        end
+      end
+    end
+
     attr_reader :keys, :action_handler, :manager, :display
 
     def initialize(&block)
