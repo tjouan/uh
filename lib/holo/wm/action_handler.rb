@@ -24,14 +24,6 @@ module Holo
       rescue Errno::ENOENT
       end
 
-      def focus_next_client
-        wm.manager.focus_next_client
-      end
-
-      def focus_prev_client
-        wm.manager.focus_prev_client
-      end
-
       def log_layout
         puts '> Layout:'
         wm.manager.layout.to_s.lines.each { |e| puts "  #{e}" }
