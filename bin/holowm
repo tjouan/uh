@@ -3,48 +3,4 @@
 require 'holo'
 require 'holo/wm'
 
-
-wm = Holo::WM.new do
-  modifier :mod1
-
-  key(:XK_q)              { quit }
-
-  key(:XK_Return)         { execute 'urxvt' }
-  key(:XK_f)              { execute 'urxvt' }
-  key(:XK_f, :shift)      { execute 'firefox -P test' }
-
-  (0..9).each do |e|
-    key("XK_#{e}".to_sym) { layout_tag_sel e }
-  end
-  (0..9).each do |e|
-    k = "XK_#{e}".to_sym
-    key(k, :shift)        { layout_tag_set e }
-  end
-  key(:XK_w)              { layout_tag_sel 'www' }
-  key(:XK_w, :shift)      { layout_tag_set 'www' }
-  key(:XK_c)              { layout_screen_sel_next }
-  key(:XK_c, :shift)      { layout_screen_set_next }
-  key(:XK_n)              { layout_client_sel_prev }
-  key(:XK_t)              { layout_client_sel_next }
-  key(:XK_n, :shift)      { layout_client_swap_prev }
-  key(:XK_t, :shift)      { layout_client_swap_next }
-  key(:XK_h)              { layout_col_sel_prev }
-  key(:XK_s)              { layout_col_sel_next }
-  key(:XK_h, :shift)      { layout_col_set_prev }
-  key(:XK_s, :shift)      { layout_col_set_next }
-  key(:XK_e)              { layout_kill_current }
-
-  key(:XK_apostrophe)         { execute 'mocp --toggle-pause' }
-  key(:XK_comma)              { execute 'mixer vol -3' }
-  key(:XK_period)             { execute 'mixer vol +3' }
-  key(:XK_apostrophe, :shift) { execute 'mocp --seek 30' }
-  key(:XK_comma, :shift)      { execute 'mocp --previous' }
-  key(:XK_period, :shift)     { execute 'mocp --next' }
-
-
-  key(:XK_l)              { log_layout }
-  key(:XK_l, :shift)      { log_clients }
-  key(:XK_BackSpace)      { log_line }
-end
-
-wm.run
+Holo::WM::CLI.run!(ARGV)
