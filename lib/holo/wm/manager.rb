@@ -1,16 +1,28 @@
 module Holo
   class WM
     class Manager
-      attr_reader :display, :clients, :layout
+      DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
-      def initialize(display)
-        @display  = display
-        @clients  = []
-        @layout   = Layout.new(display)
+      attr_reader :clients
+
+      def initialize
+        @clients = []
       end
 
       def to_s
         clients.join $/
+      end
+
+      def on_configure(&block)
+        @on_configure = block
+      end
+
+      def on_manage(&block)
+        @on_manage = block
+      end
+
+      def on_unmanage(&block)
+        @on_unmanage = block
       end
 
       def map(window)
@@ -39,7 +51,7 @@ module Holo
           puts '  client %s already managed' % client
           client.configure
         else
-          geo = layout.suggest_geo
+          geo = @on_configure ? @on_configure.call(window) : DEFAULT_GEO
           puts '  window %d not managed, suggesting %s' % [window.id, geo]
           puts '  configure event %s' % geo
           window.configure_event geo
@@ -59,15 +71,15 @@ module Holo
       end
 
       def manage(client)
-        puts '  %s.manage %s' % [self.class, client]
+        puts '  %s#manage %s' % [self.class, client]
         clients << client
-        layout  << client
+        @on_manage.call client if @on_manage
       end
 
       def unmanage(client)
-        puts '  %s.unmanage %s' % [self.class, client]
+        puts '  %s#unmanage %s' % [self.class, client]
         clients.reject! { |e| e == client}
-        layout.remove client
+        @on_unmanage.call client if @on_unmanage
       end
     end
   end

@@ -2,9 +2,7 @@ module Holo
   class WM
     require 'holo'
     require 'holo/wm/action_handler'
-    require 'holo/wm/cli'
     require 'holo/wm/client'
-    require 'holo/wm/layout'
     require 'holo/wm/manager'
 
     include Events
@@ -16,22 +14,17 @@ module Holo
                         SUBSTRUCTURE_NOTIFY_MASK |
                         STRUCTURE_NOTIFY_MASK
 
-    class << self
-      def default
-        new do
-          key(:XK_q)          { quit }
-          key(:XK_Return)     { execute 'xterm' }
-          key(:XK_l, :shift)  { log_clients }
-        end
-      end
-    end
+    extend Forwardable
+    def_delegators :@manager, :on_configure, :on_manage, :on_unmanage
 
-    attr_reader :keys, :action_handler, :manager, :display
+    attr_reader :keys, :action_handler, :manager, :display, :layout
 
-    def initialize(&block)
-      @keys           = {}
+    def initialize(layout, &block)
       @action_handler = ActionHandler.new(self)
       @display        = Display.new
+      @layout         = layout
+      @manager        = Manager.new
+      @keys           = {}
 
       return unless block_given?
       if block.arity == 1 then yield self else instance_eval &block end
@@ -59,7 +52,6 @@ module Holo
     def run
       connect
       grab_keys
-      @manager = Manager.new(display)
       display.root.mask = ROOT_MASK
       read_events
       disconnect

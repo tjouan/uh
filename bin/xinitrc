@@ -16,8 +16,8 @@ if [ -n "$VALGRIND" ]; then
   valgrind \
     --partial-loads-ok=yes \
     --undef-value-errors=no \
-    ruby ./bin/holowm
+    ruby $HOME/.holo/holorc
 else
-  ./bin/holowm
+  $HOME/.holo/holorc
 fi
 echo "######## HOLOWM END ##########"

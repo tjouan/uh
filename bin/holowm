@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'holo'
-require 'holo/wm'
-
-Holo::WM::CLI.run!(ARGV)

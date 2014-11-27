@@ -26,7 +26,7 @@ module Holo
 
       def log_layout
         puts '> Layout:'
-        wm.manager.layout.to_s.lines.each { |e| puts "  #{e}" }
+        wm.layout.to_s.lines.each { |e| puts "  #{e}" }
       end
 
       def log_clients
@@ -41,8 +41,7 @@ module Holo
       def method_missing(m, *args, &block)
         if respond_to? m
           puts '> Layout -> %s' % layout_method(m)
-          wm.manager.layout.send(layout_method(m), *args)
-          wm.manager.layout.update_screen_bars!
+          wm.layout.send(layout_method(m), *args)
         else
           super
         end
