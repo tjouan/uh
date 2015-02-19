@@ -7,6 +7,7 @@ module Holo
   require 'holo/geo'
   require 'holo/pixmap'
   require 'holo/screen'
+  require 'holo/version'
   require 'holo/window'
 
   Error               = Class.new(StandardError)
