@@ -42,6 +42,10 @@ module Holo
       @keys[[key, mod_mask]] = block
     end
 
+    def on_init(&block)
+      @on_init = block
+    end
+
     def quit_requested?
       !!@quit_requested
     end
@@ -55,6 +59,7 @@ module Holo
       layout.screens = display.screens.each_with_object({}) do |e, m|
         m[e.id] = e.geo.dup
       end
+      @on_init.call @display
       grab_keys
       display.root.mask = ROOT_MASK
       read_events
