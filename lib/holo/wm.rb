@@ -1,11 +1,11 @@
+require 'forwardable'
+require 'holo'
+require 'holo/wm/action_handler'
+require 'holo/wm/client'
+require 'holo/wm/manager'
+
 module Holo
   class WM
-    require 'forwardable'
-    require 'holo'
-    require 'holo/wm/action_handler'
-    require 'holo/wm/client'
-    require 'holo/wm/manager'
-
     include Events
 
     DEFAULT_MODIFIER  = :mod1

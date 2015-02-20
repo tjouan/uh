@@ -1,15 +1,15 @@
-module Holo
-  require 'holo.so'
-  require 'holo/display'
-  require 'holo/drawable'
-  require 'holo/events'
-  require 'holo/font'
-  require 'holo/geo'
-  require 'holo/pixmap'
-  require 'holo/screen'
-  require 'holo/version'
-  require 'holo/window'
+require 'holo.so'
+require 'holo/display'
+require 'holo/drawable'
+require 'holo/events'
+require 'holo/font'
+require 'holo/geo'
+require 'holo/pixmap'
+require 'holo/screen'
+require 'holo/version'
+require 'holo/window'
 
+module Holo
   Error               = Class.new(StandardError)
   RuntimeError        = Class.new(RuntimeError)
   OtherWMRunningError = Class.new(RuntimeError)
