@@ -1,5 +1,6 @@
 module Holo
   class WM
+    require 'forwardable'
     require 'holo'
     require 'holo/wm/action_handler'
     require 'holo/wm/client'
