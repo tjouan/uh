@@ -46,10 +46,6 @@ module Holo
       @on_init = block
     end
 
-    def quit_requested?
-      !!@quit_requested
-    end
-
     def request_quit!
       @quit_requested = true
     end
@@ -71,6 +67,10 @@ module Holo
 
     def modifier_mask(mod)
       KEY_MODIFIERS[mod]
+    end
+
+    def quit_requested?
+      !!@quit_requested
     end
 
     def connect
