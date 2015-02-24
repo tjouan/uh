@@ -17,6 +17,21 @@ VALUE window_focus(VALUE self) {
   return Qnil;
 }
 
+VALUE window_icccm_wm_delete(VALUE self) {
+  set_window(self);
+  XEvent xev;
+
+  xev.type = ClientMessage;
+  xev.xclient.window = WINDOW;
+  xev.xclient.message_type = XInternAtom(DPY, "WM_PROTOCOLS", False);
+  xev.xclient.format = 32;
+  xev.xclient.data.l[0] = XInternAtom(DPY, "WM_DELETE_WINDOW", False);
+  xev.xclient.data.l[1] = CurrentTime;
+  XSendEvent(DPY, WINDOW, False, NoEventMask, &xev);
+
+  return Qnil;
+}
+
 VALUE window_icccm_wm_protocols(VALUE self) {
   set_window(self);
   Atom  *win_protocols;
