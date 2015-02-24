@@ -17,6 +17,25 @@ VALUE window_focus(VALUE self) {
   return Qnil;
 }
 
+VALUE window_icccm_wm_protocols(VALUE self) {
+  set_window(self);
+  Atom  *win_protocols;
+  int   count;
+  int   i;
+  char  *atom_name;
+  VALUE protocols = rb_ary_new();
+
+  if (XGetWMProtocols(DPY, WINDOW, &win_protocols, &count)) {
+    for (i = 0; i < count; i++) {
+      atom_name = XGetAtomName(DPY, win_protocols[i]);
+      rb_ary_push(protocols, ID2SYM(rb_intern(atom_name)));
+      XFree(atom_name);
+    }
+  }
+
+  return protocols;
+}
+
 VALUE window_kill(VALUE self) {
   set_window(self);
 

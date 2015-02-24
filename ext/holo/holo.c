@@ -124,6 +124,7 @@ void holo_window() {
   rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_method(cWindow, "unmap", window_unmap, 0);
   rb_define_method(cWindow, "wclass", window_wclass, 0);
+  rb_define_method(cWindow, "icccm_wm_protocols", window_icccm_wm_protocols, 0);
   rb_define_private_method(cWindow, "_configure", window__configure, 4);
   rb_define_private_method(cWindow, "_configure_event",
     window__configure_event, 4);

@@ -82,6 +82,7 @@ VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
 VALUE window_focus(VALUE self);
+VALUE window_icccm_wm_protocols(VALUE self);
 VALUE window_kill(VALUE self);
 VALUE window_map(VALUE self);
 VALUE window_mask_set(VALUE self, VALUE mask);
