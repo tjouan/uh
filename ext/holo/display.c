@@ -4,13 +4,14 @@
 #define DPY display->dpy
 
 
-VALUE rdisplay_error_handler;
+VALUE rdisplay_error_handler = Qnil;
 
 int display_x_error_handler(Display *dpy, XErrorEvent *e);
 
 
 VALUE display_s_on_error(VALUE klass, VALUE handler) {
   rdisplay_error_handler = handler;
+  rb_global_variable(&rdisplay_error_handler);
 
   return Qnil;
 }
@@ -106,7 +107,6 @@ VALUE display_open(VALUE self) {
     rb_raise(eDisplayError, "Can't open display");
   }
 
-  rdisplay_error_handler = Qnil;
   XSetErrorHandler(display_x_error_handler);
 
   return self;
