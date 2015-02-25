@@ -39,11 +39,7 @@ module Holo
       end
 
       def unmap(window)
-        if client = client_for(window)
-          puts '  client %s is managed' % client
-        else
-          puts '  window not managed #%d' % window.id
-        end
+        remove_client_for window
       end
 
       def configure(window)
@@ -59,8 +55,7 @@ module Holo
       end
 
       def destroy(window)
-        return unless client = client_for(window)
-        unmanage client
+        remove_client_for window
       end
 
 
@@ -68,6 +63,11 @@ module Holo
 
       def client_for(window)
         clients.find { |e| e.window == window }
+      end
+
+      def remove_client_for(window)
+        return unless client = client_for(window)
+        unmanage client
       end
 
       def manage(client)
