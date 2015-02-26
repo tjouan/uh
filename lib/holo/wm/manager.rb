@@ -78,7 +78,7 @@ module Holo
 
       def unmanage(client)
         puts '  %s#unmanage %s' % [self.class, client]
-        clients.reject! { |e| e == client}
+        clients.reject! { |e| e == client }
         @on_unmanage.call client if @on_unmanage
       end
     end
