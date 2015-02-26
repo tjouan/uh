@@ -1,8 +1,6 @@
 module Holo
   class WM
     class ActionHandler
-      attr_reader :wm
-
       def initialize(wm, layout)
         @wm, @layout = wm, layout
       end
@@ -14,7 +12,7 @@ module Holo
 
       def quit
         puts '> Exiting...'
-        wm.request_quit!
+        @wm.request_quit!
       end
 
       def execute(command)
@@ -31,7 +29,7 @@ module Holo
 
       def log_clients
         puts '> Clients:'
-        wm.manager.to_s.lines.each { |e| puts "  #{e}" }
+        @wm.manager.to_s.lines.each { |e| puts "  #{e}" }
       end
 
       def log_line
