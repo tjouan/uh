@@ -6,6 +6,7 @@ module Holo
 
       def initialize(window)
         @window = window
+        @hide   = true
       end
 
       def to_s
@@ -20,6 +21,10 @@ module Holo
         @wclass ||= window.wclass
       end
 
+      def hidden?
+        @hide
+      end
+
       def configure
         window.configure geo
         self
@@ -32,11 +37,13 @@ module Holo
 
       def show
         window.map
+        @hide = false
         self
       end
 
       def hide
         window.unmap
+        @hide = true
         self
       end
 
