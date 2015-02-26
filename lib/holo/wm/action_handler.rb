@@ -3,8 +3,8 @@ module Holo
     class ActionHandler
       attr_reader :wm
 
-      def initialize(wm)
-        @wm = wm
+      def initialize(wm, layout)
+        @wm, @layout = wm, layout
       end
 
       def call(action)
@@ -26,7 +26,7 @@ module Holo
 
       def log_layout
         puts '> Layout:'
-        wm.layout.to_s.lines.each { |e| puts "  #{e}" }
+        @layout.to_s.lines.each { |e| puts "  #{e}" }
       end
 
       def log_clients
@@ -41,7 +41,7 @@ module Holo
       def method_missing(m, *args, &block)
         if respond_to? m
           puts '> Layout -> %s' % layout_method(m)
-          wm.layout.send(layout_method(m), *args)
+          @layout.send(layout_method(m), *args)
         else
           super
         end

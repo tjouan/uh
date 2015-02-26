@@ -17,12 +17,12 @@ module Holo
     extend Forwardable
     def_delegators :@manager, :on_configure, :on_manage, :on_unmanage
 
-    attr_reader :keys, :action_handler, :manager, :display, :layout
+    attr_reader :keys, :action_handler, :manager, :display
 
     def initialize(layout, &block)
-      @action_handler = ActionHandler.new(self)
       @display        = Display.new
       @layout         = layout
+      @action_handler = ActionHandler.new(self, layout)
       @manager        = Manager.new
       @keys           = {}
 
@@ -51,7 +51,7 @@ module Holo
 
     def run
       connect
-      layout.screens = display.screens.each_with_object({}) do |e, m|
+      @layout.screens = display.screens.each_with_object({}) do |e, m|
         m[e.id] = e.geo.dup
       end
       @on_init.call @display
