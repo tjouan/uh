@@ -3,8 +3,12 @@ module Holo
     class Manager
       DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
-      def initialize
-        @clients = []
+      extend Forwardable
+      def_delegator :@logger, :info, :log
+
+      def initialize(logger)
+        @logger   = logger
+        @clients  = []
       end
 
       def to_s
@@ -25,12 +29,12 @@ module Holo
 
       def map(window)
         if window.override_redirect?
-          puts '  window.override_redirect, skipping'
+          log "#{self.class.name}#map window.override_redirect, skipping"
           return
         end
 
         if client = client_for(window)
-          puts '  client %s already managed' % client
+          log "#{self.class.name}#map #{client}, already managed"
         else
           manage Client.new(window)
         end
@@ -42,12 +46,16 @@ module Holo
 
       def configure(window)
         if client = client_for(window)
-          puts '  client %s already managed' % client
+          log "#{self.class.name}#configure #{client} already managed"
           client.configure
         else
           geo = @on_configure ? @on_configure.call(window) : DEFAULT_GEO
-          puts '  window %d not managed, suggesting %s' % [window.id, geo]
-          puts '  configure event %s' % geo
+          log "#{self.class.name}#configure #{window.inspect}, not managed"
+          log '%s#configure %s#configure %s' % [
+            self.class.name,
+            window.class.name,
+            geo
+          ]
           window.configure_event geo
         end
       end
@@ -69,13 +77,13 @@ module Holo
       end
 
       def manage(client)
-        puts '  %s#manage %s' % [self.class, client]
+        log "#{self.class.name}#manage #{client}"
         @clients << client
         @on_manage.call client if @on_manage
       end
 
       def unmanage(client)
-        puts '  %s#unmanage %s' % [self.class, client]
+        log "#{self.class.name}#unmanage #{client}"
         @clients.reject! { |e| e == client }
         @on_unmanage.call client if @on_unmanage
       end

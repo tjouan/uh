@@ -6,40 +6,39 @@ module Holo
       end
 
       def call(action)
-        log_line
+        @wm.log "#{self.class.name}#call #{action.inspect}"
         instance_exec &action
       end
 
       def quit
-        puts '> Exiting...'
+        @wm.log 'Exiting...'
         @wm.request_quit!
       end
 
       def execute(command)
-        puts '> Spawn `%s`' % command
+        @wm.log "Spawn `#{command}`"
         pid = spawn command, pgroup: true
         Process.detach pid
       rescue Errno::ENOENT
       end
 
       def log_layout
-        puts '> Layout:'
-        @layout.to_s.lines.each { |e| puts "  #{e}" }
+        @wm.log "Layout:\n#{@layout.to_s.lines.map { |e| "  #{e}" }.join.chomp}"
       end
 
       def log_clients
-        puts '> Clients:'
-        @manager.to_s.lines.each { |e| puts "  #{e}" }
+        @wm.log "Clients:\n#{@manager.to_s.lines.map { |e| "  #{e}" }.join.chomp}"
       end
 
-      def log_line
-        puts '-' * 80
+      def log_separator
+        @wm.log '- ' * 24
       end
 
       def method_missing(m, *args, &block)
         if respond_to? m
-          puts '> Layout -> %s' % layout_method(m)
-          @layout.send(layout_method(m), *args)
+          meth = layout_method m
+          @wm.log "#{@layout.class.name}##{meth} #{args.inspect}"
+          @layout.send(meth, *args)
         else
           super
         end

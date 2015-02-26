@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'logger'
 require 'holo/wm/action_handler'
 require 'holo/wm/client'
 require 'holo/wm/manager'
@@ -6,6 +7,16 @@ require 'holo/wm/manager'
 module Holo
   class WM
     include Events
+
+    LOGGER_FORMAT_STR = "%s, %s.%03i %s\n".freeze
+    LOGGER_FORMATER   = proc do |severity, datetime, progname, message|
+      LOGGER_FORMAT_STR % [
+        severity[0..0],
+        datetime.strftime('%FT%T'),
+        datetime.usec / 1000,
+        message
+      ]
+    end
 
     DEFAULT_MODIFIER  = :mod1
     INPUT_MASK        = SUBSTRUCTURE_REDIRECT_MASK
@@ -16,11 +27,16 @@ module Holo
 
     extend Forwardable
     def_delegators :@manager, :on_configure, :on_manage, :on_unmanage
+    def_delegator :@logger, :info, :log
 
     def initialize(layout, &block)
       @layout         = layout
       @display        = Display.new
-      @manager        = Manager.new
+      @logger         = Logger.new($stdout).tap do |o|
+        o.level     = Logger::INFO
+        o.formatter = LOGGER_FORMATER
+      end
+      @manager        = Manager.new(@logger)
       @action_handler = ActionHandler.new(self, @manager, layout)
       @keys           = {}
 
@@ -118,10 +134,7 @@ module Holo
         nil
       end
 
-      puts fmt % [
-        event.type,
-        complement
-      ].compact.join(' ')
+      log 'XEvent %s' % [event.type, complement].compact.join(' ')
     end
 
     def handle_configure_request(event)
@@ -151,11 +164,7 @@ module Holo
     end
 
     def handle_error(req, resource_id, msg)
-      $stderr.puts '> XERROR: %d, %s, %s' % [
-        resource_id,
-        req,
-        msg
-      ]
+      @logger.error "XERROR: #{resource_id} #{req} #{msg}"
     end
   end
 end
