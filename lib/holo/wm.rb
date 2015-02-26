@@ -17,13 +17,11 @@ module Holo
     extend Forwardable
     def_delegators :@manager, :on_configure, :on_manage, :on_unmanage
 
-    attr_reader :keys, :action_handler, :manager, :display
-
     def initialize(layout, &block)
-      @display        = Display.new
       @layout         = layout
-      @action_handler = ActionHandler.new(self, layout)
+      @display        = Display.new
       @manager        = Manager.new
+      @action_handler = ActionHandler.new(self, @manager, layout)
       @keys           = {}
 
       return unless block_given?
@@ -51,12 +49,12 @@ module Holo
 
     def run
       connect
-      @layout.screens = display.screens.each_with_object({}) do |e, m|
+      @layout.screens = @display.screens.each_with_object({}) do |e, m|
         m[e.id] = e.geo.dup
       end
       @on_init.call @display
       grab_keys
-      display.root.mask = ROOT_MASK
+      @display.root.mask = ROOT_MASK
       read_events
       disconnect
     end
@@ -73,28 +71,28 @@ module Holo
     end
 
     def connect
-      display.open
+      @display.open
       Display.on_error proc { fail OtherWMRunningError }
-      display.listen_events INPUT_MASK
-      display.sync false
+      @display.listen_events INPUT_MASK
+      @display.sync false
       Display.on_error proc { |*args| handle_error(*args) }
-      display.sync false
+      @display.sync false
     end
 
     def disconnect
-      display.close
+      @display.close
     end
 
     def grab_keys
-      keys.each do |k, v|
+      @keys.each do |k, v|
         key, mod = *k
         key = key.to_s.gsub /\AXK_/, ''
-        display.grab_key key, mod
+        @display.grab_key key, mod
       end
     end
 
     def read_events
-      display.each_event do |event|
+      @display.each_event do |event|
         break if quit_requested?
         next unless respond_to? handler = event_handler_method(event), true
         log_event event
@@ -127,29 +125,29 @@ module Holo
     end
 
     def handle_configure_request(event)
-      manager.configure event.window
+      @manager.configure event.window
     end
 
     def handle_destroy_notify(event)
-      manager.destroy event.window
+      @manager.destroy event.window
     end
 
     def handle_expose(event)
     end
 
     def handle_key_press(event)
-      action_handler.call keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
+      @action_handler.call @keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
     end
 
     def handle_map_request(event)
-      manager.map event.window
+      @manager.map event.window
     end
 
     def handle_property_notify(event)
     end
 
     def handle_unmap_notify(event)
-      manager.unmap event.window
+      @manager.unmap event.window
     end
 
     def handle_error(req, resource_id, msg)

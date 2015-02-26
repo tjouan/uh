@@ -1,8 +1,8 @@
 module Holo
   class WM
     class ActionHandler
-      def initialize(wm, layout)
-        @wm, @layout = wm, layout
+      def initialize(wm, manager, layout)
+        @wm, @manager, @layout = wm, manager, layout
       end
 
       def call(action)
@@ -29,7 +29,7 @@ module Holo
 
       def log_clients
         puts '> Clients:'
-        @wm.manager.to_s.lines.each { |e| puts "  #{e}" }
+        @manager.to_s.lines.each { |e| puts "  #{e}" }
       end
 
       def log_line
