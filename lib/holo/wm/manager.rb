@@ -3,14 +3,12 @@ module Holo
     class Manager
       DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
-      attr_reader :clients
-
       def initialize
         @clients = []
       end
 
       def to_s
-        clients.join $/
+        @clients.join $/
       end
 
       def on_configure(&block)
@@ -62,7 +60,7 @@ module Holo
       private
 
       def client_for(window)
-        clients.find { |e| e.window == window }
+        @clients.find { |e| e.window == window }
       end
 
       def remove_client_for(window, destroy: false)
@@ -72,13 +70,13 @@ module Holo
 
       def manage(client)
         puts '  %s#manage %s' % [self.class, client]
-        clients << client
+        @clients << client
         @on_manage.call client if @on_manage
       end
 
       def unmanage(client)
         puts '  %s#unmanage %s' % [self.class, client]
-        clients.reject! { |e| e == client }
+        @clients.reject! { |e| e == client }
         @on_unmanage.call client if @on_unmanage
       end
     end
