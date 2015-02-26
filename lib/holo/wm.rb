@@ -1,5 +1,4 @@
 require 'forwardable'
-require 'holo'
 require 'holo/wm/action_handler'
 require 'holo/wm/client'
 require 'holo/wm/manager'
