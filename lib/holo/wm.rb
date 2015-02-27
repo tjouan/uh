@@ -11,12 +11,12 @@ module Holo
   class WM
     include Events
 
-    LOGGER_FORMAT_STR = "%s, %s.%03i %s\n".freeze
+    LOGGER_FORMAT_STR = "%s.%03i %s: %s\n".freeze
     LOGGER_FORMATER   = proc do |severity, datetime, progname, message|
       LOGGER_FORMAT_STR % [
-        severity[0..0],
         datetime.strftime('%FT%T'),
         datetime.usec / 1000,
+        severity,
         message
       ]
     end
