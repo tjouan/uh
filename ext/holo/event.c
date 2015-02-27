@@ -9,22 +9,7 @@
 VALUE event_make_event(VALUE klass, XEvent *xev);
 void event_make_configure_request(VALUE self);
 void event_make_key_any(VALUE self);
-
-
-VALUE event_window(VALUE self) {
-  set_xev(self);
-
-  switch (xev->type) {
-    case ConfigureRequest:
-      return window_make(xev->xany.display, xev->xconfigurerequest.window);
-    case DestroyNotify:
-    case MapRequest:
-    case UnmapNotify:
-      return window_make(xev->xany.display, xev->xmaprequest.window);
-  }
-
-  return Qnil;
-}
+void event_make_win_any(VALUE self);
 
 
 VALUE event_make(XEvent *xev) {
@@ -49,7 +34,7 @@ VALUE event_make(XEvent *xev) {
   for (i = 0; i < (sizeof ev_classes / sizeof ev_classes[0]); i++) {
     if (ev_classes[i].type == xev->type) {
       event = event_make_event(ev_classes[i].klass, xev);
-
+      event_make_win_any(event);
       if (ev_classes[i].function)
         ev_classes[i].function(event);
 
@@ -141,4 +126,27 @@ void event_make_key_any(VALUE self) {
 
   rb_ivar_set(self, rb_intern("@key"), rb_str_new_cstr(XKeysymToString(ks)));
   rb_ivar_set(self, rb_intern("@modifier_mask"), INT2FIX(xev->xkey.state));
+}
+
+void event_make_win_any(VALUE self) {
+  set_xev(self);
+  Window window;
+
+  switch (xev->type) {
+    case ConfigureRequest:
+      window = xev->xconfigurerequest.window;
+    case DestroyNotify:
+      window = xev->xdestroywindow.window;
+    case Expose:
+      window = xev->xexpose.window;
+    case KeyPress:
+      window = xev->xkey.window;
+    case MapRequest:
+      window = xev->xmaprequest.window;
+    case UnmapNotify:
+      window = xev->xunmap.window;
+  }
+
+  rb_ivar_set(self, rb_intern("@window"),
+    window_make(xev->xany.display, window));
 }
