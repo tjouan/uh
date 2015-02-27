@@ -112,6 +112,15 @@ VALUE display_listen_events(VALUE self, VALUE mask) {
   return Qnil;
 }
 
+VALUE display_next_event(VALUE self) {
+  set_display(self);
+  XEvent xev;
+
+  XNextEvent(DPY, &xev);
+
+  return event_make(&xev);
+}
+
 VALUE display_open(VALUE self) {
   set_display(self);
 
