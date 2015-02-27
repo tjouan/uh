@@ -3,6 +3,9 @@ require 'logger'
 require 'holo/wm/action_handler'
 require 'holo/wm/client'
 require 'holo/wm/manager'
+require 'holo/wm/workers/base_worker'
+require 'holo/wm/workers/blocking_worker'
+require 'holo/wm/workers/multiplexing_worker'
 
 module Holo
   class WM
@@ -19,6 +22,11 @@ module Holo
     end
     LOGGER_LEVEL      = Logger::INFO
     LOGGER_DEBUG_ENV  = 'HOLO_DEBUG'.freeze
+
+    WORKERS           = {
+      blocking:     Workers::BlockingWorker,
+      multiplexing: Workers::MultiplexingWorker
+    }.freeze
 
     DEFAULT_MODIFIER  = :mod1
     INPUT_MASK        = SUBSTRUCTURE_REDIRECT_MASK
@@ -61,6 +69,14 @@ module Holo
       @on_init = block
     end
 
+    def worker(*args, **options)
+      if args.any?
+        @worker = WORKERS[args.first].new(@display, @logger, options)
+      else
+        @worker ||= Workers::BlockingWorker.new(@display, @logger)
+      end
+    end
+
     def request_quit!
       @quit_requested = true
     end
@@ -73,7 +89,10 @@ module Holo
       @on_init.call @display
       grab_keys
       @display.root.mask = ROOT_MASK
-      read_events
+      worker.setup.each_event do |e|
+        process_event e
+        break if quit_requested?
+      end
       disconnect
     end
 
@@ -106,13 +125,6 @@ module Holo
         key, mod = *k
         key = key.to_s.gsub /\AXK_/, ''
         @display.grab_key key, mod
-      end
-    end
-
-    def read_events
-      @display.each_event do |event|
-        break if quit_requested?
-        process_event event
       end
     end
 
