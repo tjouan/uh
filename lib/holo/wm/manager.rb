@@ -50,12 +50,8 @@ module Holo
           client.configure
         else
           geo = @on_configure ? @on_configure.call(window) : DEFAULT_GEO
-          log "#{self.class.name}#configure #{window.inspect}, not managed"
-          log '%s#configure %s#configure %s' % [
-            self.class.name,
-            window.class.name,
-            geo
-          ]
+          log "#{self.class.name}#configure window: #{window}, not managed"
+          log "#{window.class.name}#configure #{geo}"
           window.configure_event geo
         end
       end

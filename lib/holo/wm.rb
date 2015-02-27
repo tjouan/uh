@@ -129,6 +129,8 @@ module Holo
     def log_event(event)
       fmt         = '> Event %s'
       complement  = case event.type
+      when :destroy_notify, :expose, :key_press, :map_request, :unmap_notify
+        "window: #{event.window}"
       when :configure_request
         '%s, above: #%d, detail: #%d, value_mask: #%d' % [
           Geo.new(event.x, event.y, event.width, event.height),

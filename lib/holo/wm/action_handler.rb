@@ -6,7 +6,7 @@ module Holo
       end
 
       def call(action)
-        @wm.log "#{self.class.name}#call #{action.inspect}"
+        @wm.log "#{self.class.name}#call"
         instance_exec &action
       end
 
