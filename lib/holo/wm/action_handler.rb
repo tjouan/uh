@@ -18,7 +18,8 @@ module Holo
         @wm.log "Spawn `#{command}`"
         pid = spawn command, pgroup: true
         Process.detach pid
-      rescue Errno::ENOENT
+      rescue Errno::ENOENT => e
+        @wm.log_error "Spawn: #{e}"
       end
 
       def log_layout

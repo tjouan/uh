@@ -38,6 +38,7 @@ module Holo
     extend Forwardable
     def_delegators :@manager, :on_configure, :on_manage, :on_unmanage
     def_delegator :@logger, :info, :log
+    def_delegator :@logger, :error, :log_error
 
     def initialize(layout, &block)
       @layout         = layout
