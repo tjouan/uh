@@ -7,7 +7,7 @@ module Holo
         end
 
         def setup
-          @display_io = IO.new(@display.fd)
+          @display_io = IO.new(@display.fileno)
           @display.flush
           self
         end
