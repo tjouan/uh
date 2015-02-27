@@ -133,6 +133,12 @@ VALUE display_open(VALUE self) {
   return self;
 }
 
+VALUE display_pending(VALUE self) {
+  set_display(self);
+
+  return INT2FIX(XPending(DPY));
+}
+
 VALUE display_query_font(VALUE self) {
   set_display(self);
   XFontStruct *xfs;

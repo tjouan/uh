@@ -63,6 +63,7 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_next_event(VALUE self);
 VALUE display_open(VALUE self);
+VALUE display_pending(VALUE self);
 VALUE display_query_font(VALUE self);
 VALUE display_root(VALUE self);
 VALUE display_root_change_attributes(VALUE self, VALUE mask);

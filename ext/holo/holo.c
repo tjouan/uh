@@ -46,6 +46,7 @@ void holo_display() {
   rb_define_method(cDisplay, "each_event", display_each_event, 0);
   rb_define_method(cDisplay, "next_event", display_next_event, 0);
   rb_define_method(cDisplay, "open", display_open, 0);
+  rb_define_method(cDisplay, "pending", display_pending, 0);
   rb_define_method(cDisplay, "query_font", display_query_font, 0);
   rb_define_method(cDisplay, "root", display_root, 0);
   rb_define_method(cDisplay, "screens", display_screens, 0);
