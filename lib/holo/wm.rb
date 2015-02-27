@@ -83,9 +83,6 @@ module Holo
 
     def run
       connect
-      @layout.screens = @display.screens.each_with_object({}) do |e, m|
-        m[e.id] = e.geo.dup
-      end
       @on_init.call @display
       grab_keys
       @display.root.mask = ROOT_MASK
