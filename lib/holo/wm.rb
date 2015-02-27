@@ -112,10 +112,14 @@ module Holo
     def read_events
       @display.each_event do |event|
         break if quit_requested?
-        next unless respond_to? handler = event_handler_method(event), true
-        log_event event
-        send handler, event
+        process_event event
       end
+    end
+
+    def process_event(event)
+      return unless respond_to? handler = event_handler_method(event), true
+      log_event event
+      send handler, event
     end
 
     def event_handler_method(event)
