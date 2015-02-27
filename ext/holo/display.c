@@ -67,6 +67,12 @@ VALUE display_fd(VALUE self) {
   return INT2FIX(XConnectionNumber(DPY));
 }
 
+VALUE display_flush(VALUE self) {
+  set_display(self);
+
+  return INT2FIX(XFlush(DPY));
+}
+
 VALUE display_each_event(VALUE self) {
   set_display(self);
   XEvent xev;

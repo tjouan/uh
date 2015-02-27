@@ -58,6 +58,7 @@ VALUE display_color_by_name(VALUE self, VALUE rcolor);
 VALUE display_create_pixmap(VALUE self, VALUE w, VALUE h);
 VALUE display_each_event(VALUE self);
 VALUE display_fd(VALUE self);
+VALUE display_flush(VALUE self);
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
 VALUE display_listen_events(VALUE self, VALUE mask);
 VALUE display_open(VALUE self);
