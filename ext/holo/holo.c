@@ -39,6 +39,7 @@ void holo_display() {
   rb_define_method(cDisplay, "close", display_close, 0);
   rb_define_method(cDisplay, "color_by_name", display_color_by_name, 1);
   rb_define_method(cDisplay, "create_pixmap", display_create_pixmap, 2);
+  rb_define_method(cDisplay, "fd", display_fd, 0);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
   rb_define_method(cDisplay, "listen_events", display_listen_events, 1);
   rb_define_method(cDisplay, "each_event", display_each_event, 0);

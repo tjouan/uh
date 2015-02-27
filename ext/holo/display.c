@@ -61,6 +61,12 @@ VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
   return pixmap_make(DPY, pixmap, width, height);
 }
 
+VALUE display_fd(VALUE self) {
+  set_display(self);
+
+  return INT2FIX(XConnectionNumber(DPY));
+}
+
 VALUE display_each_event(VALUE self) {
   set_display(self);
   XEvent xev;
