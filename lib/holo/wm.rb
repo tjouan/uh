@@ -16,7 +16,7 @@ module Holo
       LOGGER_FORMAT_STR % [
         datetime.strftime('%FT%T'),
         datetime.usec / 1000,
-        severity,
+        severity[0..0],
         message
       ]
     end
