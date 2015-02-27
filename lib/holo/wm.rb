@@ -17,6 +17,8 @@ module Holo
         message
       ]
     end
+    LOGGER_LEVEL      = Logger::INFO
+    LOGGER_DEBUG_ENV  = 'HOLO_DEBUG'.freeze
 
     DEFAULT_MODIFIER  = :mod1
     INPUT_MASK        = SUBSTRUCTURE_REDIRECT_MASK
@@ -33,7 +35,7 @@ module Holo
       @layout         = layout
       @display        = Display.new
       @logger         = Logger.new($stdout).tap do |o|
-        o.level     = Logger::INFO
+        o.level     = ENV.key?(LOGGER_DEBUG_ENV) ? Logger::DEBUG : LOGGER_LEVEL
         o.formatter = LOGGER_FORMATER
       end
       @manager        = Manager.new(@logger)
