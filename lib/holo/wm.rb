@@ -70,6 +70,10 @@ module Holo
       @on_init = block
     end
 
+    def on_expose(&block)
+      @on_expose = block
+    end
+
     def worker(*args, **options)
       if args.any?
         @worker = WORKERS[args.first].new(@display, @logger, options)
@@ -164,6 +168,7 @@ module Holo
     end
 
     def handle_expose(event)
+      @on_expose.call event.window if @on_expose
     end
 
     def handle_key_press(event)
