@@ -72,7 +72,7 @@ VALUE display_sync(VALUE self, VALUE discard);
 
 VALUE event_make(XEvent *xev);
 
-VALUE font_make(int ascent, int descent);
+VALUE font_make(int width, int ascent, int descent);
 
 VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight);
 VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);

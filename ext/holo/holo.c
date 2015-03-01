@@ -90,6 +90,7 @@ void holo_events() {
 
 void holo_font() {
   cFont = rb_define_class_under(mHolo, "Font", rb_cObject);
+  rb_define_attr(cFont, "width", 1, 0);
   rb_define_attr(cFont, "ascent", 1, 0);
   rb_define_attr(cFont, "descent", 1, 0);
 }

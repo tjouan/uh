@@ -148,7 +148,7 @@ VALUE display_query_font(VALUE self) {
       XGContextFromGC(DefaultGC(DPY, SCREEN_DEFAULT)))))
     return Qnil;
 
-  font = font_make(xfs->ascent, xfs->descent);
+  font = font_make(xfs->max_bounds.width, xfs->ascent, xfs->descent);
   XFreeFontInfo(NULL, xfs, 1);
 
   return font;
