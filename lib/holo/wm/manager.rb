@@ -28,6 +28,10 @@ module Holo
         @on_unmanage = block
       end
 
+      def on_change(&block)
+        @on_change = block
+      end
+
       def configure(window)
         if client = client_for(window)
           log "#{self.class.name}#configure #{client} already managed"

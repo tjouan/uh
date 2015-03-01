@@ -36,7 +36,7 @@ module Holo
                         STRUCTURE_NOTIFY_MASK
 
     extend Forwardable
-    def_delegators :@manager, :on_configure, :on_manage, :on_unmanage
+    def_delegators :@manager, :on_configure, :on_manage, :on_unmanage, :on_change
     def_delegator :@logger, :info, :log
     def_delegator :@logger, :error, :log_error
 
