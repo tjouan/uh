@@ -7,8 +7,9 @@ module Holo
       def_delegator :@logger, :info, :log
 
       def initialize(logger)
-        @logger   = logger
-        @clients  = []
+        @logger     = logger
+        @clients    = []
+        @on_manage  = []
       end
 
       def to_s
@@ -20,7 +21,7 @@ module Holo
       end
 
       def on_manage(&block)
-        @on_manage = block
+        @on_manage << block
       end
 
       def on_unmanage(&block)
@@ -75,7 +76,7 @@ module Holo
       def manage(client)
         log "#{self.class.name}#manage #{client}"
         @clients << client
-        @on_manage.call client if @on_manage
+        @on_manage.each { |e| e.call client }
       end
 
       def unmanage(client)
