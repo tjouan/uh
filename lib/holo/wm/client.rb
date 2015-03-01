@@ -25,6 +25,11 @@ module Holo
         @hide
       end
 
+      def update_window_properties
+        @name   = @window.name
+        @wclass = @window.wclass
+      end
+
       def configure
         window.configure geo
         self

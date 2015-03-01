@@ -65,6 +65,12 @@ module Holo
         remove_client_for window, destroy: true
       end
 
+      def update_properties(window)
+        return unless client = client_for(window)
+        client.update_window_properties
+        @on_change.call client if @on_change
+      end
+
 
       private
 

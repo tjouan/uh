@@ -51,6 +51,10 @@ module Holo
       @action_handler = ActionHandler.new(self, @manager, layout)
       @keys           = {}
 
+      @manager.on_manage do |client|
+        @display.listen_events client.window, PROPERTY_CHANGE_MASK
+      end
+
       return unless block_given?
       if block.arity == 1 then yield self else instance_eval &block end
     end
@@ -181,6 +185,7 @@ module Holo
     end
 
     def handle_property_notify(event)
+      @manager.update_properties event.window
     end
 
     def handle_unmap_notify(event)
