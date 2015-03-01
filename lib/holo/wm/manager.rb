@@ -28,6 +28,18 @@ module Holo
         @on_unmanage = block
       end
 
+      def configure(window)
+        if client = client_for(window)
+          log "#{self.class.name}#configure #{client} already managed"
+          client.configure
+        else
+          geo = @on_configure ? @on_configure.call(window) : DEFAULT_GEO
+          log "#{self.class.name}#configure window: #{window}, not managed"
+          log "#{window.class.name}#configure #{geo}"
+          window.configure_event geo
+        end
+      end
+
       def map(window)
         if window.override_redirect?
           log "#{self.class.name}#map window.override_redirect, skipping"
@@ -43,18 +55,6 @@ module Holo
 
       def unmap(window)
         remove_client_for window
-      end
-
-      def configure(window)
-        if client = client_for(window)
-          log "#{self.class.name}#configure #{client} already managed"
-          client.configure
-        else
-          geo = @on_configure ? @on_configure.call(window) : DEFAULT_GEO
-          log "#{self.class.name}#configure window: #{window}, not managed"
-          log "#{window.class.name}#configure #{geo}"
-          window.configure_event geo
-        end
       end
 
       def destroy(window)
