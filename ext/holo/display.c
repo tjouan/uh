@@ -104,10 +104,23 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
   return Qnil;
 }
 
-VALUE display_listen_events(VALUE self, VALUE mask) {
+VALUE display_listen_events(int argc, VALUE *argv, VALUE self) {
   set_display(self);
+  VALUE   arg1;
+  VALUE   arg2;
+  Window  window;
+  long    mask;
 
-  XSelectInput(DPY, ROOT_DEFAULT, FIX2LONG(mask));
+  if (rb_scan_args(argc, argv, "11", &arg1, &arg2) == 2) {
+    window = window_id(arg1);
+    mask   = FIX2LONG(arg2);
+  }
+  else {
+    window = ROOT_DEFAULT;
+    mask   = FIX2LONG(arg1);
+  }
+
+  XSelectInput(DPY, window, mask);
 
   return Qnil;
 }

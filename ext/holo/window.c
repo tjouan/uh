@@ -202,6 +202,12 @@ VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height
 }
 
 
+int window_id(VALUE self) {
+  set_window(self);
+
+  return WINDOW;
+}
+
 VALUE window_make(Display *display, Window window_id) {
   HoloWindow  *window;
   VALUE       obj;

@@ -60,7 +60,7 @@ VALUE display_each_event(VALUE self);
 VALUE display_fileno(VALUE self);
 VALUE display_flush(VALUE self);
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier);
-VALUE display_listen_events(VALUE self, VALUE mask);
+VALUE display_listen_events(int argc, VALUE *argv, VALUE self);
 VALUE display_next_event(VALUE self);
 VALUE display_open(VALUE self);
 VALUE display_pending(VALUE self);
@@ -99,6 +99,7 @@ VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
 VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
+int window_id(VALUE window);
 VALUE window_make(Display *display, Window window_id);
 
 
