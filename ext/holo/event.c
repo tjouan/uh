@@ -135,16 +135,25 @@ void event_make_win_any(VALUE self) {
   switch (xev->type) {
     case ConfigureRequest:
       window = xev->xconfigurerequest.window;
+      break;
     case DestroyNotify:
       window = xev->xdestroywindow.window;
+      break;
     case Expose:
       window = xev->xexpose.window;
+      break;
     case KeyPress:
       window = xev->xkey.window;
+      break;
     case MapRequest:
       window = xev->xmaprequest.window;
+      break;
+    case PropertyNotify:
+      window = xev->xproperty.window;
+      break;
     case UnmapNotify:
       window = xev->xunmap.window;
+      break;
   }
 
   rb_ivar_set(self, rb_intern("@window"),
