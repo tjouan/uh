@@ -18,7 +18,7 @@ module Holo
             rs, _ = IO.select [@display_io], [], [], @timeout
             @logger.debug " => #{rs.inspect}"
             next if rs.nil? || rs.empty?
-            yield @display.next_event while @display.pending
+            yield @display.next_event while @display.pending?
           end
         end
       end
