@@ -1,5 +1,16 @@
 module Holo
   class Geo < Struct.new(:x, :y, :width, :height)
+    class << self
+      def format_xgeometry(x, y, width, height)
+        '%sx%s+%s+%s' % [
+          width   ? width.to_s  : ??,
+          height  ? height.to_s : ??,
+          x       ? x.to_s      : ??,
+          y       ? y.to_s      : ??
+        ]
+      end
+    end
+
     def initialize(*args)
       super
       %i[width height].each do |dimension|
@@ -8,12 +19,7 @@ module Holo
     end
 
     def to_s
-      '%sx%s+%s+%s' % [
-        width   ? width.to_s  : ??,
-        height  ? height.to_s : ??,
-        x       ? x.to_s      : ??,
-        y       ? y.to_s      : ??
-      ]
+      self.class.format_xgeometry *values
     end
 
     def width=(value)

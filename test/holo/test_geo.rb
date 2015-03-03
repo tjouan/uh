@@ -13,6 +13,22 @@ describe Holo::Geo do
     end
   end
 
+  describe '.format_xgeometry' do
+    it 'formats coordinates and dimensions as X geometry' do
+      assert_equal '640x480+0+0', Holo::Geo.format_xgeometry(0, 0, 640, 480)
+    end
+
+    it 'formats missing values as ?' do
+      assert_equal '?x?+?+?', Holo::Geo.format_xgeometry(*[nil] * 4)
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns .format_xgeometry results' do
+      assert_equal Holo::Geo.format_xgeometry(*subject.values), subject.to_s
+    end
+  end
+
   %w[width height].each do |dimension|
     describe "##{dimension}=" do
       it 'assigns given value' do

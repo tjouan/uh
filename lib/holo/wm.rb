@@ -152,7 +152,7 @@ module Holo
         "window: #{event.window}"
       when :configure_request
         '%s, above: #%d, detail: #%d, value_mask: #%d' % [
-          Geo.new(event.x, event.y, event.width, event.height),
+          Geo.format_xgeometry(event.x, event.y, event.width, event.height),
           event.above_window_id,
           event.detail,
           event.value_mask
