@@ -12,6 +12,7 @@ require 'holo/window'
 module Holo
   Error               = Class.new(StandardError)
   RuntimeError        = Class.new(RuntimeError)
+  ArgumentError       = Class.new(Error)
   OtherWMRunningError = Class.new(RuntimeError)
 
   KEY_MODIFIERS = {
