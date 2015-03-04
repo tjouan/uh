@@ -11,8 +11,7 @@ Gem::Specification.new do |s|
   s.email   = 'tj@a13.fr'
 
   s.files       = `git ls-files`.split $/
-  s.test_files  = s.files.grep /\A(spec|features)\//
-  s.executables = s.files.grep(/\Abin\//) { |f| File.basename(f) }
+  s.test_files  = s.files.grep /\Atest\//
 
 
   s.add_development_dependency 'rake'
