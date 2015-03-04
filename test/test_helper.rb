@@ -2,7 +2,7 @@
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'minitest/reporters'
-require 'holo'
+require 'uh'
 
 class Minitest::Test
   # FIXME: SpecReporter output is incorrect with pretty diffs or parallel tests

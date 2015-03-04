@@ -3,7 +3,7 @@ require 'rake/testtask'
 
 task default: :test
 
-Rake::ExtensionTask.new('holo')
+Rake::ExtensionTask.new('uh')
 
 Rake::TestTask.new(test: :compile) do |t|
   t.libs      << 'lib' << 'test'
@@ -13,7 +13,7 @@ end
 desc 'Execute pry console'
 task console: :compile do
   require 'pry'
-  require 'holo'
-  require 'holo/wm'
+  require 'uh'
+  require 'uh/wm'
   pry
 end
