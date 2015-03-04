@@ -1,5 +1,6 @@
 require 'forwardable'
 require 'logger'
+
 require 'uh/wm/action_handler'
 require 'uh/wm/client'
 require 'uh/wm/manager'

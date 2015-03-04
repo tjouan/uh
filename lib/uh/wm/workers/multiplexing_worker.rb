@@ -2,7 +2,9 @@ module Uh
   class WM
     module Workers
       class MultiplexingWorker < BaseWorker
-        def configure(timeout: 4)
+        DEFAULT_TIMEOUT = 4
+
+        def configure(timeout: DEFAULT_TIMEOUT)
           @timeout = timeout
         end
 
