@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split $/
   s.test_files  = s.files.grep /\Atest\//
 
+  s.extensions  = %w[ext/uh/extconf.rb]
+
 
   s.add_development_dependency 'rake',                '~> 10.4'
   s.add_development_dependency 'rake-compiler',       '~> 0.9'
