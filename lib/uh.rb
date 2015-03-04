@@ -1,4 +1,4 @@
-require 'uh.so'
+require 'uh/uh'
 require 'uh/display'
 require 'uh/drawable'
 require 'uh/events'

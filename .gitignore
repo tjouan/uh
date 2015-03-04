@@ -1,4 +1,4 @@
 /Gemfile-custom.rb
 /Gemfile.lock
-/lib/*.so
+/lib/uh/*.so
 /tmp/
