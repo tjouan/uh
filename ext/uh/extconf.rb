@@ -10,4 +10,4 @@ if %w[DEBUG VALGRIND].any? { |e| ENV.key? e }
   $CFLAGS.gsub! /-O\d\s/, '-g '
 end
 
-create_makefile 'uh'
+create_makefile 'uh/uh'
