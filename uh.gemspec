@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.test_files  = s.files.grep /\Atest\//
 
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rake-compiler'
+  s.add_development_dependency 'rake',                '~> 10.4'
+  s.add_development_dependency 'rake-compiler',       '~> 0.9'
   s.add_development_dependency 'minitest',            '~> 5.5'
   s.add_development_dependency 'minitest-reporters',  '~> 1.0'
 end
