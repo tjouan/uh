@@ -46,8 +46,8 @@ VALUE event_make(XEvent *xev) {
 }
 
 VALUE event_make_event(VALUE klass, XEvent *xev) {
-  char *type_descs[LASTEvent];
-  VALUE event;
+  const char  *type_descs[LASTEvent];
+  VALUE       event;
 
   type_descs[KeyPress]          = "key_press";
   type_descs[KeyRelease]        = "key_release";
