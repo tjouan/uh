@@ -1,7 +1,7 @@
 #include "uh.h"
 
 
-#define set_pixmap(x) \
+#define SET_PIXMAP(x) \
   UhPixmap *pixmap;\
   Data_Get_Struct(x, UhPixmap, pixmap);
 
@@ -14,7 +14,7 @@ void pixmap_deallocate(UhPixmap *p);
 
 
 VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
-  set_pixmap(self);
+  SET_PIXMAP(self)
 
   XFillRectangle(DPY, PIXMAP, GC,
     FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h)
@@ -24,7 +24,7 @@ VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
 }
 
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
-  set_pixmap(self);
+  SET_PIXMAP(self)
 
   XDrawString(DPY, PIXMAP, GC,
     FIX2INT(x), FIX2INT(y), RSTRING_PTR(str), RSTRING_LEN(str)
@@ -34,7 +34,7 @@ VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
 }
 
 VALUE pixmap_gc_black(VALUE self) {
-  set_pixmap(self);
+  SET_PIXMAP(self)
 
   XSetForeground(DPY, GC, BlackPixel(DPY, SCREEN_DEFAULT));
 
@@ -42,7 +42,7 @@ VALUE pixmap_gc_black(VALUE self) {
 }
 
 VALUE pixmap_gc_color(VALUE self, VALUE rcolor) {
-  set_pixmap(self);
+  SET_PIXMAP(self)
 
   XSetForeground(DPY, GC, NUM2LONG(rb_ivar_get(rcolor, rb_intern("@pixel"))));
 
@@ -50,7 +50,7 @@ VALUE pixmap_gc_color(VALUE self, VALUE rcolor) {
 }
 
 VALUE pixmap_gc_white(VALUE self) {
-  set_pixmap(self);
+  SET_PIXMAP(self)
 
   XSetForeground(DPY, GC, WhitePixel(DPY, SCREEN_DEFAULT));
 
@@ -59,7 +59,7 @@ VALUE pixmap_gc_white(VALUE self) {
 
 
 VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight) {
-  set_pixmap(self);
+  SET_PIXMAP(self)
 
   XCopyArea(DPY, PIXMAP, FIX2INT(rwindow_id), GC,
     0, 0, FIX2INT(rwidth), FIX2INT(rheight), 0, 0

@@ -1,7 +1,7 @@
 #include "uh.h"
 
 
-#define set_xev(x) \
+#define SET_XEV(x) \
   XEvent *xev;\
   Data_Get_Struct(x, XEvent, xev);
 
@@ -92,7 +92,7 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
 }
 
 void event_make_configure_request(VALUE self) {
-  set_xev(self);
+  SET_XEV(self);
 
   if (xev->xconfigurerequest.value_mask & CWX)
     rb_ivar_set(self, rb_intern("@x"), INT2FIX(xev->xconfigurerequest.x));
@@ -117,8 +117,8 @@ void event_make_configure_request(VALUE self) {
 }
 
 void event_make_key_any(VALUE self) {
-  set_xev(self);
   KeySym ks;
+  SET_XEV(self);
 
   ks = XkbKeycodeToKeysym(xev->xany.display, xev->xkey.keycode, 0, 0);
   if (ks == NoSymbol)
@@ -129,8 +129,8 @@ void event_make_key_any(VALUE self) {
 }
 
 void event_make_win_any(VALUE self) {
-  set_xev(self);
   Window window;
+  SET_XEV(self);
 
   switch (xev->type) {
     case ConfigureRequest:

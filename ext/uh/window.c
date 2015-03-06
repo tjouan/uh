@@ -1,7 +1,7 @@
 #include "uh.h"
 
 
-#define set_window(x) \
+#define SET_WINDOW(x) \
   UhWindow *window;\
   Data_Get_Struct(x, UhWindow, window);
 
@@ -10,7 +10,7 @@
 
 
 VALUE window_focus(VALUE self) {
-  set_window(self);
+  SET_WINDOW(self);
 
   XSetInputFocus(DPY, WINDOW, RevertToPointerRoot, CurrentTime);
 
@@ -18,8 +18,8 @@ VALUE window_focus(VALUE self) {
 }
 
 VALUE window_icccm_wm_delete(VALUE self) {
-  set_window(self);
   XEvent xev;
+  SET_WINDOW(self);
 
   xev.type = ClientMessage;
   xev.xclient.window = WINDOW;
@@ -33,12 +33,13 @@ VALUE window_icccm_wm_delete(VALUE self) {
 }
 
 VALUE window_icccm_wm_protocols(VALUE self) {
-  set_window(self);
   Atom  *win_protocols;
   int   count;
   int   i;
   char  *atom_name;
-  VALUE protocols = rb_ary_new();
+  VALUE protocols;
+  SET_WINDOW(self);
+  protocols = rb_ary_new();
 
   if (XGetWMProtocols(DPY, WINDOW, &win_protocols, &count)) {
     for (i = 0; i < count; i++) {
@@ -52,7 +53,7 @@ VALUE window_icccm_wm_protocols(VALUE self) {
 }
 
 VALUE window_kill(VALUE self) {
-  set_window(self);
+  SET_WINDOW(self);
 
   XKillClient(DPY, WINDOW);
 
@@ -60,7 +61,7 @@ VALUE window_kill(VALUE self) {
 }
 
 VALUE window_map(VALUE self) {
-  set_window(self);
+  SET_WINDOW(self);
 
   XMapWindow(DPY, WINDOW);
 
@@ -68,8 +69,8 @@ VALUE window_map(VALUE self) {
 }
 
 VALUE window_mask_set(VALUE self, VALUE mask) {
-  set_window(self);
   XSetWindowAttributes attrs;
+  SET_WINDOW(self);
 
   attrs.event_mask = FIX2LONG(mask);
   XChangeWindowAttributes(DPY, WINDOW, CWEventMask, &attrs);
@@ -78,9 +79,9 @@ VALUE window_mask_set(VALUE self, VALUE mask) {
 }
 
 VALUE window_name(VALUE self) {
-  set_window(self);
   char        *wxname;
   VALUE       wname;
+  SET_WINDOW(self);
 
   if (!XFetchName(DPY, WINDOW, &wxname))
     return Qnil;
@@ -92,8 +93,8 @@ VALUE window_name(VALUE self) {
 }
 
 VALUE window_override_redirect(VALUE self) {
-  set_window(self);
   XWindowAttributes wa;
+  SET_WINDOW(self);
 
   if (!XGetWindowAttributes(DPY, WINDOW, &wa))
     return Qnil;
@@ -102,7 +103,7 @@ VALUE window_override_redirect(VALUE self) {
 }
 
 VALUE window_raise(VALUE self) {
-  set_window(self);
+  SET_WINDOW(self);
 
   XRaiseWindow(DPY, WINDOW);
 
@@ -110,7 +111,7 @@ VALUE window_raise(VALUE self) {
 }
 
 VALUE window_unmap(VALUE self) {
-  set_window(self);
+  SET_WINDOW(self);
 
   XUnmapWindow(DPY, WINDOW);
 
@@ -118,9 +119,9 @@ VALUE window_unmap(VALUE self) {
 }
 
 VALUE window_wclass(VALUE self) {
-  set_window(self);
   XClassHint  ch;
   VALUE       wclass;
+  SET_WINDOW(self);
 
   if (!XGetClassHint(DPY, WINDOW, &ch))
     return Qnil;
@@ -134,9 +135,9 @@ VALUE window_wclass(VALUE self) {
 
 
 VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
-  set_window(self);
   XWindowChanges  wc;
   unsigned int    mask;
+  SET_WINDOW(self);
 
   mask = CWX | CWY | CWWidth | CWHeight | CWBorderWidth | CWStackMode;
   wc.x            = FIX2INT(rx);
@@ -151,8 +152,8 @@ VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
 }
 
 VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
-  set_window(self);
   XConfigureEvent ev;
+  SET_WINDOW(self);
 
   ev.type               = ConfigureNotify;
   ev.display            = DPY;
@@ -171,9 +172,9 @@ VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh
 }
 
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
-  set_window(self);
   XSetWindowAttributes  wa;
   Window                sub_win;
+  SET_WINDOW(self);
 
   wa.override_redirect  = True;
   wa.background_pixmap  = ParentRelative;
@@ -189,8 +190,8 @@ VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
 }
 
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
-  set_window(self);
   XWindowChanges wc;
+  SET_WINDOW(self);
 
   wc.x      = NUM2INT(x);
   wc.y      = NUM2INT(y);
@@ -203,7 +204,7 @@ VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height
 
 
 int window_id(VALUE self) {
-  set_window(self);
+  SET_WINDOW(self);
 
   return WINDOW;
 }
