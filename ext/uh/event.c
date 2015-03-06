@@ -18,7 +18,7 @@ VALUE event_make(XEvent *xev) {
     VALUE klass;
     void  (*function)(VALUE self);
   } EvClass;
-  EvClass ev_classes[] = {
+  EvClass       ev_classes[] = {
     {ConfigureRequest,  cConfigureRequest,  event_make_configure_request},
     {DestroyNotify,     cDestroyNotify,     NULL},
     {Expose,            cExpose,            NULL},
@@ -28,8 +28,8 @@ VALUE event_make(XEvent *xev) {
     {PropertyNotify,    cPropertyNotify,    NULL},
     {UnmapNotify,       cUnmapNotify,       NULL}
   };
-  int   i;
-  VALUE event;
+  unsigned int  i;
+  VALUE         event;
 
   for (i = 0; i < (sizeof ev_classes / sizeof ev_classes[0]); i++) {
     if (ev_classes[i].type == xev->type) {
