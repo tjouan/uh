@@ -9,10 +9,6 @@
 #include <X11/extensions/Xinerama.h>
 
 
-#define set_display(x) \
-  UhDisplay *display;\
-  Data_Get_Struct(x, UhDisplay, display);
-
 #define ROOT_DEFAULT    DefaultRootWindow(DPY)
 #define SCREEN_DEFAULT  DefaultScreen(DPY)
 

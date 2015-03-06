@@ -1,6 +1,10 @@
 #include "uh.h"
 
 
+#define SET_DISPLAY(x) \
+  UhDisplay *display;\
+  Data_Get_Struct(x, UhDisplay, display);
+
 #define DPY display->dpy
 
 
@@ -25,7 +29,7 @@ VALUE display_alloc(VALUE klass) {
 
 
 VALUE display_close(VALUE self) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   if (DPY) {
     XCloseDisplay(DPY);
@@ -38,9 +42,9 @@ VALUE display_close(VALUE self) {
 }
 
 VALUE display_color_by_name(VALUE self, VALUE rcolor) {
-  set_display(self);
   Colormap  map;
   XColor    color;
+  SET_DISPLAY(self);
 
   map = DefaultColormap(DPY, SCREEN_DEFAULT);
 
@@ -51,8 +55,8 @@ VALUE display_color_by_name(VALUE self, VALUE rcolor) {
 }
 
 VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
-  set_display(self);
   Pixmap pixmap;
+  SET_DISPLAY(self);
 
   pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(width), FIX2INT(height),
     DefaultDepth(DPY, SCREEN_DEFAULT)
@@ -62,20 +66,20 @@ VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
 }
 
 VALUE display_fileno(VALUE self) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   return INT2FIX(XConnectionNumber(DPY));
 }
 
 VALUE display_flush(VALUE self) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   return INT2FIX(XFlush(DPY));
 }
 
 VALUE display_each_event(VALUE self) {
-  set_display(self);
   XEvent xev;
+  SET_DISPLAY(self);
 
   while (1) {
     XNextEvent(DPY, &xev);
@@ -86,9 +90,9 @@ VALUE display_each_event(VALUE self) {
 }
 
 VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
-  set_display(self);
   KeySym      ks;
   KeyCode     kc;
+  SET_DISPLAY(self);
 
   ks = XStringToKeysym(RSTRING_PTR(key));
   if (ks == NoSymbol)
@@ -105,11 +109,11 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
 }
 
 VALUE display_listen_events(int argc, VALUE *argv, VALUE self) {
-  set_display(self);
   VALUE   arg1;
   VALUE   arg2;
   Window  window;
   long    mask;
+  SET_DISPLAY(self);
 
   if (rb_scan_args(argc, argv, "11", &arg1, &arg2) == 2) {
     window = window_id(arg1);
@@ -126,8 +130,8 @@ VALUE display_listen_events(int argc, VALUE *argv, VALUE self) {
 }
 
 VALUE display_next_event(VALUE self) {
-  set_display(self);
   XEvent xev;
+  SET_DISPLAY(self);
 
   XNextEvent(DPY, &xev);
 
@@ -135,7 +139,7 @@ VALUE display_next_event(VALUE self) {
 }
 
 VALUE display_open(VALUE self) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   if (!(DPY = XOpenDisplay(NULL))) {
     rb_raise(eDisplayError, "Can't open display");
@@ -147,15 +151,15 @@ VALUE display_open(VALUE self) {
 }
 
 VALUE display_pending(VALUE self) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   return INT2FIX(XPending(DPY));
 }
 
 VALUE display_query_font(VALUE self) {
-  set_display(self);
   XFontStruct *xfs;
   VALUE       font;
+  SET_DISPLAY(self);
 
   if (!(xfs = XQueryFont(DPY,
       XGContextFromGC(DefaultGC(DPY, SCREEN_DEFAULT)))))
@@ -168,17 +172,17 @@ VALUE display_query_font(VALUE self) {
 }
 
 VALUE display_root(VALUE self) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   return window_make(DPY, ROOT_DEFAULT);
 }
 
 VALUE display_screens(VALUE self) {
-  set_display(self);
   XineramaScreenInfo  *xsi;
   int                 n;
   VALUE               screens = rb_ary_new();
   VALUE               args[5];
+  SET_DISPLAY(self);
 
   if (XineramaIsActive(DPY)) {
     xsi = XineramaQueryScreens(DPY, &n);
@@ -207,7 +211,7 @@ VALUE display_screens(VALUE self) {
 }
 
 VALUE display_sync(VALUE self, VALUE discard) {
-  set_display(self);
+  SET_DISPLAY(self);
 
   XSync(display->dpy, RTEST(discard));
 
