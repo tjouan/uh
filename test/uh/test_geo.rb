@@ -11,6 +11,10 @@ describe Uh::Geo do
     it 'raises error when invalid height is given' do
       assert_raises(Uh::ArgumentError) { Uh::Geo.new(0, 0, 640, 0) }
     end
+
+    it 'builds a geo without arguments' do
+      assert_instance_of Uh::Geo, Uh::Geo.new
+    end
   end
 
   describe '.format_xgeometry' do

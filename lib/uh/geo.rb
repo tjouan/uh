@@ -36,6 +36,7 @@ module Uh
     private
 
     def check_value(name, value)
+      return if value.nil?
       fail ArgumentError, "invalid #{name.to_s}: #{value}" unless value > 0
     end
   end
