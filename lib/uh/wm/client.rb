@@ -1,6 +1,10 @@
+require 'uh/geo_accessors'
+
 module Uh
   class WM
     class Client
+      include GeoAccessors
+
       attr_reader   :window
       attr_accessor :geo
 
