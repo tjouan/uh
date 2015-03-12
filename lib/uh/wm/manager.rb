@@ -58,11 +58,10 @@ module Uh
       end
 
       def unmap(window)
-        remove_client_for window
       end
 
       def destroy(window)
-        remove_client_for window, destroy: true
+        remove_client_for window
       end
 
       def update_properties(window)
@@ -78,9 +77,9 @@ module Uh
         @clients.find { |e| e.window == window }
       end
 
-      def remove_client_for(window, destroy: false)
+      def remove_client_for(window)
         return unless client = client_for(window)
-        unmanage client unless client.hidden? && !destroy
+        unmanage client
       end
 
       def manage(client)
