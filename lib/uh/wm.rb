@@ -43,15 +43,14 @@ module Uh
     def_delegator :@logger, :error, :log_error
 
     def initialize(layout, &block)
-      @layout         = layout
-      @display        = Display.new
-      @logger         = Logger.new($stdout).tap do |o|
+      @layout   = layout
+      @display  = Display.new
+      @logger   = Logger.new($stdout).tap do |o|
         o.level     = ENV.key?(LOGGER_DEBUG_ENV) ? Logger::DEBUG : LOGGER_LEVEL
         o.formatter = LOGGER_FORMATER
       end
-      @manager        = Manager.new(@logger)
-      @action_handler = ActionHandler.new(self, @manager, @layout)
-      @keys           = {}
+      @manager  = Manager.new(@logger)
+      @keys     = {}
 
       @manager.on_manage do |client|
         @display.listen_events client.window, PROPERTY_CHANGE_MASK
@@ -179,7 +178,8 @@ module Uh
     end
 
     def handle_key_press(event)
-      @action_handler.call @keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
+      ActionHandler.new(self, @manager, @layout)
+        .call @keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
     end
 
     def handle_map_request(event)
