@@ -9,7 +9,6 @@ module Uh
       def initialize(logger)
         @logger     = logger
         @clients    = []
-        @on_manage  = []
       end
 
       def to_s
@@ -21,7 +20,7 @@ module Uh
       end
 
       def on_manage(&block)
-        @on_manage << block
+        @on_manage = block
       end
 
       def on_unmanage(&block)
@@ -46,14 +45,15 @@ module Uh
 
       def map(window)
         if window.override_redirect?
-          log "#{self.class.name}#map window.override_redirect, skipping"
+          log "#{self.class.name}#map #{window}.override_redirect, skipping"
           return
         end
 
         if client = client_for(window)
           log "#{self.class.name}#map #{client}, already managed"
+          nil
         else
-          manage Client.new(window)
+          Client.new(window).tap { |o| manage o }
         end
       end
 
@@ -85,7 +85,7 @@ module Uh
       def manage(client)
         log "#{self.class.name}#manage #{client}"
         @clients << client
-        @on_manage.each { |e| e.call client }
+        @on_manage.call client if @on_manage
       end
 
       def unmanage(client)

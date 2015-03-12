@@ -42,6 +42,8 @@ module Uh
     def_delegator :@logger, :info, :log
     def_delegator :@logger, :error, :log_error
 
+    attr_reader :keys, :rules
+
     def initialize(layout, &block)
       @layout   = layout
       @display  = Display.new
@@ -51,10 +53,7 @@ module Uh
       end
       @manager  = Manager.new(@logger)
       @keys     = {}
-
-      @manager.on_manage do |client|
-        @display.listen_events client.window, PROPERTY_CHANGE_MASK
-      end
+      @rules    = {}
 
       return unless block_given?
       if block.arity == 1 then yield self else instance_eval &block end
@@ -69,6 +68,12 @@ module Uh
       mod_mask = KEY_MODIFIERS[modifier]
       mod_mask |= KEY_MODIFIERS[mod] if mod
       @keys[[key, mod_mask]] = block
+    end
+
+    def rule(selectors, &block)
+      [*selectors].each do |selector|
+        @rules[/\A#{selector}/i] = block
+      end
     end
 
     def on_init(&block)
@@ -183,7 +188,14 @@ module Uh
     end
 
     def handle_map_request(event)
-      @manager.map event.window
+      if client = @manager.map(event.window)
+        @display.listen_events event.window, PROPERTY_CHANGE_MASK
+        @rules.each do |selector, action|
+          if client.wclass =~ selector
+            ActionHandler.new(self, @manager, @layout).call action
+          end
+        end
+      end
     end
 
     def handle_property_notify(event)
