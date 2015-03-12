@@ -37,7 +37,8 @@ module Uh
                         STRUCTURE_NOTIFY_MASK
 
     extend Forwardable
-    def_delegators :@manager, :on_configure, :on_manage, :on_unmanage, :on_change
+    def_delegators :@manager, :on_configure, :on_manage, :on_unmanage,
+      :on_change
     def_delegator :@logger, :info, :log
     def_delegator :@logger, :error, :log_error
 
@@ -49,7 +50,7 @@ module Uh
         o.formatter = LOGGER_FORMATER
       end
       @manager        = Manager.new(@logger)
-      @action_handler = ActionHandler.new(self, @manager, layout)
+      @action_handler = ActionHandler.new(self, @manager, @layout)
       @keys           = {}
 
       @manager.on_manage do |client|
@@ -80,10 +81,10 @@ module Uh
     end
 
     def worker(*args, **options)
-      if args.any?
-        @worker = WORKERS[args.first].new(@display, @logger, options)
+      @worker ||= if args.any?
+        WORKERS[args.first].new(@display, @logger, options)
       else
-        @worker ||= Workers::BlockingWorker.new(@display, @logger)
+        Workers::BlockingWorker.new(@display, @logger)
       end
     end
 
