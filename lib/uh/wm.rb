@@ -42,9 +42,9 @@ module Uh
     def_delegator :@logger, :info, :log
     def_delegator :@logger, :error, :log_error
 
-    attr_reader :keys, :rules
+    attr_reader :actions, :keys, :rules
 
-    def initialize(layout, &block)
+    def initialize(layout)
       @layout   = layout
       @display  = Display.new
       @logger   = Logger.new($stdout).tap do |o|
@@ -52,11 +52,9 @@ module Uh
         o.formatter = LOGGER_FORMATER
       end
       @manager  = Manager.new(@logger)
+      @actions  = ActionHandler.new(self, @manager, @layout)
       @keys     = {}
       @rules    = {}
-
-      return unless block_given?
-      if block.arity == 1 then yield self else instance_eval &block end
     end
 
     def modifier(mod = nil)
@@ -70,7 +68,7 @@ module Uh
       @keys[[key, mod_mask]] = block
     end
 
-    def rule(selectors, &block)
+    def rule(selectors = '', &block)
       [*selectors].each do |selector|
         @rules[/\A#{selector}/i] = block
       end
@@ -85,38 +83,11 @@ module Uh
     end
 
     def worker(*args, **options)
-      @worker ||= if args.any?
-        WORKERS[args.first].new(@display, @logger, options)
-      else
-        Workers::BlockingWorker.new(@display, @logger)
-      end
+      @worker = WORKERS[args.first].new(@display, @logger, options)
     end
 
     def request_quit!
       @quit_requested = true
-    end
-
-    def run
-      connect
-      @on_init.call @display
-      grab_keys
-      @display.root.mask = ROOT_MASK
-      worker.setup.each_event do |e|
-        process_event e
-        break if quit_requested?
-      end
-      disconnect
-    end
-
-
-    private
-
-    def modifier_mask(mod)
-      KEY_MODIFIERS[mod]
-    end
-
-    def quit_requested?
-      !!@quit_requested
     end
 
     def connect
@@ -126,6 +97,9 @@ module Uh
       @display.sync false
       Display.on_error proc { |*args| handle_error(*args) }
       @display.sync false
+      @display.root.mask = ROOT_MASK
+      @worker.setup
+      @on_init.call @display if @on_init
     end
 
     def disconnect
@@ -138,6 +112,29 @@ module Uh
         key = key.to_s.gsub /\AXK_/, ''
         @display.grab_key key, mod
       end
+      @display.sync false
+    end
+
+    def run_until(&block)
+      @worker.each_event do |e|
+        process_event e
+        break if block.call
+      end
+    end
+
+    def run
+      run_until { quit_requested? }
+    end
+
+
+    private
+
+    def modifier_mask(mod)
+      KEY_MODIFIERS[mod]
+    end
+
+    def quit_requested?
+      !!@quit_requested
     end
 
     def process_event(event)
@@ -183,8 +180,7 @@ module Uh
     end
 
     def handle_key_press(event)
-      ActionHandler.new(self, @manager, @layout)
-        .call @keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
+      actions.call @keys[["XK_#{event.key}".to_sym, event.modifier_mask]]
     end
 
     def handle_map_request(event)
@@ -192,7 +188,7 @@ module Uh
         @display.listen_events event.window, PROPERTY_CHANGE_MASK
         @rules.each do |selector, action|
           if client.wclass =~ selector
-            ActionHandler.new(self, @manager, @layout).call action
+            actions.call action
           end
         end
       end
