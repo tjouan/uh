@@ -34,7 +34,6 @@ module Uh
         @wclass = @window.wclass
       end
 
-      # FIXME: use @geo
       def configure
         window.configure geo
         self
