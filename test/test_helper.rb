@@ -10,4 +10,10 @@ class Minitest::Test
   #parallelize_me!
 end
 
+class Minitest::Spec
+  class << self
+    alias context describe
+  end
+end
+
 Minitest::Reporters.use!(Minitest::Reporters::SpecReporter.new)
