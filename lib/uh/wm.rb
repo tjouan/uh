@@ -148,8 +148,7 @@ module Uh
     end
 
     def log_event(event)
-      fmt         = '> Event %s'
-      complement  = case event.type
+      complement = case event.type
       when :destroy_notify, :expose, :key_press, :map_request, :property_notify
         "window: #{event.window}"
       when :configure_request
@@ -161,8 +160,6 @@ module Uh
         ]
       when :unmap_notify
         "window: #{event.window}, event_window: #{event.event_window}"
-      else
-        nil
       end
 
       log 'XEvent %s' % [event.type, complement].compact.join(' ')
