@@ -14,15 +14,15 @@ module Uh
       end
 
       def to_s
-        '<%s> (%s) window: %s, geo: %s' % [name, wclass, window, geo]
+        '<%s> (%s) window: %s, geo: %s' % [name, wclass, @window, @geo]
       end
 
       def name
-        @name ||= window.name
+        @name ||= @window.name
       end
 
       def wclass
-        @wclass ||= window.wclass
+        @wclass ||= @window.wclass
       end
 
       def hidden?
@@ -35,44 +35,44 @@ module Uh
       end
 
       def configure
-        window.configure geo
+        @window.configure @geo
         self
       end
 
       def moveresize
-        window.moveresize geo
+        @window.moveresize @geo
         self
       end
 
       def show
-        window.map
+        @window.map
         @hide = false
         self
       end
 
       def hide
-        window.unmap
+        @window.unmap
         @hide = true
         self
       end
 
       def focus
-        window.raise
-        window.focus
+        @window.raise
+        @window.focus
         self
       end
 
       def kill
-        if window.icccm_wm_protocols.include? :WM_DELETE_WINDOW
-          window.icccm_wm_delete
+        if @window.icccm_wm_protocols.include? :WM_DELETE_WINDOW
+          @window.icccm_wm_delete
         else
-          window.kill
+          @window.kill
         end
         self
       end
 
       def kill!
-        window.kill
+        @window.kill
         self
       end
     end
