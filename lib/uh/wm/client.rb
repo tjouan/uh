@@ -34,6 +34,7 @@ module Uh
         @wclass = @window.wclass
       end
 
+      # FIXME: use @geo
       def configure
         window.configure geo
         self
@@ -66,7 +67,7 @@ module Uh
         if window.icccm_wm_protocols.include? :WM_DELETE_WINDOW
           window.icccm_wm_delete
         else
-          window.kill!
+          window.kill
         end
         self
       end
