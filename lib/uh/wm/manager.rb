@@ -6,6 +6,8 @@ module Uh
       extend Forwardable
       def_delegator :@logger, :info, :log
 
+      attr_reader :clients
+
       def initialize(logger)
         @logger     = logger
         @clients    = []
@@ -58,11 +60,17 @@ module Uh
       end
 
       def unmap(window)
-        remove_client_for window
+        return unless client = client_for(window)
+        if client.unmap_count > 0
+          client.unmap_count -= 1
+        else
+          unmanage client
+        end
       end
 
       def destroy(window)
-        remove_client_for window, destroy: true
+        return unless client = client_for(window)
+        unmanage client
       end
 
       def update_properties(window)
@@ -76,11 +84,6 @@ module Uh
 
       def client_for(window)
         @clients.find { |e| e.window == window }
-      end
-
-      def remove_client_for(window, destroy: false)
-        return unless client = client_for(window)
-        unmanage client unless client.hidden? && !destroy
       end
 
       def manage(client)

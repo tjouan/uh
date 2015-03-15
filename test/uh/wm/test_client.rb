@@ -15,6 +15,10 @@ module Uh
         assert subject.hidden?
       end
 
+      it 'has an unmap count of 0' do
+        assert_equal 0, subject.unmap_count
+      end
+
       describe '#name' do
         it 'returns the window name' do
           assert_equal 'win name', subject.name
@@ -98,9 +102,14 @@ module Uh
           window.verify
         end
 
-        it 'is stays hidden' do
+        it 'stays hidden' do
           subject.hide
           assert subject.hidden?
+        end
+
+        it 'increments the unmap count' do
+          subject.hide
+          assert_equal 1, subject.unmap_count
         end
 
         it 'returns self' do

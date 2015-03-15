@@ -6,15 +6,17 @@ module Uh
       include GeoAccessors
 
       attr_reader   :window
-      attr_accessor :geo
+      attr_accessor :geo, :unmap_count
 
       def initialize(window)
-        @window = window
-        @hide   = true
+        @window       = window
+        @hide         = true
+        @unmap_count  = 0
       end
 
       def to_s
-        '<%s> (%s) window: %s, geo: %s' % [name, wclass, @window, @geo]
+        '<%s> (%s) %s win: %s unmaps: %d' %
+          [name, wclass, @geo, @window, @unmap_count]
       end
 
       def name
@@ -53,6 +55,7 @@ module Uh
       def hide
         @window.unmap
         @hide = true
+        @unmap_count += 1
         self
       end
 
