@@ -51,7 +51,7 @@ module Uh
         o.level     = ENV.key?(LOGGER_DEBUG_ENV) ? Logger::DEBUG : LOGGER_LEVEL
         o.formatter = LOGGER_FORMATER
       end
-      @manager  = Manager.new(@logger)
+      @manager  = Manager.new
       @actions  = ActionHandler.new(self, @manager, @layout)
       @keys     = {}
       @rules    = {}

@@ -5,18 +5,15 @@ module Uh
   class WM
     describe Manager do
       let(:output)  { StringIO.new }
-      let(:logger)  { Logger.new(output) }
       let(:window)  { Minitest::Mock.new }
-      subject       { Manager.new(logger) }
-
-      before { window.expect :class, Window }
+      subject       { Manager.new }
 
       it 'has no clients' do
         assert subject.clients.empty?
       end
 
       describe '#configure' do
-        context 'new window' do
+        context 'with new window' do
           it 'sends a default configure event to the window' do
             window.expect :configure_event, window, [Geo.new(0, 0, 320, 240)]
             subject.configure window
@@ -33,7 +30,7 @@ module Uh
           end
         end
 
-        context 'known window' do
+        context 'with known window' do
           let(:client) { Minitest::Mock.new }
 
           before do
@@ -53,8 +50,6 @@ module Uh
       describe '#map' do
         before do
           window.expect :override_redirect?, false
-          window.expect :name, 'window'
-          window.expect :wclass, 'window class'
         end
 
         it 'registers a new client' do
@@ -80,11 +75,6 @@ module Uh
         end
 
         context 'when client unmap count is 0 or less' do
-          before do
-            window.expect :name, 'window'
-            window.expect :wclass, 'window class'
-          end
-
           it 'preserves the unmap count' do
             subject.unmap window
             assert_equal 0, client.unmap_count
@@ -125,8 +115,6 @@ module Uh
         before do
           subject.clients << client
           window.expect :==, true, [Object]
-          window.expect :name, 'window'
-          window.expect :wclass, 'window class'
         end
 
         it 'unmanages the client' do
@@ -144,7 +132,7 @@ module Uh
       end
 
       describe '#update_properties' do
-        context 'known window' do
+        context 'with known window' do
           before do
             window.expect :==, true, [Object]
             window.expect :name, 'window'

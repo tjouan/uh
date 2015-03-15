@@ -3,14 +3,10 @@ module Uh
     class Manager
       DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
-      extend Forwardable
-      def_delegator :@logger, :info, :log
-
       attr_reader :clients
 
-      def initialize(logger)
-        @logger     = logger
-        @clients    = []
+      def initialize
+        @clients = []
       end
 
       def to_s
@@ -35,28 +31,16 @@ module Uh
 
       def configure(window)
         if client = client_for(window)
-          log "#{self.class.name}#configure #{client} already managed"
           client.configure
         else
           geo = @on_configure ? @on_configure.call(window) : DEFAULT_GEO
-          log "#{self.class.name}#configure window: #{window}, not managed"
-          log "#{window.class.name}#configure #{geo}"
           window.configure_event geo
         end
       end
 
       def map(window)
-        if window.override_redirect?
-          log "#{self.class.name}#map #{window}.override_redirect, skipping"
-          return
-        end
-
-        if client = client_for(window)
-          log "#{self.class.name}#map #{client}, already managed"
-          nil
-        else
-          Client.new(window).tap { |o| manage o }
-        end
+        return if window.override_redirect? || client_for(window)
+        Client.new(window).tap { |o| manage o }
       end
 
       def unmap(window)
@@ -87,13 +71,11 @@ module Uh
       end
 
       def manage(client)
-        log "#{self.class.name}#manage #{client}"
         @clients << client
         @on_manage.call client if @on_manage
       end
 
       def unmanage(client)
-        log "#{self.class.name}#unmanage #{client}"
         @clients.reject! { |e| e == client }
         @on_unmanage.call client if @on_unmanage
       end
