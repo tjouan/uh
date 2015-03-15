@@ -162,7 +162,11 @@ module Uh
         "window: #{event.window}, event_window: #{event.event_window}"
       end
 
-      log 'XEvent %s' % [event.type, complement].compact.join(' ')
+      log [
+        'XEvent', event.type,
+        event.send_event ? 'SENT' : nil,
+        complement
+      ].compact.join(' ')
     end
 
     def handle_configure_request(event)
