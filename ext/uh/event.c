@@ -87,6 +87,8 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
   event = Data_Wrap_Struct(klass, 0, 0, xev);
   rb_ivar_set(event, rb_intern("@type"),
     ID2SYM(rb_intern(type_descs[xev->type])));
+  rb_ivar_set(event, rb_intern("@send_event"),
+    xev->xany.send_event ? Qtrue : Qfalse);
 
   return event;
 }
