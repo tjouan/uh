@@ -152,6 +152,8 @@ void event_make_win_any(VALUE self) {
       window = xev->xproperty.window;
       break;
     case UnmapNotify:
+      rb_ivar_set(self, rb_intern("@event_window"),
+        window_make(xev->xany.display, xev->xunmap.event));
       window = xev->xunmap.window;
       break;
     default:
