@@ -4,6 +4,8 @@ module Uh
       extend Forwardable
       def_delegators :@wm, :log, :log_error
 
+      attr_reader :layout
+
       def initialize(wm, manager, layout)
         @wm, @manager, @layout = wm, manager, layout
       end
