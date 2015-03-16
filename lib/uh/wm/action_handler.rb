@@ -1,6 +1,9 @@
 module Uh
   class WM
     class ActionHandler
+      extend Forwardable
+      def_delegators :@wm, :log, :log_error
+
       def initialize(wm, manager, layout)
         @wm, @manager, @layout = wm, manager, layout
       end
@@ -10,35 +13,39 @@ module Uh
       end
 
       def quit
-        @wm.log 'Exiting...'
+        log 'Exiting...'
         @wm.request_quit!
       end
 
       def execute(command)
-        @wm.log "Spawn `#{command}`"
+        log "Spawn `#{command}`"
         pid = spawn command, pgroup: true
         Process.detach pid
       rescue Errno::ENOENT => e
-        @wm.log_error "Spawn: #{e}"
+        log_error "Spawn: #{e}"
       end
 
       def log_layout
-        @wm.log "Layout:\n#{@layout.to_s.lines.map { |e| "  #{e}" }.join.chomp}"
+        log "Layout:\n#{@layout.to_s.lines.map { |e| "  #{e}" }.join.chomp}"
       end
 
       def log_clients
-        @wm.log "Clients:\n#{@manager.to_s.lines.map { |e| "  #{e}" }.join.chomp}"
+        log "Clients:\n#{@manager.to_s.lines.map { |e| "  #{e}" }.join.chomp}"
       end
 
       def log_separator
-        @wm.log '- ' * 24
+        log '- ' * 24
       end
 
       def method_missing(m, *args, &block)
         if respond_to? m
           meth = layout_method m
-          @wm.log "#{@layout.class.name}##{meth} #{args.inspect}"
-          @layout.send(meth, *args)
+          log "#{@layout.class.name}##{meth} #{args.inspect}"
+          begin
+            @layout.send(meth, *args)
+          rescue NoMethodError
+            log_error "Layout does not implement `#{meth}'"
+          end
         else
           super
         end
