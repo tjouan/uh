@@ -12,6 +12,8 @@ module Uh
 
       def call(action)
         instance_exec &action
+      rescue LocalJumpError => e
+        log_error "Action: #{e}"
       end
 
       def quit
