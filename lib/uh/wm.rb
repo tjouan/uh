@@ -149,7 +149,7 @@ module Uh
 
     def log_event(event)
       complement = case event.type
-      when :destroy_notify, :expose, :key_press, :map_request, :property_notify
+      when :destroy_notify, :expose, :map_request, :property_notify
         "window: #{event.window}"
       when :configure_request
         '%s, above: #%d, detail: #%d, value_mask: #%d' % [
@@ -158,6 +158,8 @@ module Uh
           event.detail,
           event.value_mask
         ]
+      when :key_press
+        "window: #{event.window}, key: #{event.key}, mask: #{event.modifier_mask}"
       when :unmap_notify
         "window: #{event.window}, event_window: #{event.event_window}"
       end
