@@ -23,10 +23,17 @@ module Uh
 
       def execute(command)
         log "Spawn `#{command}`"
-        pid = spawn command, pgroup: true
-        Process.detach pid
-      rescue Errno::ENOENT => e
-        log_error "Spawn: #{e}"
+        pid = fork do
+          fork do
+            Process.setsid
+            begin
+              exec command
+            rescue Errno::ENOENT => e
+              log_error "Spawn: #{e}"
+            end
+          end
+        end
+        Process.waitpid pid
       end
 
       def log_layout
