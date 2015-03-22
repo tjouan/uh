@@ -33,7 +33,7 @@ void uh_color() {
 
 void uh_display() {
   cDisplay = rb_define_class_under(mUh, "Display", rb_cObject);
-  rb_define_singleton_method(cDisplay, "on_error", display_s_on_error, 1);
+  rb_define_singleton_method(cDisplay, "on_error", display_s_on_error, 0);
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
   rb_define_method(cDisplay, "close", display_close, 0);

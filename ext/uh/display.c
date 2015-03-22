@@ -13,8 +13,12 @@ VALUE rdisplay_error_handler = Qnil;
 int display_x_error_handler(Display *dpy, XErrorEvent *e);
 
 
-VALUE display_s_on_error(VALUE klass, VALUE handler) {
-  rdisplay_error_handler = handler;
+VALUE display_s_on_error(VALUE klass) {
+  if (!rb_block_given_p()) {
+    rb_raise(rb_eArgError, "no block given");
+  }
+
+  rdisplay_error_handler = rb_block_proc();
   rb_global_variable(&rdisplay_error_handler);
 
   return Qnil;

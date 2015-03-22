@@ -47,7 +47,7 @@ VALUE mUh, mEvents,
 
 VALUE color_make(unsigned long pixel);
 
-VALUE display_s_on_error(VALUE klass, VALUE handler);
+VALUE display_s_on_error(VALUE klass);
 VALUE display_alloc(VALUE klass);
 VALUE display_close(VALUE self);
 VALUE display_color_by_name(VALUE self, VALUE rcolor);
