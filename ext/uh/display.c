@@ -35,7 +35,7 @@ VALUE display_close(VALUE self) {
     XCloseDisplay(DPY);
   }
   else {
-    rb_raise(eDisplayError, "Can't close display");
+    rb_raise(eDisplayError, "cannot close display");
   }
 
   return self;
@@ -49,7 +49,7 @@ VALUE display_color_by_name(VALUE self, VALUE rcolor) {
   map = DefaultColormap(DPY, SCREEN_DEFAULT);
 
   if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor), &color, &color))
-    rb_raise(rb_eArgError, "Invalid color name `%s'", RSTRING_PTR(rcolor));
+    rb_raise(rb_eArgError, "invalid color name `%s'", RSTRING_PTR(rcolor));
 
   return color_make(color.pixel);
 }
@@ -96,11 +96,11 @@ VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
 
   ks = XStringToKeysym(RSTRING_PTR(key));
   if (ks == NoSymbol)
-    rb_raise(rb_eArgError, "Invalid KeySym %s", RSTRING_PTR(key));
+    rb_raise(rb_eArgError, "invalid KeySym %s", RSTRING_PTR(key));
 
   kc = XKeysymToKeycode(DPY, ks);
   if (kc == 0)
-    rb_raise(rb_eArgError, "KeySym XK_%s has no KeyCode", RSTRING_PTR(key));
+    rb_raise(rb_eArgError, "keysym XK_%s has no keycode", RSTRING_PTR(key));
 
   XGrabKey(DPY, kc, FIX2INT(modifier), ROOT_DEFAULT, True,
     GrabModeAsync, GrabModeAsync);
@@ -142,7 +142,7 @@ VALUE display_open(VALUE self) {
   SET_DISPLAY(self);
 
   if (!(DPY = XOpenDisplay(NULL))) {
-    rb_raise(eDisplayError, "Can't open display");
+    rb_raise(eDisplayError, "cannot open display");
   }
 
   XSetErrorHandler(display_x_error_handler);
