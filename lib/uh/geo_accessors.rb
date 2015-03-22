@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Uh
   module GeoAccessors
     extend Forwardable
