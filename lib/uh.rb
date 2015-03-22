@@ -15,7 +15,6 @@ module Uh
   Error               = Class.new(StandardError)
   RuntimeError        = Class.new(RuntimeError)
   ArgumentError       = Class.new(Error)
-  OtherWMRunningError = Class.new(RuntimeError)
 
   KEY_MODIFIERS = {
     shift:  1 << 0,
