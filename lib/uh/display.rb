@@ -4,6 +4,10 @@ module Uh
       ENV['DISPLAY']
     end
 
+    def create_window(geo)
+      root.create geo
+    end
+
     def create_subwindow(geo)
       root.create_sub geo
     end
