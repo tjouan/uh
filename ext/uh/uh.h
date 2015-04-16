@@ -88,6 +88,7 @@ VALUE window_map(VALUE self);
 VALUE window_mask(VALUE self);
 VALUE window_mask_set(VALUE self, VALUE mask);
 VALUE window_name(VALUE self);
+VALUE window_name_set(VALUE self, VALUE name);
 VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);
 VALUE window_unmap(VALUE self);

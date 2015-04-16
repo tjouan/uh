@@ -103,6 +103,14 @@ VALUE window_name(VALUE self) {
   return wname;
 }
 
+VALUE window_name_set(VALUE self, VALUE name) {
+  SET_WINDOW(self);
+
+  XStoreName(DPY, WINDOW, RSTRING_PTR(name));
+
+  return Qnil;
+}
+
 VALUE window_override_redirect(VALUE self) {
   XWindowAttributes wa;
   SET_WINDOW(self);

@@ -126,6 +126,7 @@ void uh_window() {
   rb_define_method(cWindow, "mask", window_mask, 0);
   rb_define_method(cWindow, "mask=", window_mask_set, 1);
   rb_define_method(cWindow, "name", window_name, 0);
+  rb_define_method(cWindow, "name=", window_name_set, 1);
   rb_define_method(cWindow, "override_redirect?", window_override_redirect, 0);
   rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_method(cWindow, "unmap", window_unmap, 0);
