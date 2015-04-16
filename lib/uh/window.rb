@@ -18,6 +18,10 @@ module Uh
       self
     end
 
+    def create(geo)
+      _create geo.x, geo.y, geo.width, geo.height
+    end
+
     def create_sub(geo)
       _create_sub geo.x, geo.y, geo.width, geo.height
     end

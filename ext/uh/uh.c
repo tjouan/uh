@@ -136,6 +136,7 @@ void uh_window() {
   rb_define_private_method(cWindow, "_configure", window__configure, 4);
   rb_define_private_method(cWindow, "_configure_event",
     window__configure_event, 4);
+  rb_define_private_method(cWindow, "_create", window__create, 4);
   rb_define_private_method(cWindow, "_create_sub", window__create_sub, 4);
   rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }

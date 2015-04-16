@@ -190,6 +190,18 @@ VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh
   return Qnil;
 }
 
+VALUE window__create(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
+  Window win;
+  SET_WINDOW(self);
+
+  win = XCreateSimpleWindow(DPY, WINDOW,
+    FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h),
+    0, BlackPixel(DPY, SCREEN_DEFAULT), BlackPixel(DPY, SCREEN_DEFAULT)
+  );
+
+  return window_make(DPY, win);
+}
+
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
   XSetWindowAttributes  wa;
   Window                sub_win;

@@ -95,6 +95,7 @@ VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);
 VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
 VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
+VALUE window__create(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 int window_id(VALUE window);
