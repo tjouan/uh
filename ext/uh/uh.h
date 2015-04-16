@@ -85,6 +85,7 @@ VALUE window_icccm_wm_delete(VALUE self);
 VALUE window_icccm_wm_protocols(VALUE self);
 VALUE window_kill(VALUE self);
 VALUE window_map(VALUE self);
+VALUE window_mask(VALUE self);
 VALUE window_mask_set(VALUE self, VALUE mask);
 VALUE window_name(VALUE self);
 VALUE window_override_redirect(VALUE self);

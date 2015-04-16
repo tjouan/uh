@@ -68,6 +68,17 @@ VALUE window_map(VALUE self) {
   return Qnil;
 }
 
+VALUE window_mask(VALUE self) {
+  XWindowAttributes wa;
+  SET_WINDOW(self);
+
+  if (!XGetWindowAttributes(DPY, WINDOW, &wa)) {
+    rb_raise(rb_eArgError, "cannot get window attributes for `0x%08lx'", WINDOW);
+  }
+
+  return LONG2FIX(wa.your_event_mask);
+}
+
 VALUE window_mask_set(VALUE self, VALUE mask) {
   XSetWindowAttributes attrs;
   SET_WINDOW(self);
