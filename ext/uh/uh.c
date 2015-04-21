@@ -120,6 +120,7 @@ void uh_screen() {
 void uh_window() {
   cWindow = rb_define_class_under(mUh, "Window", rb_cObject);
   rb_define_attr(cWindow, "id", 1, 0);
+  rb_define_method(cWindow, "destroy", window_destroy, 0);
   rb_define_method(cWindow, "focus", window_focus, 0);
   rb_define_method(cWindow, "kill", window_kill, 0);
   rb_define_method(cWindow, "map", window_map, 0);

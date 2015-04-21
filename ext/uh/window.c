@@ -9,6 +9,14 @@
 #define WINDOW  window->id
 
 
+VALUE window_destroy(VALUE self) {
+  SET_WINDOW(self);
+
+  XDestroyWindow(DPY, WINDOW);
+
+  return Qnil;
+}
+
 VALUE window_focus(VALUE self) {
   SET_WINDOW(self);
 
