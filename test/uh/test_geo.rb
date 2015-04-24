@@ -13,23 +13,23 @@ describe Uh::Geo do
     end
 
     it 'builds a geo without arguments' do
-      assert_instance_of Uh::Geo, Uh::Geo.new
+      _(Uh::Geo.new).must_be_instance_of Uh::Geo
     end
   end
 
   describe '.format_xgeometry' do
     it 'formats coordinates and dimensions as X geometry' do
-      assert_equal '640x480+0+0', Uh::Geo.format_xgeometry(0, 0, 640, 480)
+      _(Uh::Geo.format_xgeometry(0, 0, 640, 480)).must_equal '640x480+0+0'
     end
 
     it 'formats missing values as ?' do
-      assert_equal '?x?+?+?', Uh::Geo.format_xgeometry(*[nil] * 4)
+      _(Uh::Geo.format_xgeometry(*[nil] * 4)).must_equal '?x?+?+?'
     end
   end
 
   describe '#to_s' do
     it 'returns .format_xgeometry results' do
-      assert_equal Uh::Geo.format_xgeometry(*subject.values), subject.to_s
+      _(subject.to_s).must_equal Uh::Geo.format_xgeometry(*subject.values)
     end
   end
 
@@ -37,7 +37,7 @@ describe Uh::Geo do
     describe "##{dimension}=" do
       it 'assigns given value' do
         subject.send "#{dimension}=", 42
-        assert_equal 42, subject.send(dimension)
+        _(subject.send dimension).must_equal 42
       end
 
       it 'raises error when 0 is given' do
