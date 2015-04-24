@@ -10,9 +10,9 @@ uh
 
 
 
-[badge-version-img]:  https://img.shields.io/gem/v/uh-wm.svg?style=flat-square
-[badge-version-uri]:  https://rubygems.org/gems/uh-wm
-[badge-build-img]:    https://img.shields.io/travis/tjouan/uh-wm/master.svg?style=flat-square
-[badge-build-uri]:    https://travis-ci.org/tjouan/uh-wm
-[badge-cclimate-img]: https://img.shields.io/codeclimate/github/tjouan/uh-wm.svg?style=flat-square
-[badge-cclimate-uri]: https://codeclimate.com/github/tjouan/uh-wm
+[badge-version-img]:  https://img.shields.io/gem/v/uh.svg?style=flat-square
+[badge-version-uri]:  https://rubygems.org/gems/uh
+[badge-build-img]:    https://img.shields.io/travis/tjouan/uh/master.svg?style=flat-square
+[badge-build-uri]:    https://travis-ci.org/tjouan/uh
+[badge-cclimate-img]: https://img.shields.io/codeclimate/github/tjouan/uh.svg?style=flat-square
+[badge-cclimate-uri]: https://codeclimate.com/github/tjouan/uh
