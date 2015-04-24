@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.version = Uh::VERSION.dup
   s.summary = 'Xlib simplified toolkit'
   s.description = s.name
+  s.license = 'BSD-3-Clause'
   s.homepage = 'https://rubygems.org/gems/uh'
 
   s.authors = 'Thibault Jouan'
