@@ -7,10 +7,5 @@ module Uh
     def ==(other)
       id == other.id
     end
-
-    def show
-      map
-      self
-    end
   end
 end

@@ -130,6 +130,7 @@ void uh_window() {
   rb_define_method(cWindow, "icccm_wm_protocols", window_icccm_wm_protocols, 0);
   rb_define_method(cWindow, "kill", window_kill, 0);
   rb_define_method(cWindow, "map", window_map, 0);
+  rb_define_alias(cWindow, "show", "map");
   rb_define_method(cWindow, "mask", window_mask, 0);
   rb_define_method(cWindow, "mask=", window_mask_set, 1);
   rb_define_method(cWindow, "moveresize", window_moveresize, 1);
