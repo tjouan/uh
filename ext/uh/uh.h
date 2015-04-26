@@ -70,7 +70,7 @@ VALUE event_make(XEvent *xev);
 
 VALUE font_make(int width, int ascent, int descent);
 
-VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight);
+VALUE pixmap_copy(VALUE self, VALUE rwindow);
 VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str);
 VALUE pixmap_gc_black(VALUE self);

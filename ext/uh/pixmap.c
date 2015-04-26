@@ -58,11 +58,16 @@ VALUE pixmap_gc_white(VALUE self) {
 }
 
 
-VALUE pixmap__copy(VALUE self, VALUE rwindow_id, VALUE rwidth, VALUE rheight) {
+VALUE pixmap_copy(VALUE self, VALUE rwindow) {
   SET_PIXMAP(self)
 
-  XCopyArea(DPY, PIXMAP, FIX2INT(rwindow_id), GC,
-    0, 0, FIX2INT(rwidth), FIX2INT(rheight), 0, 0
+  XCopyArea(DPY, PIXMAP,
+    FIX2INT(rb_funcall(rwindow, rb_intern("id"), 0)),
+    GC,
+    0, 0,
+    FIX2INT(rb_ivar_get(self, rb_intern("@width"))),
+    FIX2INT(rb_ivar_get(self, rb_intern("@height"))),
+    0, 0
   );
 
   return Qnil;

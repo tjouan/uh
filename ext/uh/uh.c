@@ -99,12 +99,12 @@ void uh_pixmap() {
   cPixmap = rb_define_class_under(mUh, "Pixmap", rb_cObject);
   rb_define_attr(cPixmap, "width", 1, 0);
   rb_define_attr(cPixmap, "height", 1, 0);
+  rb_define_method(cPixmap, "copy", pixmap_copy, 1);
   rb_define_method(cPixmap, "draw_rect", pixmap_draw_rect, 4);
   rb_define_method(cPixmap, "draw_string", pixmap_draw_string, 3);
   rb_define_method(cPixmap, "gc_black", pixmap_gc_black, 0);
   rb_define_method(cPixmap, "gc_color", pixmap_gc_color, 1);
   rb_define_method(cPixmap, "gc_white", pixmap_gc_white, 0);
-  rb_define_private_method(cPixmap, "_copy", pixmap__copy, 3);
 }
 
 void uh_screen() {
