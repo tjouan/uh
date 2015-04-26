@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors     = 'Thibault Jouan'
   s.email       = 'tj@a13.fr'
 
-  s.files       = `git ls-files`.split $/
+  s.files       = `git ls-files lib`.split $/
 
   s.extensions  = %w[ext/uh/extconf.rb]
 
