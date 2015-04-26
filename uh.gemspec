@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.email   = 'tj@a13.fr'
 
   s.files       = `git ls-files`.split $/
-  s.test_files  = s.files.grep /\Atest\//
 
   s.extensions  = %w[ext/uh/extconf.rb]
 
