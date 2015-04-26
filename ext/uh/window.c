@@ -95,7 +95,7 @@ VALUE window_focus(VALUE self) {
 
   XSetInputFocus(DPY, WINDOW, RevertToPointerRoot, CurrentTime);
 
-  return Qnil;
+  return self;
 }
 
 VALUE window_icccm_wm_delete(VALUE self) {
