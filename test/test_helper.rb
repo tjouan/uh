@@ -10,7 +10,7 @@ class Minitest::Test
   #parallelize_me!
 end
 
-class Minitest::Spec
+class UhSpec < Minitest::Spec
   class << self
     alias context describe
   end

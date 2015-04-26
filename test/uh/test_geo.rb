@@ -1,6 +1,6 @@
 require 'test_helper'
 
-module Uh
+module Uh; class UhGeoSpec < UhSpec
   describe Geo do
     subject { Geo.new(0, 0, 640, 480) }
 
@@ -51,4 +51,4 @@ module Uh
       end
     end
   end
-end
+end; end
