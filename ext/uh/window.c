@@ -220,7 +220,7 @@ VALUE window_raise(VALUE self) {
 
   XRaiseWindow(DPY, WINDOW);
 
-  return Qnil;
+  return self;
 }
 
 VALUE window_unmap(VALUE self) {
