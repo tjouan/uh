@@ -11,10 +11,6 @@ class Minitest::Test
 end
 
 class UhSpec < Minitest::Spec
-  class << self
-    alias context describe
-  end
-
   def described_class
     self.class.const_get self.class.name.sub /::(?:\.|#).+\z/, ''
   end
