@@ -146,7 +146,7 @@ VALUE window_map(VALUE self) {
 
   XMapWindow(DPY, WINDOW);
 
-  return Qnil;
+  return self;
 }
 
 VALUE window_mask(VALUE self) {
