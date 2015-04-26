@@ -1,15 +1,15 @@
 require File.expand_path('../lib/uh/version', __FILE__)
 
 Gem::Specification.new do |s|
-  s.name    = 'uh'
-  s.version = Uh::VERSION.dup
-  s.summary = 'Xlib simplified toolkit'
+  s.name        = 'uh'
+  s.version     = Uh::VERSION.dup
+  s.summary     = 'Xlib simplified toolkit'
   s.description = s.name
-  s.license = 'BSD-3-Clause'
-  s.homepage = 'https://rubygems.org/gems/uh'
+  s.license     = 'BSD-3-Clause'
+  s.homepage    = 'https://rubygems.org/gems/uh'
 
-  s.authors = 'Thibault Jouan'
-  s.email   = 'tj@a13.fr'
+  s.authors     = 'Thibault Jouan'
+  s.email       = 'tj@a13.fr'
 
   s.files       = `git ls-files`.split $/
 
