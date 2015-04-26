@@ -228,7 +228,7 @@ VALUE window_unmap(VALUE self) {
 
   XUnmapWindow(DPY, WINDOW);
 
-  return Qnil;
+  return self;
 }
 
 VALUE window_wclass(VALUE self) {
