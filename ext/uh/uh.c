@@ -120,24 +120,23 @@ void uh_screen() {
 void uh_window() {
   cWindow = rb_define_class_under(mUh, "Window", rb_cObject);
   rb_define_attr(cWindow, "id", 1, 0);
+  rb_define_method(cWindow, "configure", window_configure, 1);
+  rb_define_method(cWindow, "configure_event", window_configure_event, 1);
+  rb_define_method(cWindow, "create", window_create, 1);
+  rb_define_method(cWindow, "create_sub", window_create_sub, 1);
   rb_define_method(cWindow, "destroy", window_destroy, 0);
   rb_define_method(cWindow, "focus", window_focus, 0);
+  rb_define_method(cWindow, "icccm_wm_delete", window_icccm_wm_delete, 0);
+  rb_define_method(cWindow, "icccm_wm_protocols", window_icccm_wm_protocols, 0);
   rb_define_method(cWindow, "kill", window_kill, 0);
   rb_define_method(cWindow, "map", window_map, 0);
   rb_define_method(cWindow, "mask", window_mask, 0);
   rb_define_method(cWindow, "mask=", window_mask_set, 1);
+  rb_define_method(cWindow, "moveresize", window_moveresize, 1);
   rb_define_method(cWindow, "name", window_name, 0);
   rb_define_method(cWindow, "name=", window_name_set, 1);
   rb_define_method(cWindow, "override_redirect?", window_override_redirect, 0);
   rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_method(cWindow, "unmap", window_unmap, 0);
   rb_define_method(cWindow, "wclass", window_wclass, 0);
-  rb_define_method(cWindow, "icccm_wm_delete", window_icccm_wm_delete, 0);
-  rb_define_method(cWindow, "icccm_wm_protocols", window_icccm_wm_protocols, 0);
-  rb_define_private_method(cWindow, "_configure", window__configure, 4);
-  rb_define_private_method(cWindow, "_configure_event",
-    window__configure_event, 4);
-  rb_define_private_method(cWindow, "_create", window__create, 4);
-  rb_define_private_method(cWindow, "_create_sub", window__create_sub, 4);
-  rb_define_private_method(cWindow, "_moveresize", window__moveresize, 4);
 }

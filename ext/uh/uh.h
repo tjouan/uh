@@ -80,6 +80,10 @@ VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
+VALUE window_configure(VALUE self, VALUE rgeo);
+VALUE window_configure_event(VALUE self, VALUE rgeo);
+VALUE window_create(VALUE self, VALUE rgeo);
+VALUE window_create_sub(VALUE self, VALUE rgeo);
 VALUE window_destroy(VALUE self);
 VALUE window_focus(VALUE self);
 VALUE window_icccm_wm_delete(VALUE self);
@@ -88,17 +92,13 @@ VALUE window_kill(VALUE self);
 VALUE window_map(VALUE self);
 VALUE window_mask(VALUE self);
 VALUE window_mask_set(VALUE self, VALUE mask);
+VALUE window_moveresize(VALUE self, VALUE rgeo);
 VALUE window_name(VALUE self);
 VALUE window_name_set(VALUE self, VALUE name);
 VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);
 VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);
-VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
-VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh);
-VALUE window__create(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
-VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
-VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height);
 int window_id(VALUE window);
 VALUE window_make(Display *display, Window window_id);
 

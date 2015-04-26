@@ -9,6 +9,79 @@
 #define WINDOW  window->id
 
 
+VALUE window_configure(VALUE self, VALUE rgeo) {
+  XWindowChanges  wc;
+  unsigned int    mask;
+  SET_WINDOW(self);
+
+  mask = CWX | CWY | CWWidth | CWHeight | CWBorderWidth | CWStackMode;
+  wc.x            = FIX2INT(rb_funcall(rgeo, rb_intern("x"), 0));
+  wc.y            = FIX2INT(rb_funcall(rgeo, rb_intern("y"), 0));
+  wc.width        = FIX2INT(rb_funcall(rgeo, rb_intern("width"), 0));
+  wc.height       = FIX2INT(rb_funcall(rgeo, rb_intern("height"), 0));
+  wc.border_width = 0;
+  wc.stack_mode   = Above;
+  XConfigureWindow(DPY, WINDOW, mask, &wc);
+
+  return self;
+}
+
+VALUE window_configure_event(VALUE self, VALUE rgeo) {
+  XConfigureEvent ev;
+  SET_WINDOW(self);
+
+  ev.type               = ConfigureNotify;
+  ev.display            = DPY;
+  ev.event              = WINDOW;
+  ev.window             = WINDOW;
+  ev.x                  = FIX2INT(rb_funcall(rgeo, rb_intern("x"), 0));
+  ev.y                  = FIX2INT(rb_funcall(rgeo, rb_intern("y"), 0));
+  ev.width              = FIX2INT(rb_funcall(rgeo, rb_intern("width"), 0));
+  ev.height             = FIX2INT(rb_funcall(rgeo, rb_intern("height"), 0));
+  ev.border_width       = 0;
+  ev.above              = None;
+  ev.override_redirect  = False;
+  XSendEvent(DPY, WINDOW, False, StructureNotifyMask, (XEvent *)&ev);
+
+  return self;
+}
+
+VALUE window_create(VALUE self, VALUE rgeo) {
+  Window win;
+  SET_WINDOW(self);
+
+  win = XCreateSimpleWindow(DPY, WINDOW,
+    FIX2INT(rb_funcall(rgeo, rb_intern("x"), 0)),
+    FIX2INT(rb_funcall(rgeo, rb_intern("y"), 0)),
+    FIX2INT(rb_funcall(rgeo, rb_intern("width"), 0)),
+    FIX2INT(rb_funcall(rgeo, rb_intern("height"), 0)),
+    0, BlackPixel(DPY, SCREEN_DEFAULT), BlackPixel(DPY, SCREEN_DEFAULT)
+  );
+
+  return window_make(DPY, win);
+}
+
+VALUE window_create_sub(VALUE self, VALUE rgeo) {
+  XSetWindowAttributes  wa;
+  Window                sub_win;
+  SET_WINDOW(self);
+
+  wa.override_redirect  = True;
+  wa.background_pixmap  = ParentRelative;
+  wa.event_mask         = ExposureMask;
+
+  sub_win = XCreateWindow(DPY, WINDOW,
+    FIX2INT(rb_funcall(rgeo, rb_intern("x"), 0)),
+    FIX2INT(rb_funcall(rgeo, rb_intern("y"), 0)),
+    FIX2INT(rb_funcall(rgeo, rb_intern("width"), 0)),
+    FIX2INT(rb_funcall(rgeo, rb_intern("height"), 0)),
+    0, CopyFromParent, CopyFromParent, CopyFromParent,
+    CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa
+  );
+
+  return window_make(DPY, sub_win);
+}
+
 VALUE window_destroy(VALUE self) {
   SET_WINDOW(self);
 
@@ -97,6 +170,19 @@ VALUE window_mask_set(VALUE self, VALUE mask) {
   return Qnil;
 }
 
+VALUE window_moveresize(VALUE self, VALUE rgeo) {
+  XWindowChanges wc;
+  SET_WINDOW(self);
+
+  wc.x      = FIX2INT(rb_funcall(rgeo, rb_intern("x"), 0));
+  wc.y      = FIX2INT(rb_funcall(rgeo, rb_intern("y"), 0));
+  wc.width  = FIX2INT(rb_funcall(rgeo, rb_intern("width"), 0));
+  wc.height = FIX2INT(rb_funcall(rgeo, rb_intern("height"), 0));
+  XConfigureWindow(DPY, WINDOW, CWX | CWY | CWWidth | CWHeight, &wc);
+
+  return self;
+}
+
 VALUE window_name(VALUE self) {
   char        *wxname;
   VALUE       wname;
@@ -158,87 +244,6 @@ VALUE window_wclass(VALUE self) {
   XFree(ch.res_class);
 
   return wclass;
-}
-
-
-VALUE window__configure(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
-  XWindowChanges  wc;
-  unsigned int    mask;
-  SET_WINDOW(self);
-
-  mask = CWX | CWY | CWWidth | CWHeight | CWBorderWidth | CWStackMode;
-  wc.x            = FIX2INT(rx);
-  wc.y            = FIX2INT(ry);
-  wc.width        = FIX2INT(rw);
-  wc.height       = FIX2INT(rh);
-  wc.border_width = 0;
-  wc.stack_mode   = Above;
-  XConfigureWindow(DPY, WINDOW, mask, &wc);
-
-  return Qnil;
-}
-
-VALUE window__configure_event(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
-  XConfigureEvent ev;
-  SET_WINDOW(self);
-
-  ev.type               = ConfigureNotify;
-  ev.display            = DPY;
-  ev.event              = WINDOW;
-  ev.window             = WINDOW;
-  ev.x                  = FIX2INT(rx);
-  ev.y                  = FIX2INT(ry);
-  ev.width              = FIX2INT(rw);
-  ev.height             = FIX2INT(rh);
-  ev.border_width       = 0;
-  ev.above              = None;
-  ev.override_redirect  = False;
-  XSendEvent(DPY, WINDOW, False, StructureNotifyMask, (XEvent *)&ev);
-
-  return Qnil;
-}
-
-VALUE window__create(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
-  Window win;
-  SET_WINDOW(self);
-
-  win = XCreateSimpleWindow(DPY, WINDOW,
-    FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h),
-    0, BlackPixel(DPY, SCREEN_DEFAULT), BlackPixel(DPY, SCREEN_DEFAULT)
-  );
-
-  return window_make(DPY, win);
-}
-
-VALUE window__create_sub(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
-  XSetWindowAttributes  wa;
-  Window                sub_win;
-  SET_WINDOW(self);
-
-  wa.override_redirect  = True;
-  wa.background_pixmap  = ParentRelative;
-  wa.event_mask         = ExposureMask;
-
-  sub_win = XCreateWindow(DPY, WINDOW,
-    FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h), 0,
-    CopyFromParent, CopyFromParent, CopyFromParent,
-    CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa
-  );
-
-  return window_make(DPY, sub_win);
-}
-
-VALUE window__moveresize(VALUE self, VALUE x, VALUE y, VALUE width, VALUE height) {
-  XWindowChanges wc;
-  SET_WINDOW(self);
-
-  wc.x      = NUM2INT(x);
-  wc.y      = NUM2INT(y);
-  wc.width  = NUM2INT(width);
-  wc.height = NUM2INT(height);
-  XConfigureWindow(DPY, WINDOW, CWX | CWY | CWWidth | CWHeight, &wc);
-
-  return Qnil;
 }
 
 
