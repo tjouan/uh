@@ -9,8 +9,7 @@ VALUE color_s_new(VALUE klass, VALUE rdisplay, VALUE rcolor_name) {
   XColor    color;
   SET_DISPLAY(rdisplay);
 
-  if (!DPY)
-    rb_raise(eDisplayError, "display not opened");
+  rb_funcall(rdisplay, rb_intern("check!"), 0);
   StringValue(rcolor_name);
 
   map = DefaultColormap(DPY, SCREEN_DEFAULT);
