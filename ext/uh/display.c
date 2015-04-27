@@ -69,6 +69,8 @@ VALUE display_fileno(VALUE self) {
 VALUE display_flush(VALUE self) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
+
   return INT2FIX(XFlush(DPY));
 }
 

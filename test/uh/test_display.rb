@@ -47,6 +47,12 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#flush' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.flush }
+      end
+    end
+
     describe '#grab_key' do
       let(:modifier) { KEY_MODIFIERS[:mod1] }
 
