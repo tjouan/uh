@@ -4,11 +4,24 @@ module Uh; class UhDisplaySpec < UhSpec
   describe Display do
     subject { Display.new }
 
+    describe '#check!' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.check! }
+      end
+    end
+
     describe '#close' do
       it 'closes the display' do
         subject.open
         subject.close
         _(subject).wont_be :opened?
+      end
+    end
+
+    describe '#color_by_name' do
+      it 'returns a color when display is opened' do
+        subject.open
+        _(subject.color_by_name 'rgb:42/42/42' ).must_be_instance_of Color
       end
     end
 
@@ -20,19 +33,6 @@ module Uh; class UhDisplaySpec < UhSpec
 
       it 'raises an error when display is not opened' do
         assert_raises(DisplayError) { subject.create_pixmap 320, 240 }
-      end
-    end
-
-    describe '#check!' do
-      it 'raises an error when display is not opened' do
-        assert_raises(DisplayError) { subject.check! }
-      end
-    end
-
-    describe '#color_by_name' do
-      it 'returns a color when display is opened' do
-        subject.open
-        _(subject.color_by_name 'rgb:42/42/42' ).must_be_instance_of Color
       end
     end
 
