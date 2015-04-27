@@ -9,6 +9,9 @@ VALUE color_s_new(VALUE klass, VALUE rdisplay, VALUE rcolor_name) {
   XColor    color;
   SET_DISPLAY(rdisplay);
 
+  if (!DPY)
+    rb_raise(eDisplayError, "display not opened");
+
   map = DefaultColormap(DPY, SCREEN_DEFAULT);
 
   if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor_name), &color, &color))

@@ -9,5 +9,11 @@ module Uh; class UhColorSpec < UhSpec
     it 'is a color' do
       _(subject).must_be_instance_of described_class
     end
+
+    describe '.new' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { described_class.new(Display.new, color) }
+      end
+    end
   end
 end; end
