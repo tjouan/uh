@@ -23,11 +23,11 @@ VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
   return Qnil;
 }
 
-VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str) {
+VALUE pixmap_draw_string(VALUE self, VALUE rx, VALUE ry, VALUE rstr) {
   SET_PIXMAP(self)
 
   XDrawString(DPY, PIXMAP, GC,
-    FIX2INT(x), FIX2INT(y), RSTRING_PTR(str), RSTRING_LEN(str)
+    FIX2INT(rx), FIX2INT(ry), RSTRING_PTR(rstr), RSTRING_LEN(rstr)
   );
 
   return Qnil;
@@ -74,7 +74,7 @@ VALUE pixmap_copy(VALUE self, VALUE rwindow) {
 }
 
 
-VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height) {
+VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE rwidth, VALUE rheight) {
   UhPixmap  *pixmap;
   VALUE     obj;
 
@@ -83,8 +83,8 @@ VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height) {
   pixmap->pixmap  = xpixmap;
   pixmap->gc      = XCreateGC(display, DefaultRootWindow(display), 0, NULL);
 
-  rb_ivar_set(obj, rb_intern("@width"), width);
-  rb_ivar_set(obj, rb_intern("@height"), height);
+  rb_ivar_set(obj, rb_intern("@width"), rwidth);
+  rb_ivar_set(obj, rb_intern("@height"), rheight);
 
   return obj;
 }

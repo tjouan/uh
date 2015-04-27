@@ -58,15 +58,15 @@ VALUE display_color_by_name(VALUE self, VALUE rcolor) {
   return color_make(color.pixel);
 }
 
-VALUE display_create_pixmap(VALUE self, VALUE width, VALUE height) {
+VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
   Pixmap pixmap;
   SET_DISPLAY(self);
 
-  pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(width), FIX2INT(height),
+  pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(rwidth), FIX2INT(rheight),
     DefaultDepth(DPY, SCREEN_DEFAULT)
   );
 
-  return pixmap_make(DPY, pixmap, width, height);
+  return pixmap_make(DPY, pixmap, rwidth, rheight);
 }
 
 VALUE display_fileno(VALUE self) {
@@ -93,21 +93,21 @@ VALUE display_each_event(VALUE self) {
   return Qnil;
 }
 
-VALUE display_grab_key(VALUE self, VALUE key, VALUE modifier) {
+VALUE display_grab_key(VALUE self, VALUE rkey, VALUE rmodifier) {
   KeySym      ks;
   KeyCode     kc;
   SET_DISPLAY(self);
 
-  StringValue(key);
-  ks = XStringToKeysym(RSTRING_PTR(key));
+  StringValue(rkey);
+  ks = XStringToKeysym(RSTRING_PTR(rkey));
   if (ks == NoSymbol)
-    rb_raise(rb_eArgError, "invalid KeySym %s", RSTRING_PTR(key));
+    rb_raise(rb_eArgError, "invalid KeySym %s", RSTRING_PTR(rkey));
 
   kc = XKeysymToKeycode(DPY, ks);
   if (kc == 0)
-    rb_raise(rb_eArgError, "keysym XK_%s has no keycode", RSTRING_PTR(key));
+    rb_raise(rb_eArgError, "keysym XK_%s has no keycode", RSTRING_PTR(rkey));
 
-  XGrabKey(DPY, kc, FIX2INT(modifier), ROOT_DEFAULT, True,
+  XGrabKey(DPY, kc, FIX2INT(rmodifier), ROOT_DEFAULT, True,
     GrabModeAsync, GrabModeAsync);
 
   return Qnil;
@@ -215,10 +215,10 @@ VALUE display_screens(VALUE self) {
   return screens;
 }
 
-VALUE display_sync(VALUE self, VALUE discard) {
+VALUE display_sync(VALUE self, VALUE rdiscard) {
   SET_DISPLAY(self);
 
-  XSync(display->dpy, RTEST(discard));
+  XSync(display->dpy, RTEST(rdiscard));
 
   return Qnil;
 }
