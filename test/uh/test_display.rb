@@ -77,6 +77,14 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#listen_events' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) do
+          subject.listen_events Events::NO_EVENT_MASK
+        end
+      end
+    end
+
     describe '#opened?' do
       it 'returns true when display is opened' do
         subject.open

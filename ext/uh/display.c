@@ -115,6 +115,7 @@ VALUE display_listen_events(int argc, VALUE *argv, VALUE self) {
   long    mask;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   if (rb_scan_args(argc, argv, "11", &arg1, &arg2) == 2) {
     window = window_id(arg1);
     mask   = FIX2LONG(arg2);
