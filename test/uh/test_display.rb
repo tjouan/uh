@@ -113,5 +113,12 @@ module Uh; class UhDisplaySpec < UhSpec
         assert_raises(DisplayError) { subject.query_font }
       end
     end
+
+    describe '#root' do
+      it 'returns a window' do
+        subject.open
+        _(subject.root).must_be_instance_of Window
+      end
+    end
   end
 end; end
