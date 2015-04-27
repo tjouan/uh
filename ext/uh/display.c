@@ -134,6 +134,7 @@ VALUE display_next_event(VALUE self) {
   XEvent xev;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   XNextEvent(DPY, &xev);
 
   return event_make(&xev);
