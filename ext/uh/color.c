@@ -14,7 +14,6 @@ VALUE color_s_new(VALUE klass, VALUE rdisplay, VALUE rcolor_name) {
   StringValue(rcolor_name);
 
   map = DefaultColormap(DPY, SCREEN_DEFAULT);
-
   if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor_name), &color, &color)) {
     rb_raise(eArgumentError, "invalid color name `%s'",
       RSTRING_PTR(rcolor_name)
