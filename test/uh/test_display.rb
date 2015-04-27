@@ -101,5 +101,11 @@ module Uh; class UhDisplaySpec < UhSpec
         _(subject).wont_be :opened?
       end
     end
+
+    describe '#pending?' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.pending? }
+      end
+    end
   end
 end; end

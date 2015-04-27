@@ -161,6 +161,8 @@ VALUE display_opened_p(VALUE self) {
 VALUE display_pending(VALUE self) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
+
   return INT2FIX(XPending(DPY));
 }
 
