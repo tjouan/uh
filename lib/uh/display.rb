@@ -4,6 +4,10 @@ module Uh
       ENV['DISPLAY']
     end
 
+    def check!
+      fail DisplayError, 'display not opened' unless opened?
+    end
+
     def color_by_name(color_name)
       Color.new(self, color_name)
     end

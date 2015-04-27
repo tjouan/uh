@@ -4,6 +4,12 @@ module Uh; class UhDisplaySpec < UhSpec
   describe Display do
     subject { Display.new }
 
+    describe '#check!' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.check! }
+      end
+    end
+
     describe '#color_by_name' do
       it 'returns a color when display is opened' do
         subject.open
