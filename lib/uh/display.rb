@@ -4,6 +4,10 @@ module Uh
       ENV['DISPLAY']
     end
 
+    def color_by_name(color_name)
+      Color.new(self, color_name)
+    end
+
     def create_window(geo)
       root.create geo
     end

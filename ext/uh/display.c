@@ -45,19 +45,6 @@ VALUE display_close(VALUE self) {
   return self;
 }
 
-VALUE display_color_by_name(VALUE self, VALUE rcolor) {
-  Colormap  map;
-  XColor    color;
-  SET_DISPLAY(self);
-
-  map = DefaultColormap(DPY, SCREEN_DEFAULT);
-
-  if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor), &color, &color))
-    rb_raise(rb_eArgError, "invalid color name `%s'", RSTRING_PTR(rcolor));
-
-  return color_make(color.pixel);
-}
-
 VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
   Pixmap pixmap;
   SET_DISPLAY(self);
