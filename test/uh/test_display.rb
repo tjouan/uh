@@ -119,6 +119,10 @@ module Uh; class UhDisplaySpec < UhSpec
         subject.open
         _(subject.root).must_be_instance_of Window
       end
+
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.root }
+      end
     end
   end
 end; end

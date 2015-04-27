@@ -185,6 +185,8 @@ VALUE display_query_font(VALUE self) {
 VALUE display_root(VALUE self) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
+
   return window_make(DPY, ROOT_DEFAULT);
 }
 
