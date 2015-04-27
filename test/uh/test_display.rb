@@ -36,6 +36,12 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#each_event' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.each_event { } }
+      end
+    end
+
     describe '#fileno' do
       it 'returns the file descriptor of current connection' do
         subject.open

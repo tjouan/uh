@@ -62,6 +62,7 @@ VALUE display_each_event(VALUE self) {
   XEvent xev;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   while (1) {
     XNextEvent(DPY, &xev);
     rb_yield(event_make(&xev));
