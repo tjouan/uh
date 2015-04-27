@@ -130,6 +130,16 @@ module Uh; class UhDisplaySpec < UhSpec
         subject.open
         _(subject.screens[0]).must_be_instance_of Screen
       end
+
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.screens }
+      end
+    end
+
+    describe '#sync' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.sync false }
+      end
     end
   end
 end; end

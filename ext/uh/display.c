@@ -224,6 +224,7 @@ VALUE display_screens(VALUE self) {
 VALUE display_sync(VALUE self, VALUE rdiscard) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   XSync(display->dpy, RTEST(rdiscard));
 
   return Qnil;
