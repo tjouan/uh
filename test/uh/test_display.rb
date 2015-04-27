@@ -87,9 +87,7 @@ module Uh; class UhDisplaySpec < UhSpec
 
     describe '#next_event' do
       it 'raises an error when display is not opened' do
-        assert_raises(DisplayError) do
-          subject.next_event
-        end
+        assert_raises(DisplayError) { subject.next_event }
       end
     end
 
