@@ -197,6 +197,7 @@ VALUE display_screens(VALUE self) {
   VALUE               args[5];
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   if (XineramaIsActive(DPY)) {
     xsi = XineramaQueryScreens(DPY, &n);
 
