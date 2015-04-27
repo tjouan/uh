@@ -142,6 +142,12 @@ VALUE display_open(VALUE self) {
   return self;
 }
 
+VALUE display_opened_p(VALUE self) {
+  SET_DISPLAY(self);
+
+  return DPY ? Qtrue : Qfalse;
+}
+
 VALUE display_pending(VALUE self) {
   SET_DISPLAY(self);
 

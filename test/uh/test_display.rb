@@ -22,5 +22,16 @@ module Uh; class UhDisplaySpec < UhSpec
         assert_raises(ArgumentError) { subject.grab_key 'invalid_key', modifier }
       end
     end
+
+    describe '#opened?' do
+      it 'returns true when display is opened' do
+        subject.open
+        _(subject).must_be :opened?
+      end
+
+      it 'returns false when display is not opened' do
+        _(subject).wont_be :opened?
+      end
+    end
   end
 end; end
