@@ -61,6 +61,8 @@ VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
 VALUE display_fileno(VALUE self) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
+
   return INT2FIX(XConnectionNumber(DPY));
 }
 

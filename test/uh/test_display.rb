@@ -36,6 +36,17 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#display_fileno' do
+      it 'returns the file descriptor of current connection' do
+        subject.open
+        _(subject.fileno).must_be_instance_of Fixnum
+      end
+
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.fileno }
+      end
+    end
+
     describe '#grab_key' do
       let(:modifier) { KEY_MODIFIERS[:mod1] }
 
