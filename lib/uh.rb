@@ -10,10 +10,6 @@ require 'uh/version'
 require 'uh/window'
 
 module Uh
-  Error               = Class.new(StandardError)
-  RuntimeError        = Class.new(RuntimeError)
-  ArgumentError       = Class.new(Error)
-
   KEY_MODIFIERS = {
     shift:  1 << 0,
     lock:   1 << 1,

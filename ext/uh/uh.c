@@ -13,9 +13,10 @@ void uh_window();
 void Init_uh(void) {
   mUh = rb_define_module("Uh");
 
-  eDisplayError = rb_define_class_under(
-    mUh, "DisplayError", rb_eStandardError
-  );
+  eError          = rb_define_class_under(mUh, "Error", rb_eStandardError);
+  eRuntimeError   = rb_define_class_under(mUh, "RuntimeError", rb_eRuntimeError);
+  eArgumentError  = rb_define_class_under(mUh, "ArgumentError", eError);
+  eDisplayError   = rb_define_class_under(mUh, "DisplayError", eRuntimeError);
 
   uh_color();
   uh_display();

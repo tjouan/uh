@@ -46,7 +46,7 @@ VALUE mUh, mEvents,
   cPixmap,
   cScreen,
   cWindow,
-  eDisplayError;
+  eError, eRuntimeError, eArgumentError, eDisplayError;
 
 
 VALUE color_s_new(VALUE klass, VALUE display, VALUE color_name);
