@@ -158,7 +158,7 @@ VALUE display_opened_p(VALUE self) {
   return DPY ? Qtrue : Qfalse;
 }
 
-VALUE display_pending(VALUE self) {
+VALUE display_pending_p(VALUE self) {
   SET_DISPLAY(self);
 
   rb_funcall(self, rb_intern("check!"), 0);
