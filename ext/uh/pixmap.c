@@ -13,11 +13,11 @@
 void pixmap_deallocate(UhPixmap *p);
 
 
-VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h) {
+VALUE pixmap_draw_rect(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
   SET_PIXMAP(self)
 
   XFillRectangle(DPY, PIXMAP, GC,
-    FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h)
+    FIX2INT(rx), FIX2INT(ry), FIX2INT(rw), FIX2INT(rh)
   );
 
   return Qnil;
