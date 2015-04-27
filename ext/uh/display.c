@@ -200,14 +200,12 @@ VALUE display_screens(VALUE self) {
   rb_funcall(self, rb_intern("check!"), 0);
   if (XineramaIsActive(DPY)) {
     xsi = XineramaQueryScreens(DPY, &n);
-
     for (int i = 0; i < n; i++) {
       args[0] = INT2FIX(i);
       args[1] = INT2FIX(xsi[i].x_org);
       args[2] = INT2FIX(xsi[i].y_org);
       args[3] = INT2FIX(xsi[i].width);
       args[4] = INT2FIX(xsi[i].height);
-
       rb_ary_push(screens, rb_class_new_instance(5, args, cScreen));
     }
   }
@@ -217,7 +215,6 @@ VALUE display_screens(VALUE self) {
     args[2] = INT2FIX(0);
     args[3] = INT2FIX(XDisplayWidth(DPY, SCREEN_DEFAULT));
     args[4] = INT2FIX(XDisplayHeight(DPY, SCREEN_DEFAULT));
-
     rb_ary_push(screens, rb_class_new_instance(5, args, cScreen));
   }
 
