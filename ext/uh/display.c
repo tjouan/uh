@@ -92,6 +92,7 @@ VALUE display_grab_key(VALUE self, VALUE rkey, VALUE rmodifier) {
   KeyCode     kc;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   StringValue(rkey);
   ks = XStringToKeysym(RSTRING_PTR(rkey));
   if (ks == NoSymbol)

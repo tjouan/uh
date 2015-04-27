@@ -62,11 +62,17 @@ module Uh; class UhDisplaySpec < UhSpec
     describe '#grab_key' do
       let(:modifier) { KEY_MODIFIERS[:mod1] }
 
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.grab_key 'f', modifier }
+      end
+
       it 'raises an error when given key is not a string' do
+        subject.open
         assert_raises(TypeError) { subject.grab_key 42, modifier }
       end
 
       it 'raises an error when given key is invalid' do
+        subject.open
         assert_raises(ArgumentError) { subject.grab_key 'invalid_key', modifier }
       end
     end
