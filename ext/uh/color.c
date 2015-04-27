@@ -11,6 +11,7 @@ VALUE color_s_new(VALUE klass, VALUE rdisplay, VALUE rcolor_name) {
 
   if (!DPY)
     rb_raise(eDisplayError, "display not opened");
+  StringValue(rcolor_name);
 
   map = DefaultColormap(DPY, SCREEN_DEFAULT);
 

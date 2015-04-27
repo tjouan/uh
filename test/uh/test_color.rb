@@ -20,6 +20,10 @@ module Uh; class UhColorSpec < UhSpec
           described_class.new(dpy, 'invalid_color')
         end
       end
+
+      it 'raises an error when color name is not a string' do
+        assert_raises(TypeError) { described_class.new(dpy, 42) }
+      end
     end
   end
 end; end
