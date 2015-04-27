@@ -14,6 +14,12 @@ module Uh; class UhColorSpec < UhSpec
       it 'raises an error when display is not opened' do
         assert_raises(DisplayError) { described_class.new(Display.new, color) }
       end
+
+      it 'raises an error when color name is invalid' do
+        assert_raises(ArgumentError) do
+          described_class.new(dpy, 'invalid_color')
+        end
+      end
     end
   end
 end; end
