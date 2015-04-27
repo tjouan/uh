@@ -107,5 +107,11 @@ module Uh; class UhDisplaySpec < UhSpec
         assert_raises(DisplayError) { subject.pending? }
       end
     end
+
+    describe '#query_font' do
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.query_font }
+      end
+    end
   end
 end; end

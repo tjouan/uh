@@ -171,6 +171,7 @@ VALUE display_query_font(VALUE self) {
   VALUE       font;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   if (!(xfs = XQueryFont(DPY,
       XGContextFromGC(DefaultGC(DPY, SCREEN_DEFAULT)))))
     return Qnil;
