@@ -4,6 +4,14 @@ module Uh; class UhDisplaySpec < UhSpec
   describe Display do
     subject { Display.new }
 
+    describe '#close' do
+      it 'closes the display' do
+        subject.open
+        subject.close
+        _(subject).wont_be :opened?
+      end
+    end
+
     describe '#check!' do
       it 'raises an error when display is not opened' do
         assert_raises(DisplayError) { subject.check! }

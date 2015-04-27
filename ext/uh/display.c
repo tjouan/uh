@@ -37,6 +37,7 @@ VALUE display_close(VALUE self) {
 
   if (DPY) {
     XCloseDisplay(DPY);
+    DPY = NULL;
   }
   else {
     rb_raise(eDisplayError, "cannot close display");
