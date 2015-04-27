@@ -58,6 +58,18 @@ VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
   return pixmap_make(DPY, pixmap, rwidth, rheight);
 }
 
+VALUE display_each_event(VALUE self) {
+  XEvent xev;
+  SET_DISPLAY(self);
+
+  while (1) {
+    XNextEvent(DPY, &xev);
+    rb_yield(event_make(&xev));
+  }
+
+  return Qnil;
+}
+
 VALUE display_fileno(VALUE self) {
   SET_DISPLAY(self);
 
@@ -72,18 +84,6 @@ VALUE display_flush(VALUE self) {
   rb_funcall(self, rb_intern("check!"), 0);
 
   return INT2FIX(XFlush(DPY));
-}
-
-VALUE display_each_event(VALUE self) {
-  XEvent xev;
-  SET_DISPLAY(self);
-
-  while (1) {
-    XNextEvent(DPY, &xev);
-    rb_yield(event_make(&xev));
-  }
-
-  return Qnil;
 }
 
 VALUE display_grab_key(VALUE self, VALUE rkey, VALUE rmodifier) {
