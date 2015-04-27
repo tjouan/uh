@@ -88,11 +88,11 @@ VALUE display_grab_key(VALUE self, VALUE rkey, VALUE rmodifier) {
   StringValue(rkey);
   ks = XStringToKeysym(RSTRING_PTR(rkey));
   if (ks == NoSymbol)
-    rb_raise(rb_eArgError, "invalid KeySym %s", RSTRING_PTR(rkey));
+    rb_raise(eArgumentError, "invalid KeySym %s", RSTRING_PTR(rkey));
 
   kc = XKeysymToKeycode(DPY, ks);
   if (kc == 0)
-    rb_raise(rb_eArgError, "keysym XK_%s has no keycode", RSTRING_PTR(rkey));
+    rb_raise(eArgumentError, "keysym XK_%s has no keycode", RSTRING_PTR(rkey));
 
   XGrabKey(DPY, kc, FIX2INT(rmodifier), ROOT_DEFAULT, True,
     GrabModeAsync, GrabModeAsync);
