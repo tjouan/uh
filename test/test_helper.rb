@@ -2,6 +2,7 @@
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'minitest/reporters'
+require 'headless'
 require 'uh'
 
 class Minitest::Test
@@ -11,6 +12,8 @@ class Minitest::Test
 end
 
 class UhSpec < Minitest::Spec
+  before { Headless.new.start }
+
   def described_class
     self.class.const_get self.class.name.sub /::(?:\.|#).+\z/, ''
   end
