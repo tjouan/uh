@@ -37,6 +37,7 @@ VALUE display_close(VALUE self) {
 
   if (DPY) {
     XCloseDisplay(DPY);
+    DPY = NULL;
   }
   else {
     rb_raise(eDisplayError, "cannot close display");
@@ -49,6 +50,7 @@ VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
   Pixmap pixmap;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(rwidth), FIX2INT(rheight),
     DefaultDepth(DPY, SCREEN_DEFAULT)
   );
@@ -56,22 +58,11 @@ VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
   return pixmap_make(DPY, pixmap, rwidth, rheight);
 }
 
-VALUE display_fileno(VALUE self) {
-  SET_DISPLAY(self);
-
-  return INT2FIX(XConnectionNumber(DPY));
-}
-
-VALUE display_flush(VALUE self) {
-  SET_DISPLAY(self);
-
-  return INT2FIX(XFlush(DPY));
-}
-
 VALUE display_each_event(VALUE self) {
   XEvent xev;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   while (1) {
     XNextEvent(DPY, &xev);
     rb_yield(event_make(&xev));
@@ -80,11 +71,28 @@ VALUE display_each_event(VALUE self) {
   return Qnil;
 }
 
+VALUE display_fileno(VALUE self) {
+  SET_DISPLAY(self);
+
+  rb_funcall(self, rb_intern("check!"), 0);
+
+  return INT2FIX(XConnectionNumber(DPY));
+}
+
+VALUE display_flush(VALUE self) {
+  SET_DISPLAY(self);
+
+  rb_funcall(self, rb_intern("check!"), 0);
+
+  return INT2FIX(XFlush(DPY));
+}
+
 VALUE display_grab_key(VALUE self, VALUE rkey, VALUE rmodifier) {
   KeySym      ks;
   KeyCode     kc;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   StringValue(rkey);
   ks = XStringToKeysym(RSTRING_PTR(rkey));
   if (ks == NoSymbol)
@@ -107,6 +115,7 @@ VALUE display_listen_events(int argc, VALUE *argv, VALUE self) {
   long    mask;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   if (rb_scan_args(argc, argv, "11", &arg1, &arg2) == 2) {
     window = window_id(arg1);
     mask   = FIX2LONG(arg2);
@@ -125,6 +134,7 @@ VALUE display_next_event(VALUE self) {
   XEvent xev;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   XNextEvent(DPY, &xev);
 
   return event_make(&xev);
@@ -148,8 +158,10 @@ VALUE display_opened_p(VALUE self) {
   return DPY ? Qtrue : Qfalse;
 }
 
-VALUE display_pending(VALUE self) {
+VALUE display_pending_p(VALUE self) {
   SET_DISPLAY(self);
+
+  rb_funcall(self, rb_intern("check!"), 0);
 
   return INT2FIX(XPending(DPY));
 }
@@ -159,6 +171,7 @@ VALUE display_query_font(VALUE self) {
   VALUE       font;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   if (!(xfs = XQueryFont(DPY,
       XGContextFromGC(DefaultGC(DPY, SCREEN_DEFAULT)))))
     return Qnil;
@@ -172,6 +185,8 @@ VALUE display_query_font(VALUE self) {
 VALUE display_root(VALUE self) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
+
   return window_make(DPY, ROOT_DEFAULT);
 }
 
@@ -182,16 +197,15 @@ VALUE display_screens(VALUE self) {
   VALUE               args[5];
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   if (XineramaIsActive(DPY)) {
     xsi = XineramaQueryScreens(DPY, &n);
-
     for (int i = 0; i < n; i++) {
       args[0] = INT2FIX(i);
       args[1] = INT2FIX(xsi[i].x_org);
       args[2] = INT2FIX(xsi[i].y_org);
       args[3] = INT2FIX(xsi[i].width);
       args[4] = INT2FIX(xsi[i].height);
-
       rb_ary_push(screens, rb_class_new_instance(5, args, cScreen));
     }
   }
@@ -201,7 +215,6 @@ VALUE display_screens(VALUE self) {
     args[2] = INT2FIX(0);
     args[3] = INT2FIX(XDisplayWidth(DPY, SCREEN_DEFAULT));
     args[4] = INT2FIX(XDisplayHeight(DPY, SCREEN_DEFAULT));
-
     rb_ary_push(screens, rb_class_new_instance(5, args, cScreen));
   }
 
@@ -211,6 +224,7 @@ VALUE display_screens(VALUE self) {
 VALUE display_sync(VALUE self, VALUE rdiscard) {
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   XSync(display->dpy, RTEST(rdiscard));
 
   return Qnil;
