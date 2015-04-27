@@ -9,6 +9,10 @@
 #include <X11/extensions/Xinerama.h>
 
 
+#define SET_DISPLAY(x) \
+  UhDisplay *display;\
+  Data_Get_Struct(x, UhDisplay, display);
+
 #define ROOT_DEFAULT    DefaultRootWindow(DPY)
 #define SCREEN_DEFAULT  DefaultScreen(DPY)
 
@@ -42,9 +46,10 @@ VALUE mUh, mEvents,
   cPixmap,
   cScreen,
   cWindow,
-  eDisplayError;
+  eError, eRuntimeError, eArgumentError, eDisplayError;
 
 
+VALUE color_s_new(VALUE klass, VALUE display, VALUE color_name);
 VALUE color_make(unsigned long pixel);
 
 VALUE display_s_on_error(VALUE klass);
