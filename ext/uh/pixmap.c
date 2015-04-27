@@ -44,7 +44,7 @@ VALUE pixmap_gc_black(VALUE self) {
 VALUE pixmap_gc_color(VALUE self, VALUE rcolor) {
   SET_PIXMAP(self)
 
-  XSetForeground(DPY, GC, NUM2LONG(rb_ivar_get(rcolor, rb_intern("@pixel"))));
+  XSetForeground(DPY, GC, NUM2LONG(rb_funcall(rcolor, rb_intern("pixel"), 0)));
 
   return Qnil;
 }
