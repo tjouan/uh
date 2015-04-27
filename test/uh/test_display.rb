@@ -124,5 +124,12 @@ module Uh; class UhDisplaySpec < UhSpec
         assert_raises(DisplayError) { subject.root }
       end
     end
+
+    describe '#screens' do
+      it 'returns an array of screens' do
+        subject.open
+        _(subject.screens[0]).must_be_instance_of Screen
+      end
+    end
   end
 end; end
