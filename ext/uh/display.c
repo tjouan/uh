@@ -50,6 +50,7 @@ VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
   Pixmap pixmap;
   SET_DISPLAY(self);
 
+  rb_funcall(self, rb_intern("check!"), 0);
   pixmap = XCreatePixmap(DPY, ROOT_DEFAULT, FIX2INT(rwidth), FIX2INT(rheight),
     DefaultDepth(DPY, SCREEN_DEFAULT)
   );

@@ -12,6 +12,17 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#create_pixmap' do
+      it 'returns a color when display is opened' do
+        subject.open
+        _(subject.create_pixmap 320, 240).must_be_instance_of Pixmap
+      end
+
+      it 'raises an error when display is not opened' do
+        assert_raises(DisplayError) { subject.create_pixmap 320, 240 }
+      end
+    end
+
     describe '#check!' do
       it 'raises an error when display is not opened' do
         assert_raises(DisplayError) { subject.check! }
