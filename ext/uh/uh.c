@@ -30,6 +30,7 @@ void Init_uh(void) {
 void uh_color() {
   cColor = rb_define_class_under(mUh, "Color", rb_cObject);
   rb_define_singleton_method(cColor, "new", color_s_new, 2);
+  rb_define_attr(cColor, "name", 1, 0);
   rb_define_attr(cColor, "pixel", 1, 0);
 }
 

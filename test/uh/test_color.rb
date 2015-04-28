@@ -21,5 +21,11 @@ module Uh; class UhColorSpec < UhSpec
         assert_raises(TypeError) { described_class.new(dpy, 42) }
       end
     end
+
+    describe '#name' do
+      it 'returns the color name' do
+        _(subject.name).must_equal color
+      end
+    end
   end
 end; end

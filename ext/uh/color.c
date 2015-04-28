@@ -5,12 +5,16 @@ VALUE color_make(Display *dpy, char *color_name);
 
 
 VALUE color_s_new(VALUE klass, VALUE rdisplay, VALUE rcolor_name) {
+  VALUE rcolor;
   SET_DISPLAY(rdisplay);
 
   rb_funcall(rdisplay, rb_intern("check!"), 0);
   StringValue(rcolor_name);
 
-  return color_make(display->dpy, RSTRING_PTR(rcolor_name));
+  rcolor = color_make(display->dpy, RSTRING_PTR(rcolor_name));
+  rb_ivar_set(rcolor, rb_intern("@name"), rcolor_name);
+
+  return rcolor;
 }
 
 
