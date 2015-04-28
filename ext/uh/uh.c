@@ -39,7 +39,6 @@ void uh_display() {
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
-  rb_define_method(cDisplay, "create_pixmap", display_create_pixmap, 2);
   rb_define_method(cDisplay, "fileno", display_fileno, 0);
   rb_define_method(cDisplay, "flush", display_flush, 0);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 2);
@@ -99,6 +98,7 @@ void uh_font() {
 
 void uh_pixmap() {
   cPixmap = rb_define_class_under(mUh, "Pixmap", rb_cObject);
+  rb_define_singleton_method(cPixmap, "new", pixmap_s_new, 3);
   rb_define_attr(cPixmap, "width", 1, 0);
   rb_define_attr(cPixmap, "height", 1, 0);
   rb_define_method(cPixmap, "copy", pixmap_copy, 1);

@@ -12,6 +12,11 @@ module Uh
       Color.new(self, color_name)
     end
 
+    def create_pixmap(width, height)
+      check!
+      Pixmap.new(self, width, height)
+    end
+
     def create_window(geo)
       root.create geo
     end
