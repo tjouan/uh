@@ -11,6 +11,14 @@ module Uh; class UhPixmapSpec < UhSpec
       _(subject).must_be_instance_of described_class
     end
 
+    describe '.new' do
+      it 'raises an error when display is not opened' do
+        assert_raises DisplayError do
+          described_class.new(Display.new, width, height)
+        end
+      end
+    end
+
     describe '#draw_string' do
       it 'raises an error when given text is not a string' do
         assert_raises(TypeError) do

@@ -13,7 +13,6 @@ module Uh
     end
 
     def create_pixmap(width, height)
-      check!
       Pixmap.new(self, width, height)
     end
 

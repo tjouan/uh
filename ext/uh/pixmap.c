@@ -18,6 +18,8 @@ VALUE pixmap_s_new(VALUE klass, VALUE rdisplay, VALUE rwidth, VALUE rheight) {
   VALUE rpixmap;
   SET_DISPLAY(rdisplay);
 
+  rb_funcall(rdisplay, rb_intern("check!"), 0);
+
   rpixmap = pixmap_make(display->dpy, FIX2INT(rwidth), FIX2INT(rheight));
   rb_ivar_set(rpixmap, rb_intern("@width"), rwidth);
   rb_ivar_set(rpixmap, rb_intern("@height"), rheight);
