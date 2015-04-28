@@ -17,7 +17,7 @@ module Uh; class UhPixmapSpec < UhSpec
 
     describe '#draw_string' do
       it 'raises an error when given text is not a string' do
-        assert_raises(TypeError) do
+        assert_raises TypeError do
           subject.draw_string 42, 42, :not_a_string
         end
       end

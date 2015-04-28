@@ -12,7 +12,7 @@ module Uh; class UhColorSpec < UhSpec
       end
 
       it 'raises an error when color name is invalid' do
-        assert_raises(ArgumentError) do
+        assert_raises ArgumentError do
           described_class.new(dpy, 'invalid_color')
         end
       end

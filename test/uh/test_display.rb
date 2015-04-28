@@ -73,7 +73,9 @@ module Uh; class UhDisplaySpec < UhSpec
 
       it 'raises an error when given key is invalid' do
         subject.open
-        assert_raises(ArgumentError) { subject.grab_key 'invalid_key', modifier }
+        assert_raises ArgumentError do
+          subject.grab_key 'invalid_key', modifier
+        end
       end
 
       it 'raises an error when given modifier is not a valid mask' do
@@ -84,7 +86,7 @@ module Uh; class UhDisplaySpec < UhSpec
 
     describe '#listen_events' do
       it 'raises an error when display is not opened' do
-        assert_raises(DisplayError) do
+        assert_raises DisplayError do
           subject.listen_events Events::NO_EVENT_MASK
         end
       end
