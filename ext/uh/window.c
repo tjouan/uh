@@ -207,10 +207,11 @@ VALUE window_name(VALUE self) {
   return wname;
 }
 
-VALUE window_name_set(VALUE self, VALUE name) {
+VALUE window_name_set(VALUE self, VALUE rname) {
   SET_WINDOW(self);
 
-  XStoreName(DPY, WINDOW, RSTRING_PTR(name));
+  StringValue(rname);
+  XStoreName(DPY, WINDOW, RSTRING_PTR(rname));
 
   return Qnil;
 }
