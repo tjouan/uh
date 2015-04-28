@@ -31,5 +31,9 @@ module Uh
     def pending?
       pending > 0
     end
+
+    def query_font
+      Font.new(self)
+    end
   end
 end
