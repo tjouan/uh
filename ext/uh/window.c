@@ -9,6 +9,16 @@
 #define WINDOW  window->id
 
 
+VALUE window_s_new(VALUE klass, VALUE rdisplay, VALUE rwindow_id) {
+  VALUE rwindow;
+  SET_DISPLAY(rdisplay);
+
+  rwindow = window_make(display->dpy, NUM2LONG(rwindow_id));
+
+  return rwindow;
+}
+
+
 VALUE window_configure(VALUE self, VALUE rgeo) {
   XWindowChanges  wc;
   unsigned int    mask;

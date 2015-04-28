@@ -85,6 +85,7 @@ VALUE pixmap_make(Display *dpy, int w, int h);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
+VALUE window_s_new(VALUE klass, VALUE rdisplay, VALUE rwindow_id);
 VALUE window_configure(VALUE self, VALUE rgeo);
 VALUE window_configure_event(VALUE self, VALUE rgeo);
 VALUE window_create(VALUE self, VALUE rgeo);

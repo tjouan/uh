@@ -121,6 +121,7 @@ void uh_screen() {
 
 void uh_window() {
   cWindow = rb_define_class_under(mUh, "Window", rb_cObject);
+  rb_define_singleton_method(cWindow, "new", window_s_new, 2);
   rb_define_attr(cWindow, "id", 1, 0);
   rb_define_method(cWindow, "configure", window_configure, 1);
   rb_define_method(cWindow, "configure_event", window_configure_event, 1);
