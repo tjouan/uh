@@ -19,14 +19,14 @@ module Uh; class UhDisplaySpec < UhSpec
     end
 
     describe '#color_by_name' do
-      it 'returns a color when display is opened' do
+      it 'returns a color' do
         subject.open
         _(subject.color_by_name 'rgb:42/42/42' ).must_be_instance_of Color
       end
     end
 
     describe '#create_pixmap' do
-      it 'returns a color when display is opened' do
+      it 'returns a pixmap' do
         subject.open
         _(subject.create_pixmap 320, 240).must_be_instance_of Pixmap
       end
