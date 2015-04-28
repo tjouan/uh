@@ -99,6 +99,7 @@ void uh_font() {
 
 void uh_pixmap() {
   cPixmap = rb_define_class_under(mUh, "Pixmap", rb_cObject);
+  rb_define_singleton_method(cPixmap, "new", pixmap_s_new, 3);
   rb_define_attr(cPixmap, "width", 1, 0);
   rb_define_attr(cPixmap, "height", 1, 0);
   rb_define_method(cPixmap, "copy", pixmap_copy, 1);

@@ -5,12 +5,25 @@
   UhPixmap *pixmap;\
   Data_Get_Struct(x, UhPixmap, pixmap);
 
-#define DPY     pixmap->dpy
-#define PIXMAP  pixmap->pixmap
-#define GC      pixmap->gc
+#define DPY           pixmap->dpy
+#define PIXMAP        pixmap->pixmap
+#define GC            pixmap->gc
+#define DEPTH_DEFAULT DefaultDepth(DPY, SCREEN_DEFAULT)
 
 
 void pixmap_deallocate(UhPixmap *p);
+
+
+VALUE pixmap_s_new(VALUE klass, VALUE rdisplay, VALUE rwidth, VALUE rheight) {
+  VALUE rpixmap;
+  SET_DISPLAY(rdisplay);
+
+  rpixmap = pixmap_make(display->dpy, FIX2INT(rwidth), FIX2INT(rheight));
+  rb_ivar_set(rpixmap, rb_intern("@width"), rwidth);
+  rb_ivar_set(rpixmap, rb_intern("@height"), rheight);
+
+  return rpixmap;
+}
 
 
 VALUE pixmap_draw_rect(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
@@ -74,19 +87,16 @@ VALUE pixmap_copy(VALUE self, VALUE rwindow) {
 }
 
 
-VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE rwidth, VALUE rheight) {
+VALUE pixmap_make(Display *dpy, int w, int h) {
   UhPixmap  *pixmap;
-  VALUE     obj;
+  VALUE     rpixmap;
 
-  obj = Data_Make_Struct(cPixmap, UhPixmap, 0, pixmap_deallocate, pixmap);
-  pixmap->dpy     = display;
-  pixmap->pixmap  = xpixmap;
-  pixmap->gc      = XCreateGC(display, DefaultRootWindow(display), 0, NULL);
+  rpixmap = Data_Make_Struct(cPixmap, UhPixmap, 0, pixmap_deallocate, pixmap);
+  pixmap->dpy     = dpy;
+  pixmap->pixmap  = XCreatePixmap(dpy, ROOT_DEFAULT, w, h, DEPTH_DEFAULT);
+  pixmap->gc      = XCreateGC(dpy, ROOT_DEFAULT, 0, NULL);
 
-  rb_ivar_set(obj, rb_intern("@width"), rwidth);
-  rb_ivar_set(obj, rb_intern("@height"), rheight);
-
-  return obj;
+  return rpixmap;
 }
 
 

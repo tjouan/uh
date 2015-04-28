@@ -75,13 +75,14 @@ VALUE event_make(XEvent *xev);
 
 VALUE font_make(int width, int ascent, int descent);
 
+VALUE pixmap_s_new(VALUE klass, VALUE rdisplay, VALUE rwidth, VALUE rheight);
 VALUE pixmap_copy(VALUE self, VALUE rwindow);
 VALUE pixmap_draw_rect(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE pixmap_draw_string(VALUE self, VALUE x, VALUE y, VALUE str);
 VALUE pixmap_gc_black(VALUE self);
 VALUE pixmap_gc_color(VALUE self, VALUE rcolor);
 VALUE pixmap_gc_white(VALUE self);
-VALUE pixmap_make(Display *display, Pixmap xpixmap, VALUE width, VALUE height);
+VALUE pixmap_make(Display *dpy, int w, int h);
 
 VALUE screen_init(VALUE self, VALUE id, VALUE x, VALUE y, VALUE w, VALUE h);
 
