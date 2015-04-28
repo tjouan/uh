@@ -49,7 +49,6 @@ void uh_display() {
   rb_define_method(cDisplay, "open", display_open, 0);
   rb_define_method(cDisplay, "opened?", display_opened_p, 0);
   rb_define_method(cDisplay, "pending", display_pending_p, 0);
-  rb_define_method(cDisplay, "query_font", display_query_font, 0);
   rb_define_method(cDisplay, "root", display_root, 0);
   rb_define_method(cDisplay, "screens", display_screens, 0);
   rb_define_method(cDisplay, "sync", display_sync, 1);
@@ -92,6 +91,7 @@ void uh_events() {
 
 void uh_font() {
   cFont = rb_define_class_under(mUh, "Font", rb_cObject);
+  rb_define_singleton_method(cFont, "new", font_s_new, 1);
   rb_define_attr(cFont, "width", 1, 0);
   rb_define_attr(cFont, "ascent", 1, 0);
   rb_define_attr(cFont, "descent", 1, 0);

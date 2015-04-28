@@ -63,7 +63,6 @@ VALUE display_next_event(VALUE self);
 VALUE display_open(VALUE self);
 VALUE display_opened_p(VALUE self);
 VALUE display_pending_p(VALUE self);
-VALUE display_query_font(VALUE self);
 VALUE display_root(VALUE self);
 VALUE display_root_change_attributes(VALUE self, VALUE mask);
 VALUE display_screens(VALUE self);
@@ -71,7 +70,7 @@ VALUE display_sync(VALUE self, VALUE discard);
 
 VALUE event_make(XEvent *xev);
 
-VALUE font_make(int width, int ascent, int descent);
+VALUE font_s_new(VALUE klass, VALUE rdisplay);
 
 VALUE pixmap_s_new(VALUE klass, VALUE rdisplay, VALUE rwidth, VALUE rheight);
 VALUE pixmap_copy(VALUE self, VALUE rwindow);

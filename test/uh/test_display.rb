@@ -116,6 +116,11 @@ module Uh; class UhDisplaySpec < UhSpec
     end
 
     describe '#query_font' do
+      it 'returns a font' do
+        subject.open
+        _(subject.query_font).must_be_instance_of Font
+      end
+
       it 'raises an error when display is not opened' do
         assert_raises(DisplayError) { subject.query_font }
       end

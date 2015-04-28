@@ -154,22 +154,6 @@ VALUE display_pending_p(VALUE self) {
   return INT2FIX(XPending(DPY));
 }
 
-VALUE display_query_font(VALUE self) {
-  XFontStruct *xfs;
-  VALUE       font;
-  SET_DISPLAY(self);
-
-  rb_funcall(self, rb_intern("check!"), 0);
-  if (!(xfs = XQueryFont(DPY,
-      XGContextFromGC(DefaultGC(DPY, SCREEN_DEFAULT)))))
-    return Qnil;
-
-  font = font_make(xfs->max_bounds.width, xfs->ascent, xfs->descent);
-  XFreeFontInfo(NULL, xfs, 1);
-
-  return font;
-}
-
 VALUE display_root(VALUE self) {
   SET_DISPLAY(self);
 
