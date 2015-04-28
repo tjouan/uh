@@ -1,34 +1,30 @@
 #include "uh.h"
 
 
-#define DPY display->dpy
+VALUE color_make(Display *dpy, char *color_name);
 
 
 VALUE color_s_new(VALUE klass, VALUE rdisplay, VALUE rcolor_name) {
-  Colormap  map;
-  XColor    color;
   SET_DISPLAY(rdisplay);
 
   rb_funcall(rdisplay, rb_intern("check!"), 0);
   StringValue(rcolor_name);
 
-  map = DefaultColormap(DPY, SCREEN_DEFAULT);
-  if (!XAllocNamedColor(DPY, map, RSTRING_PTR(rcolor_name), &color, &color)) {
-    rb_raise(eArgumentError, "invalid color name `%s'",
-      RSTRING_PTR(rcolor_name)
-    );
-  }
-
-  return color_make(color.pixel);
+  return color_make(display->dpy, RSTRING_PTR(rcolor_name));
 }
 
 
-VALUE color_make(unsigned long pixel) {
-  VALUE obj;
-  VALUE args[0];
+VALUE color_make(Display *dpy, char *color_name) {
+  Colormap  map;
+  XColor    color;
+  VALUE     rcolor;
+  VALUE     args[0];
 
-  obj = rb_class_new_instance(0, args, cColor);
-  rb_ivar_set(obj, rb_intern("@pixel"), LONG2NUM(pixel));
+  map = DefaultColormap(dpy, DefaultScreen(dpy));
+  if (!XAllocNamedColor(dpy, map, color_name, &color, &color))
+    rb_raise(eArgumentError, "invalid color name `%s'", color_name);
+  rcolor = rb_class_new_instance(0, args, cColor);
+  rb_ivar_set(rcolor, rb_intern("@pixel"), LONG2NUM(color.pixel));
 
-  return obj;
+  return rcolor;
 }

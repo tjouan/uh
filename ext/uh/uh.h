@@ -50,7 +50,6 @@ VALUE mUh, mEvents,
 
 
 VALUE color_s_new(VALUE klass, VALUE display, VALUE color_name);
-VALUE color_make(unsigned long pixel);
 
 VALUE display_s_on_error(VALUE klass);
 VALUE display_alloc(VALUE klass);
