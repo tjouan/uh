@@ -39,7 +39,6 @@ void uh_display() {
   rb_define_alloc_func(cDisplay, display_alloc);
   rb_define_attr(cDisplay, "name", 1, 0);
   rb_define_method(cDisplay, "close", display_close, 0);
-  rb_define_method(cDisplay, "create_pixmap", display_create_pixmap, 2);
   rb_define_method(cDisplay, "fileno", display_fileno, 0);
   rb_define_method(cDisplay, "flush", display_flush, 0);
   rb_define_method(cDisplay, "grab_key", display_grab_key, 2);

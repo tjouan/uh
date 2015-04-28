@@ -55,7 +55,6 @@ VALUE color_make(unsigned long pixel);
 VALUE display_s_on_error(VALUE klass);
 VALUE display_alloc(VALUE klass);
 VALUE display_close(VALUE self);
-VALUE display_create_pixmap(VALUE self, VALUE w, VALUE h);
 VALUE display_each_event(VALUE self);
 VALUE display_fileno(VALUE self);
 VALUE display_flush(VALUE self);

@@ -46,14 +46,6 @@ VALUE display_close(VALUE self) {
   return self;
 }
 
-VALUE display_create_pixmap(VALUE self, VALUE rwidth, VALUE rheight) {
-  SET_DISPLAY(self);
-
-  rb_funcall(self, rb_intern("check!"), 0);
-
-  return pixmap_make(DPY, rwidth, rheight);
-}
-
 VALUE display_each_event(VALUE self) {
   XEvent xev;
   SET_DISPLAY(self);
