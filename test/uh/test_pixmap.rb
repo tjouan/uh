@@ -7,10 +7,6 @@ module Uh; class UhPixmapSpec < UhSpec
     let(:height)  { 240 }
     subject       { described_class.new(dpy, width, height) }
 
-    it 'is a pixmap' do
-      _(subject).must_be_instance_of described_class
-    end
-
     describe '.new' do
       it 'raises an error when display is not opened' do
         assert_raises DisplayError do
