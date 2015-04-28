@@ -39,6 +39,7 @@ VALUE pixmap_draw_rect(VALUE self, VALUE rx, VALUE ry, VALUE rw, VALUE rh) {
 VALUE pixmap_draw_string(VALUE self, VALUE rx, VALUE ry, VALUE rstr) {
   SET_PIXMAP(self)
 
+  StringValue(rstr);
   XDrawString(DPY, PIXMAP, GC,
     FIX2INT(rx), FIX2INT(ry), RSTRING_PTR(rstr), RSTRING_LEN(rstr)
   );
