@@ -11,6 +11,7 @@
 VALUE rdisplay_error_handler = Qnil;
 
 int display_x_error_handler(Display *dpy, XErrorEvent *e);
+int display_x_io_error_handler(Display *dpy);
 
 
 VALUE display_s_on_error(VALUE klass) {
@@ -136,6 +137,7 @@ VALUE display_open(VALUE self) {
   }
 
   XSetErrorHandler(display_x_error_handler);
+  XSetIOErrorHandler(display_x_io_error_handler);
 
   return self;
 }
@@ -217,6 +219,12 @@ int display_x_error_handler(Display *dpy, XErrorEvent *e) {
     LONG2NUM(e->resourceid),
     rb_str_new_cstr(msg)
   );
+
+  return 0;
+}
+
+int display_x_io_error_handler(Display *dpy) {
+  rb_funcall(rdisplay_error_handler, rb_intern("call"), 0);
 
   return 0;
 }
