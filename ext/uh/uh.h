@@ -62,7 +62,7 @@ VALUE display_listen_events(int argc, VALUE *argv, VALUE self);
 VALUE display_next_event(VALUE self);
 VALUE display_open(VALUE self);
 VALUE display_opened_p(VALUE self);
-VALUE display_pending_p(VALUE self);
+VALUE display_pending(VALUE self);
 VALUE display_root(VALUE self);
 VALUE display_root_change_attributes(VALUE self, VALUE mask);
 VALUE display_screens(VALUE self);
