@@ -257,6 +257,26 @@ VALUE window_wclass(VALUE self) {
   return wclass;
 }
 
+VALUE window_wclass_set(VALUE self, VALUE rwclass) {
+  XClassHint  *ch;
+  VALUE       rres_name;
+  VALUE       rres_class;
+  SET_WINDOW(self);
+
+  rres_name = rb_ary_entry(rwclass, 0);
+  StringValue(rres_name);
+  rres_class = rb_ary_entry(rwclass, 1);
+  StringValue(rres_class);
+  if ((ch = XAllocClassHint())) {
+    ch->res_name = RSTRING_PTR(rres_name);
+    ch->res_class = RSTRING_PTR(rres_class);
+    XSetClassHint(DPY, WINDOW, ch);
+    XFree(ch);
+  }
+
+  return Qnil;
+}
+
 
 int window_id(VALUE self) {
   SET_WINDOW(self);

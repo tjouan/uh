@@ -103,6 +103,7 @@ VALUE window_override_redirect(VALUE self);
 VALUE window_raise(VALUE self);
 VALUE window_unmap(VALUE self);
 VALUE window_wclass(VALUE self);
+VALUE window_wclass_set(VALUE self, VALUE rwclass);
 int window_id(VALUE window);
 VALUE window_make(Display *display, Window window_id);
 

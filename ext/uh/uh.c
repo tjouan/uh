@@ -144,4 +144,5 @@ void uh_window() {
   rb_define_method(cWindow, "raise", window_raise, 0);
   rb_define_method(cWindow, "unmap", window_unmap, 0);
   rb_define_method(cWindow, "wclass", window_wclass, 0);
+  rb_define_method(cWindow, "wclass=", window_wclass_set, 1);
 }
