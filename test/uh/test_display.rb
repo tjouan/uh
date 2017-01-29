@@ -45,7 +45,7 @@ module Uh; class UhDisplaySpec < UhSpec
     describe '#fileno' do
       it 'returns the file descriptor of current connection' do
         subject.open
-        _(subject.fileno).must_be_instance_of Fixnum
+        _(subject.fileno).must_be_kind_of Integer
       end
 
       it 'raises an error when display is not opened' do
