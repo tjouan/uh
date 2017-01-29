@@ -23,7 +23,7 @@ cache:
 before_install:
   - sudo apt-get --purge remove ruby\*
   - rm -rf ~/.bash*
-  - unset gem GEM_HOME GEM_PATH RUBYOPT
+  - unset gem GEM_HOME GEM_PATH RUBYOPT IRBRC
   - export PATH=/bin:/usr/bin RB=$HOME/usr/bin/ruby
   - test -x $RB || wget http://ftp.ruby-lang.org/pub/ruby/ruby-${RUBYVER}.tar.xz
   - test -x $RB || tar xfJ ruby-*.tar.xz
@@ -32,7 +32,7 @@ before_install:
   - test -x $RB || (make && make install)
   - echo "source 'https://rubygems.org'; gemspec" > ~/spec_deps.rb
 install:
-  - unset gem GEM_HOME GEM_PATH RUBYOPT
+  - unset gem GEM_HOME GEM_PATH RUBYOPT IRBRC
   - export GEM_HOME=~/.gem/travis GEM_PATH=~/.gem/travis
   - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
   - cd $TRAVIS_BUILD_DIR
