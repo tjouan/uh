@@ -1,17 +1,44 @@
-sudo: false
-language: ruby
-cache: bundler
-rvm:
-  - 2.2
-  - ruby-head
-  - 2.0
-  - 2.1
-  - rbx-2
-matrix:
-  fast_finish: true
-  allow_failures:
-    - rvm: ruby-head
-    - rvm: rbx-2
+sudo: required
+dist: trusty
+language: c
+addons:
+  apt:
+    packages:
+      - libxinerama-dev
+      - realpath
 notifications:
   email:
     - tj+travis_uh@a13.fr
+
+env:
+  - RUBYVER=2.4-stable
+  - RUBYVER=2.3-stable
+  - RUBYVER=2.2-stable
+  - RUBYVER=2.1-stable
+cache:
+  directories:
+    - ${HOME}/.gem/travis
+    - ${HOME}/usr
+
+before_install:
+  - sudo apt-get --purge remove ruby\*
+  - rm -rf ~/.bash*
+  - unset gem GEM_HOME GEM_PATH RUBYOPT
+  - export PATH=/bin:/usr/bin RB=$HOME/usr/bin/ruby
+  - test -x $RB || wget http://ftp.ruby-lang.org/pub/ruby/ruby-${RUBYVER}.tar.xz
+  - test -x $RB || tar xfJ ruby-*.tar.xz
+  - test -x $RB || cd ruby-*
+  - test -x $RB || ./configure --prefix=$HOME/usr --disable-install-doc --with-out-ext=tk
+  - test -x $RB || (make && make install)
+  - echo "source 'https://rubygems.org'; gemspec" > ~/spec_deps.rb
+install:
+  - unset gem GEM_HOME GEM_PATH RUBYOPT
+  - export GEM_HOME=~/.gem/travis GEM_PATH=~/.gem/travis
+  - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
+  - cd $TRAVIS_BUILD_DIR
+  - env | sort
+  - gem env
+  - gem install -g ~/spec_deps.rb
+script:
+  - export RUBYOPT=-I$(realpath lib)
+  - rake
