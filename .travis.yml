@@ -36,8 +36,6 @@ install:
   - export GEM_HOME=~/.gem/travis GEM_PATH=~/.gem/travis
   - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
   - cd $TRAVIS_BUILD_DIR
-  - env | sort
-  - gem env
   - gem install -g ~/spec_deps.rb
 script:
   - export RUBYOPT=-I$(realpath lib)
