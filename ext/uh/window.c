@@ -92,6 +92,16 @@ VALUE window_create_sub(VALUE self, VALUE rgeo) {
   return window_make(DPY, sub_win);
 }
 
+VALUE window_cursor_set(VALUE self, VALUE rcursor) {
+  Cursor cursor;
+  SET_WINDOW(self);
+
+  cursor = XCreateFontCursor(DPY, FIX2INT(rcursor));
+  XDefineCursor(DPY, WINDOW, cursor);
+
+  return Qnil;
+}
+
 VALUE window_destroy(VALUE self) {
   SET_WINDOW(self);
 

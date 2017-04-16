@@ -88,6 +88,7 @@ VALUE window_configure(VALUE self, VALUE rgeo);
 VALUE window_configure_event(VALUE self, VALUE rgeo);
 VALUE window_create(VALUE self, VALUE rgeo);
 VALUE window_create_sub(VALUE self, VALUE rgeo);
+VALUE window_cursor_set(VALUE self, VALUE cursor);
 VALUE window_destroy(VALUE self);
 VALUE window_focus(VALUE self);
 VALUE window_icccm_wm_delete(VALUE self);

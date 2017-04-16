@@ -128,6 +128,7 @@ void uh_window() {
   rb_define_method(cWindow, "configure_event", window_configure_event, 1);
   rb_define_method(cWindow, "create", window_create, 1);
   rb_define_method(cWindow, "create_sub", window_create_sub, 1);
+  rb_define_method(cWindow, "cursor=", window_cursor_set, 1);
   rb_define_method(cWindow, "destroy", window_destroy, 0);
   rb_define_method(cWindow, "focus", window_focus, 0);
   rb_define_method(cWindow, "icccm_wm_delete", window_icccm_wm_delete, 0);
