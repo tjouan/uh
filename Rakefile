@@ -10,4 +10,5 @@ end
 Rake::TestTask.new(test: :compile) do |t|
   t.libs      << 'lib' << 'test'
   t.pattern   = 'test/**/test_*.rb'
+  t.warning   = false
 end
