@@ -61,6 +61,12 @@ void uh_events() {
   rb_define_attr(cEvent, "type", 1, 0);
   rb_define_attr(cEvent, "window", 1, 0);
 
+  cConfigureNotify = rb_define_class_under(mEvents, "ConfigureNotify", cEvent);
+  rb_define_attr(cConfigureNotify, "x", 1, 0);
+  rb_define_attr(cConfigureNotify, "y", 1, 0);
+  rb_define_attr(cConfigureNotify, "width", 1, 0);
+  rb_define_attr(cConfigureNotify, "height", 1, 0);
+
   cConfigureRequest = rb_define_class_under(mEvents, "ConfigureRequest", cEvent);
   rb_define_attr(cConfigureRequest, "x", 1, 0);
   rb_define_attr(cConfigureRequest, "y", 1, 0);

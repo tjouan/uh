@@ -7,6 +7,7 @@
 
 
 VALUE event_make_event(VALUE klass, XEvent *xev);
+void event_make_configure_notify(VALUE self);
 void event_make_configure_request(VALUE self);
 void event_make_key_any(VALUE self);
 void event_make_win_any(VALUE self);
@@ -19,6 +20,7 @@ VALUE event_make(XEvent *xev) {
     void  (*function)(VALUE self);
   } EvClass;
   EvClass       ev_classes[] = {
+    {ConfigureNotify,   cConfigureNotify,   event_make_configure_notify},
     {ConfigureRequest,  cConfigureRequest,  event_make_configure_request},
     {DestroyNotify,     cDestroyNotify,     NULL},
     {Expose,            cExpose,            NULL},
@@ -91,6 +93,15 @@ VALUE event_make_event(VALUE klass, XEvent *xev) {
     xev->xany.send_event ? Qtrue : Qfalse);
 
   return event;
+}
+
+void event_make_configure_notify(VALUE self) {
+  SET_XEV(self);
+
+  rb_ivar_set(self, rb_intern("@x"), INT2FIX(xev->xconfigure.x));
+  rb_ivar_set(self, rb_intern("@y"), INT2FIX(xev->xconfigure.y));
+  rb_ivar_set(self, rb_intern("@width"), INT2FIX(xev->xconfigure.width));
+  rb_ivar_set(self, rb_intern("@height"), INT2FIX(xev->xconfigure.height));
 }
 
 void event_make_configure_request(VALUE self) {
