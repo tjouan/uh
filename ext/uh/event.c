@@ -9,6 +9,7 @@
 VALUE event_make_event(VALUE klass, XEvent *xev);
 void event_make_configure_notify(VALUE self);
 void event_make_configure_request(VALUE self);
+void event_make_expose(VALUE self);
 void event_make_key_any(VALUE self);
 void event_make_win_any(VALUE self);
 
@@ -23,7 +24,7 @@ VALUE event_make(XEvent *xev) {
     {ConfigureNotify,   cConfigureNotify,   event_make_configure_notify},
     {ConfigureRequest,  cConfigureRequest,  event_make_configure_request},
     {DestroyNotify,     cDestroyNotify,     NULL},
-    {Expose,            cExpose,            NULL},
+    {Expose,            cExpose,            event_make_expose},
     {KeyPress,          cKeyPress,          event_make_key_any},
     {KeyRelease,        cKeyRelease,        event_make_key_any},
     {MapRequest,        cMapRequest,        NULL},
@@ -127,6 +128,15 @@ void event_make_configure_request(VALUE self) {
     INT2FIX(xev->xconfigurerequest.detail));
   rb_ivar_set(self, rb_intern("@value_mask"),
     LONG2NUM(xev->xconfigurerequest.detail));
+}
+
+void event_make_expose(VALUE self) {
+  SET_XEV(self);
+
+  rb_ivar_set(self, rb_intern("@x"), INT2FIX(xev->xexpose.x));
+  rb_ivar_set(self, rb_intern("@y"), INT2FIX(xev->xexpose.y));
+  rb_ivar_set(self, rb_intern("@width"), INT2FIX(xev->xexpose.width));
+  rb_ivar_set(self, rb_intern("@height"), INT2FIX(xev->xexpose.height));
 }
 
 void event_make_key_any(VALUE self) {

@@ -79,6 +79,10 @@ void uh_events() {
   cDestroyNotify = rb_define_class_under(mEvents, "DestroyNotify", cEvent);
 
   cExpose = rb_define_class_under(mEvents, "Expose", cEvent);
+  rb_define_attr(cExpose, "x", 1, 0);
+  rb_define_attr(cExpose, "y", 1, 0);
+  rb_define_attr(cExpose, "width", 1, 0);
+  rb_define_attr(cExpose, "height", 1, 0);
 
   cKeyPress = rb_define_class_under(mEvents, "KeyPress", cEvent);
   rb_define_attr(cKeyPress, "key", 1, 0);
