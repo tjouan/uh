@@ -12,6 +12,10 @@ module Uh
       Color.new(self, color_name)
     end
 
+    def create_image(width, height, image)
+      Image.new(self, width, height, image)
+    end
+
     def create_pixmap(width, height)
       Pixmap.new(self, width, height)
     end

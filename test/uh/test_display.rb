@@ -25,6 +25,23 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#create_image' do
+      let(:width)   { 16 }
+      let(:height)  { 16 }
+      let(:data)    { "\0" * width * height * 4 }
+
+      it 'returns an image' do
+        subject.open
+        _(subject.create_image width, height, data).must_be_instance_of Image
+      end
+
+      it 'raises an error when display is not opened' do
+        assert_raises DisplayError do
+          subject.create_image width, height, data
+        end
+      end
+    end
+
     describe '#create_pixmap' do
       it 'returns a pixmap' do
         subject.open

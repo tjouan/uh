@@ -15,14 +15,22 @@
 
 #define ROOT_DEFAULT    DefaultRootWindow(DPY)
 #define SCREEN_DEFAULT  DefaultScreen(DPY)
+#define DEPTH_DEFAULT   DefaultDepth(DPY, SCREEN_DEFAULT)
 
 
 typedef struct s_display  UhDisplay;
+typedef struct s_image    UhImage;
 typedef struct s_pixmap   UhPixmap;
 typedef struct s_window   UhWindow;
 
 struct s_display {
   Display *dpy;
+};
+
+struct s_image {
+  Display *dpy;
+  GC      gc;
+  XImage  *image;
 };
 
 struct s_pixmap {
@@ -43,6 +51,7 @@ VALUE mUh, mEvents,
   cEvent, cConfigureNotify, cConfigureRequest, cDestroyNotify, cExpose,
     cKeyPress, cKeyRelease, cMapRequest, cPropertyNotify, cUnmapNotify,
   cFont,
+  cImage,
   cPixmap,
   cScreen,
   cWindow,
@@ -71,6 +80,10 @@ VALUE display_sync(VALUE self, VALUE discard);
 VALUE event_make(XEvent *xev);
 
 VALUE font_s_new(VALUE klass, VALUE rdisplay);
+
+VALUE image_s_new(VALUE klass, VALUE rdisplay, VALUE rwidth, VALUE rheight, VALUE rdata);
+VALUE image_make(Display *dpy, int w, int h, char *data);
+VALUE image_put(VALUE self, VALUE rwindow);
 
 VALUE pixmap_s_new(VALUE klass, VALUE rdisplay, VALUE rwidth, VALUE rheight);
 VALUE pixmap_copy(VALUE self, VALUE rwindow);
