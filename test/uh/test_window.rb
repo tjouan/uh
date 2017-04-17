@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Uh; class UhWindowSpec < UhSpec
   describe Window do
-    let(:dpy) { Display.new.tap { |o| o.open } }
+    let(:dpy) { Display.new.tap &:open }
     subject   { described_class.new dpy, dpy.root.id }
 
     describe '#name=' do

@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Uh; class UhFontSpec < UhSpec
   describe Font do
-    let(:dpy)   { Display.new.tap { |o| o.open } }
+    let(:dpy)   { Display.new.tap &:open }
     subject     { described_class.new dpy }
 
     describe '#width' do

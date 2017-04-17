@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Uh; class UhPixmapSpec < UhSpec
   describe Pixmap do
-    let(:dpy)     { Display.new.tap { |o| o.open } }
+    let(:dpy)     { Display.new.tap &:open }
     let(:width)   { 320 }
     let(:height)  { 240 }
     subject       { described_class.new dpy, width, height }

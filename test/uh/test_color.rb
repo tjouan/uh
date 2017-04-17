@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Uh; class UhColorSpec < UhSpec
   describe Color do
-    let(:dpy)   { Display.new.tap { |o| o.open } }
+    let(:dpy)   { Display.new.tap &:open }
     let(:color) { 'rgb:42/42/42' }
     subject     { described_class.new dpy, color }
 
