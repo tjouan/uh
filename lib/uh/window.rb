@@ -4,7 +4,7 @@ module Uh
       id.to_s
     end
 
-    def ==(other)
+    def == other
       id == other.id
     end
   end

@@ -3,7 +3,7 @@ require 'test_helper'
 module Uh; class UhFontSpec < UhSpec
   describe Font do
     let(:dpy)   { Display.new.tap { |o| o.open } }
-    subject     { described_class.new(dpy) }
+    subject     { described_class.new dpy }
 
     describe '#width' do
       it 'returns a valid font width' do

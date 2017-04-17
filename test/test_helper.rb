@@ -19,4 +19,4 @@ class UhSpec < Minitest::Spec
   end
 end
 
-Minitest::Reporters.use!(Minitest::Reporters::SpecReporter.new)
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new

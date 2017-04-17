@@ -5,12 +5,12 @@ module Uh; class UhPixmapSpec < UhSpec
     let(:dpy)     { Display.new.tap { |o| o.open } }
     let(:width)   { 320 }
     let(:height)  { 240 }
-    subject       { described_class.new(dpy, width, height) }
+    subject       { described_class.new dpy, width, height }
 
     describe '.new' do
       it 'raises an error when display is not opened' do
         assert_raises DisplayError do
-          described_class.new(Display.new, width, height)
+          described_class.new Display.new, width, height
         end
       end
     end

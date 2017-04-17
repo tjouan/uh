@@ -1,7 +1,7 @@
 module Uh
-  class Geo < Struct.new(:x, :y, :width, :height)
+  class Geo < Struct.new :x, :y, :width, :height
     class << self
-      def format_xgeometry(x, y, width, height)
+      def format_xgeometry x, y, width, height
         '%sx%s+%s+%s' % [
           width   ? width.to_s  : ??,
           height  ? height.to_s : ??,
@@ -11,7 +11,7 @@ module Uh
       end
     end
 
-    def initialize(*args)
+    def initialize *args
       super
       %i[width height].each do |dimension|
         check_value dimension, send(dimension)
@@ -22,20 +22,20 @@ module Uh
       self.class.format_xgeometry *values
     end
 
-    def width=(value)
+    def width= value
       check_value :width, value
       super value
     end
 
-    def height=(value)
+    def height= value
       check_value :height, value
       super value
     end
 
 
-    private
+  private
 
-    def check_value(name, value)
+    def check_value name, value
       return if value.nil?
       fail ArgumentError, "invalid #{name.to_s}: #{value}" unless value > 0
     end
