@@ -8,7 +8,6 @@
 #define DPY           pixmap->dpy
 #define PIXMAP        pixmap->pixmap
 #define GC            pixmap->gc
-#define DEPTH_DEFAULT DefaultDepth(DPY, SCREEN_DEFAULT)
 
 
 void pixmap_deallocate(UhPixmap *p);

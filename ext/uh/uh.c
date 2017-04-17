@@ -5,6 +5,7 @@ void uh_color();
 void uh_display();
 void uh_events();
 void uh_font();
+void uh_image();
 void uh_pixmap();
 void uh_screen();
 void uh_window();
@@ -22,6 +23,7 @@ void Init_uh(void) {
   uh_display();
   uh_events();
   uh_font();
+  uh_image();
   uh_pixmap();
   uh_screen();
   uh_window();
@@ -105,6 +107,12 @@ void uh_font() {
   rb_define_attr(cFont, "width", 1, 0);
   rb_define_attr(cFont, "ascent", 1, 0);
   rb_define_attr(cFont, "descent", 1, 0);
+}
+
+void uh_image() {
+  cImage = rb_define_class_under(mUh, "Image", rb_cObject);
+  rb_define_singleton_method(cImage, "new", image_s_new, 4);
+  rb_define_method(cImage, "put", image_put, 1);
 }
 
 void uh_pixmap() {
