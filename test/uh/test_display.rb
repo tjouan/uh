@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Uh; class UhDisplaySpec < UhSpec
   describe Display do
-    subject { Display.new }
+    subject { described_class.new }
 
     describe '#check!' do
       it 'raises an error when display is not opened' do
