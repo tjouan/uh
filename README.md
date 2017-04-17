@@ -13,7 +13,6 @@ Similar or related code
 * https://github.com/christopheraue/ruby-xlib (gem, FFI)
 * https://github.com/rkh/ruby-xlib (C ext)
 * https://github.com/rramsden/ruby-x11 (pure ruby)
-
 * http://ruby-xlib-wrap.sourceforge.net/ (ext, SWIG)
 * http://www.moriq.com/ruby/xlib/
 * http://artengine.ca/matju/RubyX11/
