@@ -101,4 +101,15 @@ module Uh
     mod4:   1 << 6,
     mod5:   1 << 7
   }.freeze
+
+  class << self
+    def open
+      display = Display.new.tap &:open
+      begin
+        yield display
+      ensure
+        display.close
+      end
+    end
+  end
 end
