@@ -39,5 +39,18 @@ module Uh
     def query_font
       Font.new self
     end
+
+    def window **opts
+      window = create_window Geo.new 0, 0, 320, 240
+      listen_events window, opts[:events] if opts.key? :events
+      window.cursor opts[:cursor] if opts.key? :cursor
+      window.map
+      begin
+        yield window
+      ensure
+        window.unmap
+        window.destroy
+      end
+    end
   end
 end
