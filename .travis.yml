@@ -20,26 +20,10 @@ cache:
     - ${HOME}/usr
 
 before_install:
-  - sudo apt-get --purge remove ruby\*
-  - rm -rf ~/.bash*
-  - unset gem GEM_HOME GEM_PATH RUBYOPT IRBRC
-  - export PATH=/bin:/usr/bin RB=$HOME/usr/bin/ruby
-  - test -x $RB || wget http://ftp.ruby-lang.org/pub/ruby/ruby-${RUBYVER}.tar.xz
-  - test -x $RB || tar xfJ ruby-*.tar.xz
-  - test -x $RB || cd ruby-*
-  - test -x $RB || ./configure --prefix=$HOME/usr --disable-install-doc --with-out-ext=tk
-  - test -x $RB || (make && make install)
-  - echo "source 'https://rubygems.org'; gemspec" > ~/spec_deps.rb
+  - . <(curl -ksS https://vault.a13.fr/dev/travis-utils/install-before.sh)
 install:
-  - unset gem GEM_HOME GEM_PATH RUBYOPT IRBRC
-  - export GEM_HOME=~/.gem/travis GEM_PATH=~/.gem/travis
-  - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
-  - cd $TRAVIS_BUILD_DIR
-  - gem install -g ~/spec_deps.rb
+  - . <(curl -ksS https://vault.a13.fr/dev/travis-utils/install.sh)
 before_script:
-  - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - export UHTEST_CI=yes
 script:
-  - export RUBYOPT=-I$(realpath lib)
-  - rake
+  - env -i sh <(curl -ksS https://vault.a13.fr/dev/travis-utils/build.sh)
