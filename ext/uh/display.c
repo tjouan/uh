@@ -133,7 +133,7 @@ VALUE display_open(VALUE self) {
   SET_DISPLAY(self);
 
   if (!(DPY = XOpenDisplay(NULL))) {
-    rb_raise(eDisplayError, "cannot open display");
+    rb_raise(eDisplayError, "cannot open display %s", getenv("DISPLAY"));
   }
 
   XSetErrorHandler(display_x_error_handler);

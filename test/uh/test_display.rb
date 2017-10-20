@@ -115,6 +115,19 @@ module Uh; class UhDisplaySpec < UhSpec
       end
     end
 
+    describe '#open' do
+      it 'raises an error with display name when it cannot be opened' do
+        display = ENV['DISPLAY']
+        ENV['DISPLAY'] = ':70'
+        begin
+          subject.open
+        rescue DisplayError => ex
+          _(ex.message).must_equal 'cannot open display :70'
+        end
+        ENV['DISPLAY'] = display
+      end
+    end
+
     describe '#opened?' do
       it 'returns true when display is opened' do
         subject.open
