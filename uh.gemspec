@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.extensions  = %w[ext/uh/extconf.rb]
 
 
-  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rake',                '~> 10'
   s.add_development_dependency 'rake-compiler',       '~> 1.0'
   s.add_development_dependency 'minitest',            '~> 5.6'
   s.add_development_dependency 'minitest-reporters',  '~> 1.0'
