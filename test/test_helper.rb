@@ -3,11 +3,9 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'uh'
 
-class Minitest::Test
-  make_my_diffs_pretty!
-end
-
 class UhSpec < Minitest::Spec
+  make_my_diffs_pretty!
+
   def described_class
     self.class.const_get self.class.name.sub /::(?:\.|#).+\z/, ''
   end
