@@ -4,7 +4,7 @@ require 'minitest/reporters'
 require 'uh'
 
 class Minitest::Test
-  #make_my_diffs_pretty!
+  make_my_diffs_pretty!
 end
 
 class UhSpec < Minitest::Spec
