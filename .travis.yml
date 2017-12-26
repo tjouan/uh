@@ -11,6 +11,7 @@ notifications:
     - tj+travis_uh@a13.fr
 
 env:
+  - RUBYVER=2.5-stable
   - RUBYVER=2.4-stable
   - RUBYVER=2.3-stable
   - RUBYVER=2.2-stable
