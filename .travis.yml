@@ -1,11 +1,12 @@
 sudo: required
 dist: trusty
-language: c
+language: minimal
 addons:
   apt:
     packages:
       - libxinerama-dev
       - realpath
+      - xvfb
 notifications:
   email:
     - tj+travis_uh@a13.fr
@@ -23,7 +24,5 @@ before_install:
   - . <(curl -ksS https://vault.a13.fr/dev/travis-utils/install-before.sh)
 install:
   - . <(curl -ksS https://vault.a13.fr/dev/travis-utils/install.sh)
-before_script:
-  - sh -e /etc/init.d/xvfb start
 script:
   - env -i sh <(curl -ksS https://vault.a13.fr/dev/travis-utils/build.sh)
